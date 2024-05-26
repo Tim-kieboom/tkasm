@@ -22,6 +22,9 @@
     <Filter Include="Source Files\stringTools">
       <UniqueIdentifier>{271427fc-d329-406f-b500-75b15cc0b081}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\interpreter\tokenizer">
+      <UniqueIdentifier>{1552b5f5-96b8-4b2d-bbde-bb83b492150a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TK_lanuague_One.cpp">
@@ -35,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="stringTools.cpp">
       <Filter>Source Files\stringTools</Filter>
+    </ClCompile>
+    <ClCompile Include="tokenizer.cpp">
+      <Filter>Source Files\interpreter\tokenizer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +57,9 @@
     </ClInclude>
     <ClInclude Include="stringTools.h">
       <Filter>Source Files\stringTools</Filter>
+    </ClInclude>
+    <ClInclude Include="tokenizer.h">
+      <Filter>Source Files\interpreter\tokenizer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -131,6 +131,7 @@
     <ClCompile Include="interpreter.cpp" />
     <ClCompile Include="stringTools.cpp" />
     <ClCompile Include="TK_lanuague_One.cpp" />
+    <ClCompile Include="tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="testCode.tkasm">
@@ -141,6 +142,7 @@
     <ClInclude Include="fileReader.h" />
     <ClInclude Include="interpreter.h" />
     <ClInclude Include="stringTools.h" />
+    <ClInclude Include="tokenizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

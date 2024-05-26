@@ -1,26 +1,10 @@
-//read
-//read
-//sub
-//jump.equals.0 L1
-//print "not_equal"
-//halt
-//
-//L1:
-//print "equal"
-//halt
-//
-
-read
-jump.equals.0 L1
-
-LOOP:
-push 2
-sub
-jump.equals.0 L1
-jump.greater.0 LOOP
-print "odd"
+read %int
+read %int
+sub %int
+jump.equals.0 %int L1
+print "not equal"
 halt
 
 L1:
-print "even"
+print "equal"
 halt
