@@ -1,5 +1,6 @@
 #include "interpreter.h"
 #include "tokenizer.h"
+#include <list>
 
 #define JUMP_TO_LABEL(hashMap, label) hashMap[label] 
 
@@ -7,6 +8,11 @@
 instructions needed:
     push %type (value):           push stack
     pop %type:                    pop stack
+
+    mov.pop %type (name):         move top of stack to heap
+    mov %type (name) (value):     move value to heap
+
+    free (name):                  free value to heap
 
     add %type:                    pop 2 numbers from the stack and sum push the sum
     sub %type:                    pop 2 numbers and push the subtraction
@@ -22,8 +28,90 @@ instructions needed:
 
     halt:                   stop program
 
-mov: 
 */
+
+class Heap 
+{
+private:
+    int lastAddress;
+    int32_t* memory;
+    unordered_map<string, int32_t> variableNames;
+    stack<int32_t> freeSpaces;
+
+public:
+    Heap()
+    {
+        lastAddress = -1;
+        memory = new int32_t[1'000'000];
+        variableNames = unordered_map<string, int32_t>();
+        freeSpaces = stack<int32_t>();
+    }
+
+    ~Heap()
+    {
+        if(memory != nullptr)
+            delete memory;
+    }
+
+    bool insert(string name, int32_t value)
+    {
+        if(!freeSpaces.empty())
+        {
+            int32_t address = freeSpaces.top();
+            freeSpaces.pop();
+
+            insertName(name, address);
+            memory[address] = value;
+            return true;
+        }
+
+        lastAddress++;
+        insertName(name, lastAddress);
+        memory[lastAddress] = value;
+        return true;
+    }
+
+    int32_t get(string name)
+    {
+        return memory[getAddress(name)];
+    }
+
+    bool free(string name)
+    {
+        int32_t memAddress = getAddress(name);
+        if (memAddress == lastAddress)
+        {
+            lastAddress--;
+            variableNames.erase(name);
+            return true;
+        }
+
+        freeSpaces.push(memAddress);
+        variableNames.erase(name);
+        return true;
+    }
+
+    void print()
+    {
+        cout << "heap =========================================" << endl;
+        for (auto i = variableNames.begin(); i != variableNames.end(); i++)
+        {
+            cout << i->first << ", " << memory[i->second] << endl;
+        }
+    }
+
+private:
+    void insertName(string name, int32_t address)
+    {
+        variableNames.insert({ name, address });
+    }
+
+    int32_t getAddress(string name)
+    {
+        return variableNames.at(name);
+    }
+};
+
 void exitTypeNotFound(string rawType, DebugData* data)
 {
     cout << "!!<error> type[" << rawType << "] not a valid type" << stringOfDebugData(data) << endl;
@@ -230,7 +318,7 @@ void printTokenized(vector<string> *lines, vector<string> &program)
     cout << "raw tsamk =====================================" << endl << endl;
     for (size_t i = 0; i < lines->size(); i++)
     {
-        cout << lines->at(i) << endl;
+        cout << (i+1) << ".\t" << lines->at(i) << endl;
     }
     cout << endl;
 
@@ -239,15 +327,14 @@ void printTokenized(vector<string> *lines, vector<string> &program)
     {
         cout << line << endl;
     }
-    cout << "=====================================" << endl << endl;
+    cout << endl << "=====================================" << endl;
 }
 
 void interpretCode(vector<string>* lines)
 {
-
-
     auto memStack = new stack<int32_t>();
-    auto heap = new unordered_map<string, int32_t>();
+
+    auto heap = new Heap();
 
     auto labelTracker = unordered_map<string, int32_t>();
     auto lineNumberTracker = unordered_map<int32_t, int32_t>();
@@ -272,13 +359,41 @@ void interpretCode(vector<string>* lines)
         {
         case tkasm_push:
             push(memStack, program[i], program[i + 1], debugData);
-            i++;
-            i++;
+            i += 2;
             break;
 
         case tkasm_pop:
             checkIfStackIsEmpty(memStack, debugData);
             memStack->pop();
+            break;
+
+        case tkasm_movPop:
+        {
+            checkIfStackIsEmpty(memStack, debugData);
+            int32_t number = memStack->top();
+            memStack->pop();
+
+            heap->insert(program[i+1], number);
+
+            i += 2;
+        }
+        break;
+
+        case tkasm_mov:
+        {
+            TkasmType type = getType(program[i], debugData);
+
+            string rawValue = program[i + 2];
+            int32_t value = stringTo_int32(rawValue.data());
+            
+            heap->insert(program[i+1], value);
+            i += 3;
+        }
+        break;
+
+        case tkasm_free:
+            heap->free(program[i]);
+            i++;
             break;
 
         case tkasm_add:
@@ -318,8 +433,7 @@ void interpretCode(vector<string>* lines)
             }
             else
             {
-                i++;
-                i++;
+                i += 2;
             }
             break;
 
@@ -331,8 +445,7 @@ void interpretCode(vector<string>* lines)
             }
             else
             {
-                i++;
-                i++;
+                i += 2;
             }
             break;
 
@@ -340,6 +453,8 @@ void interpretCode(vector<string>* lines)
             break;
         }
     }
+
+    heap->print();
 
     delete debugData;
     delete memStack;

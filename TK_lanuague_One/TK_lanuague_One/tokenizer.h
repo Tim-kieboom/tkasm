@@ -19,6 +19,11 @@ enum TKasmCommand
     tkasm_push,
     tkasm_pop,
 
+    tkasm_movPop,
+    tkasm_mov,
+
+    tkasm_free,
+
     tkasm_add,
     tkasm_sub,
 
@@ -44,6 +49,6 @@ typedef struct DebugData
 string stringOfDebugData(DebugData* data);
 TKasmCommand getCommand(const char* command);
 void checkIfStackIsEmpty(stack<int32_t>* st, DebugData* data);
-void checkIfLineHasValue(size_t PartsSize, int32_t lineNumber);
+void exit_LineHasNoValue(int32_t lineNumber);
 void checkIfCommandHasType(vector<string> parts, int32_t lineNumber);
 vector<string> tokenizer(vector<string>* lines, unordered_map<string, int32_t>& labelTracker, unordered_map<int32_t, int32_t>& lineNumberTracker);

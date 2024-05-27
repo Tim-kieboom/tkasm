@@ -1,5 +1,4 @@
 #include "tokenizer.h"
-
 #include "stringTools.h"
 
 TKasmCommand getCommand(const char* command)
@@ -12,6 +11,21 @@ TKasmCommand getCommand(const char* command)
     {
         return tkasm_pop;
     }
+
+    else if(STR_EQUALS(command, "mov.pop"))
+    {
+        return tkasm_movPop;
+    }
+    else if (STR_EQUALS(command, "mov")) 
+    {
+        return tkasm_mov;
+    }
+
+    else if (STR_EQUALS(command, "free"))
+    {
+        return tkasm_free;
+    }
+
     else if (STR_EQUALS(command, "add"))
     {
         return tkasm_add;
@@ -20,6 +34,7 @@ TKasmCommand getCommand(const char* command)
     {
         return tkasm_sub;
     }
+
     else if (STR_EQUALS(command, "print"))
     {
         return tkasm_print;
@@ -28,10 +43,12 @@ TKasmCommand getCommand(const char* command)
     {
         return tkasm_printPop;
     }
+
     else if (STR_EQUALS(command, "read"))
     {
         return tkasm_read;
     }
+
     else if (STR_EQUALS(command, "jump"))
     {
         return tkasm_jump;
@@ -44,19 +61,17 @@ TKasmCommand getCommand(const char* command)
     {
         return tkasm_jumpGreater0;
     }
+
     else if (STR_EQUALS(command, "halt"))
     {
         return tkasm_halt;
     }
 }
 
-void checkIfLineHasValue(size_t PartsSize, int32_t lineNumber)
+void exit_LineHasNoValue(int32_t lineNumber)
 {
-    if (PartsSize < 2)
-    {
-        cout << "!!<error> no value given to command line: " << lineNumber + 1 << "!!" << endl;
-        exit(1);
-    }
+    cout << "!!<error> no value given to command line: " << lineNumber + 1 << "!!" << endl;
+    exit(1);
 }
 
 void checkIfCommandHasType(vector<string> parts, int32_t lineNumber)
@@ -144,11 +159,14 @@ vector<string> tokenizer(vector<string>* lines, unordered_map<string, int32_t>& 
         break;
 
         case tkasm_push:
+        case tkasm_movPop:
         case tkasm_jumpEquals0:
         case tkasm_jumpGreater0:
         {
             checkIfCommandHasType(parts, i);
-            checkIfLineHasValue(parts.size(), i);
+            
+            if(parts.size() < 2)
+                exit_LineHasNoValue(i);
 
             string type = parts[1];
             tokenLines.push_back(type);
@@ -158,15 +176,46 @@ vector<string> tokenizer(vector<string>* lines, unordered_map<string, int32_t>& 
             tokenLines.push_back(value);
             lineNumberTracker[tokenLines.size() - 1] = i + 1;
 
-            lineNumber++;
-            lineNumber++;
+            lineNumber += 2;
         }
         break;
 
+        case tkasm_mov:
+        {
+            checkIfCommandHasType(parts, i);
+            
+            if (parts.size() < 2)
+            {
+                cout << "!!<error> no variable name given to command line: " << lineNumber + 1 << "!!" << endl;
+                exit(1);
+            }
+
+            if (parts.size() < 3)
+                exit_LineHasNoValue(i);
+
+
+            string type = parts[1];
+            tokenLines.push_back(type);
+            lineNumberTracker[tokenLines.size() - 1] = i + 1;
+
+            string name = parts[2];
+            tokenLines.push_back(name);
+            lineNumberTracker[tokenLines.size() - 1] = i + 1;
+
+            string value = parts[3];
+            tokenLines.push_back(value);
+            lineNumberTracker[tokenLines.size() - 1] = i + 1;
+
+            lineNumber += 3;
+
+        }
+        break;
 
         case tkasm_print:
+        case tkasm_free:
         {
-            checkIfLineHasValue(parts.size() + 1, i);
+            if (parts.size() < 1)
+                exit_LineHasNoValue(i);
 
             string printable;
             for (size_t i = 1; i < parts.size(); ++i)

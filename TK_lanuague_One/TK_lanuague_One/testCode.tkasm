@@ -1,3 +1,9 @@
+push %int 2
+mov.pop %int movPop
+mov %int mov 1234
+free mov
+free movPop
+
 read %int
 read %int
 sub %int
