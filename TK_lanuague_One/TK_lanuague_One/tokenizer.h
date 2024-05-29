@@ -5,50 +5,8 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include "metaData.h"
 
 using namespace std;
 
-enum TkasmType
-{
-    tkasm_char,
-    tkasm_int,
-};
-
-enum TKasmCommand
-{
-    tkasm_push,
-    tkasm_pop,
-
-    tkasm_movPop,
-    tkasm_mov,
-
-    tkasm_free,
-
-    tkasm_add,
-    tkasm_sub,
-
-    tkasm_print,
-
-    tkasm_printPop,
-    tkasm_read,
-
-    tkasm_jump,
-
-    tkasm_jumpEquals0,
-    tkasm_jumpGreater0,
-
-    tkasm_halt,
-};
-
-typedef struct DebugData
-{
-    int32_t currentLine = 0;
-    string commandName = "";
-};
-
-string stringOfDebugData(DebugData* data);
-TKasmCommand getCommand(const char* command);
-void checkIfStackIsEmpty(stack<int32_t>* st, DebugData* data);
-void exit_LineHasNoValue(int32_t lineNumber);
-void checkIfCommandHasType(vector<string> parts, int32_t lineNumber);
-vector<string> tokenizer(vector<string>* lines, unordered_map<string, int32_t>& labelTracker, unordered_map<int32_t, int32_t>& lineNumberTracker);
+vector<string> tokenizer(vector<string>* lines, unordered_map<string, uint32_t>& labelTracker, unordered_map<uint32_t, uint32_t>& lineNumberTracker);

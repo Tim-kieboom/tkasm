@@ -9,6 +9,7 @@ instructions needed:
     push %type (value):           push stack
     pop %type:                    pop stack
 
+    mov.push (name):              move value in heap to stack
     mov.pop %type (name):         move top of stack to heap
     mov %type (name) (value):     move value to heap
 
@@ -22,7 +23,7 @@ instructions needed:
 
     read %type:                   read number from io input and push it to stack
 
-    jump (label)
+    jump (label):                 jump to label
     jump.equals.0 %type (label):  jump to label if top of stack is 0
     jump.greater.0 %type (label): jump to label if top of stack is greater then 0
 
@@ -33,16 +34,27 @@ instructions needed:
 class Heap 
 {
 private:
-    int lastAddress;
+    uint32_t lastAddress;
     int32_t* memory;
     unordered_map<string, int32_t> variableNames;
     stack<int32_t> freeSpaces;
+    const uint32_t heapSize;
 
 public:
     Heap()
+        :heapSize(1'000'000)
     {
         lastAddress = -1;
-        memory = new int32_t[1'000'000];
+        memory = new int32_t[heapSize];
+        variableNames = unordered_map<string, int32_t>();
+        freeSpaces = stack<int32_t>();
+    }
+
+    Heap(uint32_t size)
+        :heapSize(size)
+    {
+        lastAddress = -1;
+        memory = new int32_t[heapSize];
         variableNames = unordered_map<string, int32_t>();
         freeSpaces = stack<int32_t>();
     }
@@ -55,6 +67,9 @@ public:
 
     bool insert(string name, int32_t value)
     {
+        if (lastAddress >= heapSize)
+            return false;
+
         if(!freeSpaces.empty())
         {
             int32_t address = freeSpaces.top();
@@ -71,14 +86,22 @@ public:
         return true;
     }
 
-    int32_t get(string name)
+    bool get(string name, int32_t &value)
     {
-        return memory[getAddress(name)];
+        int32_t address = getAddress(name);
+        if (address == -1)
+            return false;
+
+        value = memory[address];
+        return true;
     }
 
     bool free(string name)
     {
         int32_t memAddress = getAddress(name);
+        if (memAddress == -1)
+            return false;
+        
         if (memAddress == lastAddress)
         {
             lastAddress--;
@@ -108,6 +131,9 @@ private:
 
     int32_t getAddress(string name)
     {
+        if (variableNames.find(name) == variableNames.end())
+            return -1; //address not found
+        
         return variableNames.at(name);
     }
 };
@@ -115,22 +141,6 @@ private:
 void exitTypeNotFound(string rawType, DebugData* data)
 {
     cout << "!!<error> type[" << rawType << "] not a valid type" << stringOfDebugData(data) << endl;
-}
-
-TkasmType getType(string rawType, DebugData *data)
-{
-    const char* type = rawType.data();
-    if(STR_EQUALS(type, "%char"))
-    {
-        return tkasm_char;
-    }
-    else if(STR_EQUALS(type, "%int"))
-    {
-        return tkasm_int;
-    }
-
-    cout << "!!<error> type[" << rawType << "] not a valid type" << stringOfDebugData(data) << endl;
-    exit(1);
 }
 
 template<typename T>
@@ -141,17 +151,41 @@ T getValueFromStack(TkasmType type, int32_t rawValue, string rawType, DebugData 
     switch (type)
     {
     case tkasm_char:
-        value = (char)rawValue;
         break;
-
-    case tkasm_int:
-        value = (int32_t)rawValue;
+    case tkasm_uint64:
         break;
-
+    case tkasm_int64:
+        break;
+    case tkasm_uint32:
+        break;
+    case tkasm_int32:
+        break;
+    case tkasm_uint16:
+        break;
+    case tkasm_int16:
+        break;
+    case tkasm_uint8:
+        break;
+    case tkasm_int8:
+        break;
     default:
-        exitTypeNotFound(rawType, data);
         break;
     }
+
+    //switch (type)
+    //{
+    //case tkasm_char:
+    //    value = (char)rawValue;
+    //    break;
+
+    //case tkasm_int:
+    //    value = (int32_t)rawValue;
+    //    break;
+
+    //default:
+    //    exitTypeNotFound(rawType, data);
+    //    break;
+    //}
 
     return value;
 }
@@ -164,88 +198,185 @@ T getInput()
     return input;
 }
 
-void read(stack<int32_t> *memStack, string rawType, DebugData *data)
+void read(Stack *memStack, string rawType, DebugData *data)
 {
-    TkasmType type = getType(rawType, data);
-    int32_t input;
+    TkasmType type = getType(rawType);
+
+
+    int32_t input = 0;
     
     switch (type)
     {
     case tkasm_char:
-        input = (int32_t)getInput<char>();
         break;
-
-    case tkasm_int:
-        input = getInput<int32_t>();
+    case tkasm_uint64:
         break;
-
+    case tkasm_int64:
+        break;
+    case tkasm_uint32:
+        break;
+    case tkasm_int32:
+        break;
+    case tkasm_uint16:
+        break;
+    case tkasm_int16:
+        break;
+    case tkasm_uint8:
+        break;
+    case tkasm_int8:
+        break;
     default:
-        exitTypeNotFound(rawType, data);
         break;
     }
+
+    //switch (type)
+    //{
+    //case tkasm_char:
+    //    input = (int32_t)getInput<char>();
+    //    break;
+
+    //case tkasm_int:
+    //    input = getInput<int32_t>();
+    //    break;
+
+    //default:
+    //    exitTypeNotFound(rawType, data);
+    //    break;
+    //}
     memStack->push(input);
 }
 
-void push(stack<int32_t> *memStack, string rawType, string rawValue, DebugData *data)
+void push(Stack *memStack, string rawType, string rawValue, DebugData *data)
 {
-    TkasmType type = getType(rawType, data);
-    int32_t value;
+    TkasmType type = getType(rawType);
+    checkIfTypeIsValid(type, rawType, data);
 
+    int32_t value = 0;
     switch (type)
     {
     case tkasm_char:
-        value = (int32_t)rawValue[0];
         break;
-
-    case tkasm_int:
-        value = stringTo_int32(rawValue.data());
+    case tkasm_uint64:
         break;
-
+    case tkasm_int64:
+        break;
+    case tkasm_uint32:
+        break;
+    case tkasm_int32:
+        break;
+    case tkasm_uint16:
+        break;
+    case tkasm_int16:
+        break;
+    case tkasm_uint8:
+        break;
+    case tkasm_int8:
+        break;
     default:
-        exitTypeNotFound(rawType, data);
         break;
     }
+    //switch (type)
+    //{
+    //case tkasm_char:
+    //    value = (int32_t)rawValue[0];
+    //    break;
+
+    //case tkasm_int:
+    //    value = stringTo_int32(rawValue.data());
+    //    break;
+
+    //default:
+    //    exitTypeNotFound(rawType, data);
+    //    break;
+    //}
     memStack->push(value);
 }
 
 
-void genericAdd(stack<int32_t> *memStack, TkasmType type, int32_t first, int32_t second)
+void genericAdd(Stack *memStack, TkasmType type, int32_t first, int32_t second)
 {
     switch (type)
     {
     case tkasm_char:
-        memStack->push(first + second);
         break;
-
-    case tkasm_int:
-        memStack->push(first + second);
+    case tkasm_uint64:
         break;
-
+    case tkasm_int64:
+        break;
+    case tkasm_uint32:
+        break;
+    case tkasm_int32:
+        break;
+    case tkasm_uint16:
+        break;
+    case tkasm_int16:
+        break;
+    case tkasm_uint8:
+        break;
+    case tkasm_int8:
+        break;
     default:
         break;
     }
+    //switch (type)
+    //{
+    //case tkasm_char:
+    //    memStack->push(first + second);
+    //    break;
+
+    //case tkasm_int:
+    //    memStack->push(first + second);
+    //    break;
+
+    //default:
+    //    break;
+    //}
 }
 
-void genericSub(stack<int32_t> *memStack, TkasmType type, int32_t first, int32_t second)
+void genericSub(Stack *memStack, TkasmType type, int32_t first, int32_t second)
 {
     switch (type)
     {
     case tkasm_char:
-        memStack->push(second - first);
         break;
-
-    case tkasm_int:
-        memStack->push(second - first);
+    case tkasm_uint64:
         break;
-
+    case tkasm_int64:
+        break;
+    case tkasm_uint32:
+        break;
+    case tkasm_int32:
+        break;
+    case tkasm_uint16:
+        break;
+    case tkasm_int16:
+        break;
+    case tkasm_uint8:
+        break;
+    case tkasm_int8:
+        break;
     default:
         break;
     }
+    //switch (type)
+    //{
+    //case tkasm_char:
+    //    memStack->push(second - first);
+    //    break;
+
+    //case tkasm_int:
+    //    memStack->push(second - first);
+    //    break;
+
+    //default:
+    //    break;
+    //}
 }
 
-void add(stack<int32_t>* memStack, string rawType, DebugData* data)
+void add(Stack* memStack, string rawType, DebugData* data)
 {
-    TkasmType type = getType(rawType, data);
+    TkasmType type = getType(rawType);
+    checkIfTypeIsValid(type, rawType, data);
 
     checkIfStackIsEmpty(memStack, data);
     int32_t first = memStack->top();
@@ -258,9 +389,10 @@ void add(stack<int32_t>* memStack, string rawType, DebugData* data)
     genericAdd(memStack, type, first, second);
 }
 
-void sub(stack<int32_t>* memStack, string rawType, DebugData *data)
+void sub(Stack* memStack, string rawType, DebugData *data)
 {
-    TkasmType type = getType(rawType, data);
+    TkasmType type = getType(rawType);
+    checkIfTypeIsValid(type, rawType, data);
 
     checkIfStackIsEmpty(memStack, data);
     int32_t first = memStack->top();
@@ -273,9 +405,10 @@ void sub(stack<int32_t>* memStack, string rawType, DebugData *data)
     genericSub(memStack, type, first, second);
 }
 
-void printPop(stack<int32_t>* memStack, string rawType, DebugData* data)
+void printPop(Stack* memStack, string rawType, DebugData* data)
 {
-    TkasmType type = getType(rawType, data);
+    TkasmType type = getType(rawType);
+    checkIfTypeIsValid(type, rawType, data);
 
     checkIfStackIsEmpty(memStack, data);
     int32_t number = memStack->top();
@@ -284,20 +417,44 @@ void printPop(stack<int32_t>* memStack, string rawType, DebugData* data)
     switch (type)
     {
     case tkasm_char:
-        cout << (char)number;
         break;
-
-    case tkasm_int:
-        cout << number;
+    case tkasm_uint64:
         break;
-
+    case tkasm_int64:
+        break;
+    case tkasm_uint32:
+        break;
+    case tkasm_int32:
+        break;
+    case tkasm_uint16:
+        break;
+    case tkasm_int16:
+        break;
+    case tkasm_uint8:
+        break;
+    case tkasm_int8:
+        break;
     default:
         break;
     }
 
+    //switch (type)
+    //{
+    //case tkasm_char:
+    //    cout << (char)number;
+    //    break;
+
+    //case tkasm_int:
+    //    cout << number;
+    //    break;
+
+    //default:
+    //    break;
+    //}
+
 }
 
-bool isEquals0(stack<int32_t> * memStack, DebugData *data)
+bool isEquals0(Stack *memStack, DebugData *data)
 {
     checkIfStackIsEmpty(memStack, data);
     int32_t number = memStack->top();
@@ -305,7 +462,7 @@ bool isEquals0(stack<int32_t> * memStack, DebugData *data)
     return number == 0;
 }
 
-bool isGreater0(stack<int32_t>* memStack, DebugData* data)
+bool isGreater0(Stack *memStack, DebugData* data)
 {
     checkIfStackIsEmpty(memStack, data);
     int32_t number = memStack->top();
@@ -332,17 +489,17 @@ void printTokenized(vector<string> *lines, vector<string> &program)
 
 void interpretCode(vector<string>* lines)
 {
-    auto memStack = new stack<int32_t>();
+    auto memStack = new Stack();
 
     auto heap = new Heap();
 
-    auto labelTracker = unordered_map<string, int32_t>();
-    auto lineNumberTracker = unordered_map<int32_t, int32_t>();
+    auto labelTracker = unordered_map<string, uint32_t>();
+    auto lineNumberTracker = unordered_map<uint32_t, uint32_t>();
     vector<string> program = tokenizer(lines, /*out*/labelTracker, /*out*/lineNumberTracker);
 
     printTokenized(lines, program);
 
-    size_t i = 0;
+    uint32_t i = 0;
     auto debugData = new DebugData();
 
     while (strcmp(program[i].data(), "halt") != 0)
@@ -367,6 +524,16 @@ void interpretCode(vector<string>* lines)
             memStack->pop();
             break;
 
+        case tkasm_movPush:
+        {
+            int32_t value;
+            heap->get(program[i], /*out*/value);
+
+            memStack->push(value);
+        }
+            i++;
+        break;
+
         case tkasm_movPop:
         {
             checkIfStackIsEmpty(memStack, debugData);
@@ -375,20 +542,21 @@ void interpretCode(vector<string>* lines)
 
             heap->insert(program[i+1], number);
 
-            i += 2;
         }
+            i += 2;
         break;
 
         case tkasm_mov:
         {
-            TkasmType type = getType(program[i], debugData);
+            TkasmType type = getType(program[i]);
+            checkIfTypeIsValid(type, program[i], debugData);
 
             string rawValue = program[i + 2];
             int32_t value = stringTo_int32(rawValue.data());
             
             heap->insert(program[i+1], value);
-            i += 3;
         }
+            i += 3;
         break;
 
         case tkasm_free:

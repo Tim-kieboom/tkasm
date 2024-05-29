@@ -1,90 +1,6 @@
 #include "tokenizer.h"
 #include "stringTools.h"
 
-TKasmCommand getCommand(const char* command)
-{
-    if (STR_EQUALS(command, "push"))
-    {
-        return tkasm_push;
-    }
-    else if (STR_EQUALS(command, "pop"))
-    {
-        return tkasm_pop;
-    }
-
-    else if(STR_EQUALS(command, "mov.pop"))
-    {
-        return tkasm_movPop;
-    }
-    else if (STR_EQUALS(command, "mov")) 
-    {
-        return tkasm_mov;
-    }
-
-    else if (STR_EQUALS(command, "free"))
-    {
-        return tkasm_free;
-    }
-
-    else if (STR_EQUALS(command, "add"))
-    {
-        return tkasm_add;
-    }
-    else if (STR_EQUALS(command, "sub"))
-    {
-        return tkasm_sub;
-    }
-
-    else if (STR_EQUALS(command, "print"))
-    {
-        return tkasm_print;
-    }
-    else if (STR_EQUALS(command, "print.pop"))
-    {
-        return tkasm_printPop;
-    }
-
-    else if (STR_EQUALS(command, "read"))
-    {
-        return tkasm_read;
-    }
-
-    else if (STR_EQUALS(command, "jump"))
-    {
-        return tkasm_jump;
-    }
-    else if (STR_EQUALS(command, "jump.equals.0"))
-    {
-        return tkasm_jumpEquals0;
-    }
-    else if (STR_EQUALS(command, "jump.greater.0"))
-    {
-        return tkasm_jumpGreater0;
-    }
-
-    else if (STR_EQUALS(command, "halt"))
-    {
-        return tkasm_halt;
-    }
-}
-
-void exit_LineHasNoValue(int32_t lineNumber)
-{
-    cout << "!!<error> no value given to command line: " << lineNumber + 1 << "!!" << endl;
-    exit(1);
-}
-
-void checkIfCommandHasType(vector<string> parts, int32_t lineNumber)
-{
-    if (parts.size() > 1)
-    {
-        if (parts[1][0] == '%')
-            return;
-    }
-
-    cout << "!!<error> no type given to command line: " << lineNumber + 1 << "!!" << endl;
-}
-
 bool isLineCommand(string line)
 {
     if (line.size() < 2)
@@ -93,26 +9,12 @@ bool isLineCommand(string line)
     return line[0] == '/' && line[1] == '/';
 }
 
-string stringOfDebugData(DebugData* data)
-{
-    return "[line: " + to_string(data->currentLine) + ", command: " + data->commandName + "]";
-}
-
-void checkIfStackIsEmpty(stack<int32_t>* st, DebugData* data)
-{
-    if (st->size() == 0)
-    {
-        cout << "!!<error> command called at empty stack " << stringOfDebugData(data) << "!!" << endl;
-        exit(1);
-    }
-}
-
-vector<string> tokenizer(vector<string>* lines, unordered_map<string, int32_t>& labelTracker, unordered_map<int32_t, int32_t>& lineNumberTracker)
+vector<string> tokenizer(vector<string>* lines, unordered_map<string, uint32_t>& labelTracker, unordered_map<uint32_t, uint32_t>& lineNumberTracker)
 {
     vector<string> tokenLines = vector<string>();
 
-    int32_t lineNumber = 0;
-    for (int32_t i = 0; i < lines->size(); i++)
+    uint32_t lineNumber = 0;
+    for (uint32_t i = 0; i < lines->size(); i++)
     {
         string line = lines->at(i);
 
@@ -148,6 +50,7 @@ vector<string> tokenizer(vector<string>* lines, unordered_map<string, int32_t>& 
         case tkasm_printPop:
         case tkasm_read:
         case tkasm_jump:
+        case tkasm_movPush:
         {
             checkIfCommandHasType(parts, i);
 

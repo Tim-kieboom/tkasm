@@ -25,6 +25,18 @@
     <Filter Include="Source Files\interpreter\tokenizer">
       <UniqueIdentifier>{1552b5f5-96b8-4b2d-bbde-bb83b492150a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\interpreter\metaData">
+      <UniqueIdentifier>{d0669cde-4c48-49a9-a618-0709a2ec2e62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpreter\metaData\Types">
+      <UniqueIdentifier>{6e03900f-95bf-4299-8b1c-efb2551b264e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpreter\metaData\Commands">
+      <UniqueIdentifier>{729c09fc-a593-44c6-8ee8-f69d59774658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpreter\metaData\debug">
+      <UniqueIdentifier>{1c63097f-c399-4be9-ad75-86614c5b6a57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TK_lanuague_One.cpp">
@@ -41,6 +53,15 @@
     </ClCompile>
     <ClCompile Include="tokenizer.cpp">
       <Filter>Source Files\interpreter\tokenizer</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands.cpp">
+      <Filter>Source Files\interpreter\metaData\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Type.cpp">
+      <Filter>Source Files\interpreter\metaData\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Source Files\interpreter\metaData\debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +81,18 @@
     </ClInclude>
     <ClInclude Include="tokenizer.h">
       <Filter>Source Files\interpreter\tokenizer</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>Source Files\interpreter\metaData\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Source Files\interpreter\metaData\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="debug.h">
+      <Filter>Source Files\interpreter\metaData\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="metaData.h">
+      <Filter>Source Files\interpreter\metaData</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
