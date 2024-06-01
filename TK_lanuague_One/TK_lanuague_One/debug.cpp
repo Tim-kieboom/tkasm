@@ -25,16 +25,13 @@ string stringOfDebugData(DebugData* data)
     return "[line: " + to_string(data->currentLine) + ", command: " + data->commandName + "]";
 }
 
-void checkIfTypeIsValid(TkasmType &type, string &rawType, DebugData* data)
+void exit_TypeIsNotValid(string &rawType, DebugData* data)
 {
-    if (type == tkasm_unknown)
-    {
-        cout << "!!<error> type[" << type << "] not a valid type" << stringOfDebugData(data) << endl;
-        exit(1);
-    }
+    cout << "!!<error> type[" << rawType << "] not a valid type" << stringOfDebugData(data) << endl;
+    exit(1);
 }
 
-void checkIfStackIsEmpty(Stack* st, DebugData* data)
+void checkIfStackIsEmpty(stack<uint8_t>* st, DebugData* data)
 {
     if (st->size() == 0)
     {

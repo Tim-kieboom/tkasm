@@ -1,13 +1,7 @@
 #include "tokenizer.h"
 #include "stringTools.h"
-
-bool isLineCommand(string line)
-{
-    if (line.size() < 2)
-        return false;
-
-    return line[0] == '/' && line[1] == '/';
-}
+#include "Commands.h"
+#include "debug.h"
 
 vector<string> tokenizer(vector<string>* lines, unordered_map<string, uint32_t>& labelTracker, unordered_map<uint32_t, uint32_t>& lineNumberTracker)
 {

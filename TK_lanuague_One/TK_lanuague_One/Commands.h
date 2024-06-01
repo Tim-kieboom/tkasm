@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Types.h"
 
 using namespace std;
 
@@ -36,5 +37,8 @@ enum TKasmCommand
 };
 
 TKasmCommand getCommand(const char* command);
+
+void read(/*out*/Stack* stack, string& rawType, DebugData* data);
+void printPop(/*out*/Stack* stack, string& rawType, DebugData* data);
 
 #endif

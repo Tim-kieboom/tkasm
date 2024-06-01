@@ -6,6 +6,7 @@
 #include <stack>
 
 #include "stringTools.h"
+#include "tokenizer.h"
 
 using namespace std;
 

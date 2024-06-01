@@ -10,8 +10,11 @@
 
 using namespace std;
 
-int16_t stringTo_int16(char* string);
-int16_t stringTo_int16(const char* string);
+template<typename T>
+T stringTo_uint(char* string);
+
+template<typename T>
+T stringTo_uint(const char* string);
 
 int32_t stringTo_int32(char* str);
 int32_t stringTo_int32(const char* str);

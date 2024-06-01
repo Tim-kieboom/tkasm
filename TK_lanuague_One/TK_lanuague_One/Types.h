@@ -10,6 +10,9 @@ using namespace std;
 
 typedef stack<uint8_t> Stack;
 
+//casts the raw data over to type
+#define EXPLICIT_CAST(type, value) *(type*)&(value)
+
 enum TkasmType
 {
     tkasm_char,
@@ -29,11 +32,21 @@ enum TkasmType
     tkasm_unknown,
 };
 
-TkasmType getType(string rawType);
-const char* getTypeString(TkasmType type);
+TkasmType getType(string &rawType);
+const char* getTypeString(TkasmType &type);
 
 //a negative value means signed value of size abs(value)
-int16_t getTypeSize(TkasmType type);
+int16_t getTypeSize(TkasmType &type);
+
+//------------------------------------------------------------
+void pushType(TkasmType type, uint8_t* segments, Stack* stack);
+uint8_t* popType(TkasmType type, Stack* stack);
+
+uint8_t* segmentType(TkasmType &type, void *value);
+void* unsegmentType(TkasmType &type, uint8_t *segments);
+
+void* readTypeFromConsole(TkasmType &type);
+void printTypeToConsole(TkasmType& type, void* value);
 
 #endif
 

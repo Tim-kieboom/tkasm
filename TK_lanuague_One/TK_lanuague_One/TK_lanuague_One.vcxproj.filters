@@ -91,8 +91,5 @@
     <ClInclude Include="debug.h">
       <Filter>Source Files\interpreter\metaData\debug</Filter>
     </ClInclude>
-    <ClInclude Include="metaData.h">
-      <Filter>Source Files\interpreter\metaData</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

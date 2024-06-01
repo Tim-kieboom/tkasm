@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <stack>
-#include "types.h"
 
 using namespace std;
 
@@ -20,11 +19,13 @@ struct DebugData
 
 bool isLineCommand(string line);
 string stringOfDebugData(DebugData* data);
-void exit_LineHasNoValue(uint32_t lineNumber);
 
-void checkIfStackIsEmpty(Stack* st, DebugData* data);
+void exit_LineHasNoValue(uint32_t lineNumber);
+void exit_TypeIsNotValid(string& rawType, DebugData* data);
+
+void checkIfStackIsEmpty(stack<uint8_t>* st, DebugData* data);
 void checkIfCommandHasType(vector<string> parts, uint32_t lineNumber);
-void checkIfTypeIsValid(TkasmType& type, string& rawType, DebugData* data);
+
 
 #endif
 

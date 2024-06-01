@@ -1,15 +1,15 @@
 
-mov %uint32 mov 1234
-mov.push mov
-print.pop %uint32
-
-read %uint32
-read %uint32
-sub %uint32
-jump.equals.0 %uint32 L1
-print "not equal"
+read %int8
+print.pop %int8
 halt
-
-L1:
-print "equal"
-halt
+// uint32 max: 4294967295
+// read %uint32
+// read %uint32
+// sub %uint32
+// jump.equals.0 %uint32 L1
+// print "not equal"
+// halt
+// 
+// L1:
+// print "equal"
+// halt

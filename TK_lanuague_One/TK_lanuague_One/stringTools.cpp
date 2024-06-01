@@ -3,24 +3,26 @@
 
 #define IS_WHITE_SPACE(ch) ((ch == ' ') || (ch == '\t') || (ch == '\n'))
 
-int16_t stringTo_int16(char* string)
+template<typename T>
+T stringTo_uint(char* string)
 {
-    int16_t prevNumbers = 0;
+    T prevNumbers = 0;
 
     int16_t i = -1;
     while (string[++i] != '\0')
     {
         prevNumbers *= 10;
-        int16_t currentNumber = (int16_t)(string[i] - '0');
+        T currentNumber = (T)(string[i] - '0');
         prevNumbers += currentNumber;
     }
 
     return prevNumbers;
 }
 
-int16_t stringTo_int16(const char* string)
+template<typename T>
+T stringTo_uint(const char* string)
 {
-    return stringTo_int16((char*)string);
+    return stringTo_uint<T>((char*)string);
 }
 
 int32_t stringTo_int32(char* str)

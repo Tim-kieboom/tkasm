@@ -146,7 +146,6 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="fileReader.h" />
     <ClInclude Include="interpreter.h" />
-    <ClInclude Include="metaData.h" />
     <ClInclude Include="stringTools.h" />
     <ClInclude Include="tokenizer.h" />
     <ClInclude Include="Types.h" />
