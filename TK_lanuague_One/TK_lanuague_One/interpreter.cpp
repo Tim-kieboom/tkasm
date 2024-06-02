@@ -87,17 +87,14 @@ void interpretCode(vector<string>* lines)
         switch (TkCommand)
         {
         case tkasm_push:
-            exit_NotImplemented(command, debugData);
-
-            //push(memStack, program[i], program[i + 1], debugData);
+            push(stack, program[i], program[i + 1], debugData);
             i += 2;
             break;
 
         case tkasm_pop:
-            exit_NotImplemented(command, debugData);
-
             checkIfStackIsEmpty(stack, debugData);
-            stack->pop();
+            pop(stack, program[i], debugData);
+            i++;
             break;
 
         case tkasm_movPush:
@@ -125,15 +122,15 @@ void interpretCode(vector<string>* lines)
             break;
 
         case tkasm_add:
-            exit_NotImplemented(command, debugData);
-
-            //add(memStack, program[i], debugData);
-            i++;
+            checkIfStackIsEmpty(stack, debugData);
+            add(stack, program[i], program[i+1], debugData);
+            i+=2;
             break;
 
         case tkasm_sub:
             exit_NotImplemented(command, debugData);
 
+            checkIfStackIsEmpty(stack, debugData);
             //sub(memStack, program[i], debugData);
             i++;
             break;

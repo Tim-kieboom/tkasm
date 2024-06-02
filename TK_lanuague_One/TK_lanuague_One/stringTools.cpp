@@ -3,50 +3,25 @@
 
 #define IS_WHITE_SPACE(ch) ((ch == ' ') || (ch == '\t') || (ch == '\n'))
 
-template<typename T>
-T stringTo_uint(char* string)
+string trimWhiteSpaces(string &str)
 {
-    T prevNumbers = 0;
+    vector<char> token = vector<char>();
+    bool isInString = false;
 
-    int16_t i = -1;
-    while (string[++i] != '\0')
+    size_t i = -1;
+    while(str[++i] != '\0')
     {
-        prevNumbers *= 10;
-        T currentNumber = (T)(string[i] - '0');
-        prevNumbers += currentNumber;
+        char letter = str[i];
+
+        if (letter == '\"')
+            isInString = !isInString;
+
+        if (!IS_WHITE_SPACE(letter) || (isInString == true))
+            token.push_back(letter);
     }
 
-    return prevNumbers;
-}
-
-template<typename T>
-T stringTo_uint(const char* string)
-{
-    return stringTo_uint<T>((char*)string);
-}
-
-int32_t stringTo_int32(char* str)
-{
-    int32_t prevNumbers = 0;
-    bool isNegative = str[0] == '-';
-
-    uint16_t i = (isNegative) ? 0 : -1;
-    while (str[++i] != '\0')
-    {
-        prevNumbers *= 10;
-        int32_t currentNumber = (int32_t)(str[i] - '0');
-        prevNumbers += currentNumber;
-    }
-
-    if (isNegative)
-        prevNumbers *= -1;
-
-    return prevNumbers;
-}
-
-int32_t stringTo_int32(const char* string)
-{
-    return stringTo_int32((char*)string);
+    string strToken(token.begin(), token.end());
+    return strToken;
 }
 
 vector<string> splitWhiteSpaces(string &str)

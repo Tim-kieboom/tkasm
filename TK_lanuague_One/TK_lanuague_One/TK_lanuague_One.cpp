@@ -14,8 +14,6 @@ using namespace std;
 int main()
 {
     const char* programFilePath = "testCode.tkasm";
-
     vector<string>* lines = readFile(programFilePath);
-
     interpretCode(lines);
 }

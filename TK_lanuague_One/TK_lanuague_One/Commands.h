@@ -38,7 +38,12 @@ enum TKasmCommand
 
 TKasmCommand getCommand(const char* command);
 
-void read(/*out*/Stack* stack, string& rawType, DebugData* data);
+void push(/*out*/Stack* stack, string& type, string& value, DebugData* data);
+void pop(/*out*/Stack* stack, string& rawType, DebugData* data);
+
+void add(/*out*/Stack* stack, string& rawType1, string rawType2, DebugData* data);
+
 void printPop(/*out*/Stack* stack, string& rawType, DebugData* data);
+void read(/*out*/Stack* stack, string& rawType, DebugData* data);
 
 #endif

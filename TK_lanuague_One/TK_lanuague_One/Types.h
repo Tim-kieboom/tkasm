@@ -39,14 +39,18 @@ const char* getTypeString(TkasmType &type);
 int16_t getTypeSize(TkasmType &type);
 
 //------------------------------------------------------------
+TkasmType getBiggerType(TkasmType type1, TkasmType type2);
+
 void pushType(TkasmType type, uint8_t* segments, Stack* stack);
 uint8_t* popType(TkasmType type, Stack* stack);
 
 uint8_t* segmentType(TkasmType &type, void *value);
 void* unsegmentType(TkasmType &type, uint8_t *segments);
 
+void* addTypes(TkasmType type1, TkasmType type2, Stack* stack);
 void* readTypeFromConsole(TkasmType &type);
 void printTypeToConsole(TkasmType& type, void* value);
+void* stringToType(TkasmType type, string& rawValue);
 
 #endif
 

@@ -1,6 +1,8 @@
 
-read %int8
-print.pop %int8
+push %int32 8
+push %int8 9
+add %int8 %int32
+print.pop %int32
 halt
 // uint32 max: 4294967295
 // read %uint32

@@ -3,7 +3,7 @@
 #include "Commands.h"
 #include "debug.h"
 
-vector<string> tokenizer(vector<string>* lines, unordered_map<string, uint32_t>& labelTracker, unordered_map<uint32_t, uint32_t>& lineNumberTracker)
+vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uint32_t>& labelTracker, /*out*/unordered_map<uint32_t, uint32_t>& lineNumberTracker)
 {
     vector<string> tokenLines = vector<string>();
 
@@ -39,8 +39,6 @@ vector<string> tokenizer(vector<string>* lines, unordered_map<string, uint32_t>&
         switch (TkCommand)
         {
         case tkasm_pop:
-        case tkasm_add:
-        case tkasm_sub:
         case tkasm_printPop:
         case tkasm_read:
         case tkasm_jump:
@@ -55,10 +53,10 @@ vector<string> tokenizer(vector<string>* lines, unordered_map<string, uint32_t>&
         }
         break;
 
+        case tkasm_add:
+        case tkasm_sub:
         case tkasm_push:
         case tkasm_movPop:
-        case tkasm_jumpEquals0:
-        case tkasm_jumpGreater0:
         {
             checkIfCommandHasType(parts, i);
             
@@ -78,6 +76,8 @@ vector<string> tokenizer(vector<string>* lines, unordered_map<string, uint32_t>&
         break;
 
         case tkasm_mov:
+        case tkasm_jumpEquals0:
+        case tkasm_jumpGreater0:
         {
             checkIfCommandHasType(parts, i);
             
