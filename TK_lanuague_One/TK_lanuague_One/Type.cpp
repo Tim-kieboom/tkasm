@@ -4,7 +4,7 @@
 
 #define TYPE_IS_BIGGER(type1, type2) (abs(getTypeSize(type1)) > abs(getTypeSize(type2)))
 
-TkasmType getType(string &rawType)
+TkasmType getType(string& rawType)
 {
 	const char* type = rawType.data();
 	if (STR_EQUALS(type, "%char"))
@@ -46,7 +46,7 @@ TkasmType getType(string &rawType)
 	return tkasm_unknown;
 }
 
-const char* getTypeString(TkasmType &type)
+const char* getTypeString(TkasmType& type)
 {
 	switch (type)
 	{
@@ -92,7 +92,7 @@ const char* getTypeString(TkasmType &type)
 	return "null";
 }
 
-int16_t getTypeSize(TkasmType &type)
+int16_t getTypeSize(TkasmType& type)
 {
 	switch (type)
 	{
@@ -131,23 +131,26 @@ int16_t getTypeSize(TkasmType &type)
 	}
 }
 
-void pushType(TkasmType type, uint8_t *segments, Stack *stack)
+void pushType(TkasmType type, uint8_t* segments, Stack* stack)
 {
 	uint32_t size = abs(getTypeSize(type)) / 8;
 
-	for(int i = size-1; i >= 0; i--)
+	for (int i = size - 1; i >= 0; i--)
 	{
 		uint8_t segment = segments[i];
 		stack->push(segment);
 	}
 }
 
-uint8_t* popType(TkasmType type, Stack *stack)
+uint8_t* popType(TkasmType type, Stack* stack)
 {
+	if (stack->empty())
+		return nullptr;
+
 	uint32_t size = abs(getTypeSize(type)) / 8;
 
 	uint8_t* segments = new uint8_t[size];
-	for(uint8_t i = 0; i < size; i++)
+	for (uint8_t i = 0; i < size; i++)
 	{
 		segments[i] = stack->top();
 		stack->pop();
@@ -224,40 +227,58 @@ uint8_t* segmentType(TkasmType& type, void* value)
 	return nullptr;
 }
 
-void* unsegmentType(TkasmType& type, uint8_t* segments)
+void* unsegmentType(TkasmType& type, uint8_t* segments, /*out*/bool& isSuccess)
 {
 	switch (type)
 	{
 	case tkasm_char:
+		isSuccess = true;
 		return (void*)unsegmentValue<char>(segments);
 
 
+
 	case tkasm_uint64:
+		isSuccess = true;
 		return (void*)unsegmentValue<uint64_t>(segments);
 
+
 	case tkasm_int64:
+		isSuccess = true;
 		return (void*)unsegmentValue<int64_t>(segments);
 
 
+
 	case tkasm_uint32:
+		isSuccess = true;
 		return (void*)unsegmentValue<uint32_t>(segments);
 
+
 	case tkasm_int32:
+		isSuccess = true;
 		return (void*)unsegmentValue<int32_t>(segments);
 
 
+
 	case tkasm_uint16:
+		isSuccess = true;
 		return (void*)unsegmentValue<uint16_t>(segments);
 
+
 	case tkasm_int16:
+		isSuccess = true;
 		return (void*)unsegmentValue<int16_t>(segments);
 
 
+
 	case tkasm_uint8:
+		isSuccess = true;
 		return (void*)unsegmentValue<uint8_t>(segments);
 
+
 	case tkasm_int8:
+		isSuccess = true;
 		return (void*)unsegmentValue<int8_t>(segments);
+
 
 
 	case tkasm_unknown:
@@ -265,6 +286,7 @@ void* unsegmentType(TkasmType& type, uint8_t* segments)
 		break;
 	}
 
+	isSuccess = false;
 	return nullptr;
 }
 
@@ -277,8 +299,7 @@ T stringTo_uint(string& string)
 	while (string[++i] != '\0')
 	{
 		prevNumbers *= 10;
-		T currentNumber = (T)(string[i] - '0');
-		prevNumbers += currentNumber;
+		prevNumbers += (T)(string[i] - '0');
 	}
 
 	return prevNumbers;
@@ -288,15 +309,14 @@ template<typename T>
 T stringTo_int(string& string)
 {
 	T prevNumbers = 0;
-	
+
 	bool isNegative = string[0] == '-';
 
-	uint16_t i = (isNegative) ? 0 : -1;
+	int16_t i = (isNegative) ? 0 : -1;
 	while (string[++i] != '\0')
 	{
 		prevNumbers *= 10;
-		T currentNumber = (T)(string[i] - '0');
-		prevNumbers += currentNumber;
+		prevNumbers += (T)(string[i] - '0');
 	}
 
 	if (isNegative)
@@ -305,40 +325,58 @@ T stringTo_int(string& string)
 	return prevNumbers;
 }
 
-void* stringToType(TkasmType type, string& rawValue)
+void* stringToType(TkasmType type, string& rawValue, /*out*/bool& isSuccess)
 {
 	switch (type)
 	{
 	case tkasm_char:
+		isSuccess = true;
 		return (void*)rawValue[0];
 
 
+
 	case tkasm_uint64:
+		isSuccess = true;
 		return (void*)stringTo_uint<uint64_t>(rawValue);
 
+
 	case tkasm_int64:
+		isSuccess = true;
 		return (void*)stringTo_int<int64_t>(rawValue);
 
 
+
 	case tkasm_uint32:
+		isSuccess = true;
 		return (void*)stringTo_uint<uint32_t>(rawValue);
 
+
 	case tkasm_int32:
+		isSuccess = true;
 		return (void*)stringTo_int<int32_t>(rawValue);
 
 
+
 	case tkasm_uint16:
+		isSuccess = true;
 		return (void*)stringTo_uint<uint16_t>(rawValue);
 
+
 	case tkasm_int16:
+		isSuccess = true;
 		return (void*)stringTo_int<int16_t>(rawValue);
 
 
+
 	case tkasm_uint8:
+		isSuccess = true;
 		return (void*)stringTo_uint<uint8_t>(rawValue);
 
+
 	case tkasm_int8:
+		isSuccess = true;
 		return (void*)stringTo_int<int8_t>(rawValue);
+
 
 
 	case tkasm_unknown:
@@ -346,6 +384,7 @@ void* stringToType(TkasmType type, string& rawValue)
 		break;
 	}
 
+	isSuccess = false;
 	return nullptr;
 }
 
@@ -363,54 +402,166 @@ TkasmType getBiggerType(TkasmType type1, TkasmType type2)
 	return type2;
 }
 
-void* addTypes(TkasmType type1, TkasmType type2, Stack *stack)
+void* addTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/bool& isSuccess, DebugData* data)
 {
 	uint8_t* segments1 = popType(type1, stack);
 	uint8_t* segments2 = popType(type2, stack);
 
-	void* value1 = unsegmentType(type1, segments1);
-	void* value2 = unsegmentType(type2, segments2);
-	
+	if (segments1 == nullptr || segments2 == nullptr)
+		exit_stackIsEmpty(data);
+
+	bool isSuccess1;
+	bool isSuccess2;
+	void* value2 = unsegmentType(type1, segments1, /*out*/isSuccess1);
+	void* value1 = unsegmentType(type2, segments2, /*out*/isSuccess2);
+	if (!isSuccess1 || !isSuccess2)
+	{
+		string message = string(getTypeString(type1)) += string(" and ") += string(getTypeString(type2));
+		exit_SegmentationFailed(message, data);
+	}
+
 	TkasmType biggerType = getBiggerType(type1, type2);
 
 	switch (biggerType)
 	{
 	case tkasm_char:
+		isSuccess = true;
 		return (void*)genericAdd<char>(value1, value2);
-		
+
+
 	case tkasm_uint64:
-		return (void*) genericAdd<uint64_t>(value1, value2);
+		isSuccess = true;
+		return (void*)genericAdd<uint64_t>(value1, value2);
+
 
 	case tkasm_int64:
-		return (void*) genericAdd<int64_t>(value1, value2);
+		isSuccess = true;
+		return (void*)genericAdd<int64_t>(value1, value2);
+
 
 
 	case tkasm_uint32:
-		return (void*) genericAdd<uint32_t>(value1, value2);
+		isSuccess = true;
+		return (void*)genericAdd<uint32_t>(value1, value2);
+
 
 	case tkasm_int32:
-		return (void*) genericAdd<int32_t>(value1, value2);
+		isSuccess = true;
+		return (void*)genericAdd<int32_t>(value1, value2);
+
 
 
 	case tkasm_uint16:
-		return (void*) genericAdd<uint16_t>(value1, value2);
+		isSuccess = true;
+		return (void*)genericAdd<uint16_t>(value1, value2);
+
 
 	case tkasm_int16:
-		return (void*) genericAdd<int16_t>(value1, value2);
+		isSuccess = true;
+		return (void*)genericAdd<int16_t>(value1, value2);
+
 
 
 	case tkasm_uint8:
-		return (void*) genericAdd<uint8_t>(value1, value2);
+		isSuccess = true;
+		return (void*)genericAdd<uint8_t>(value1, value2);
+
 
 	case tkasm_int8:
-		return (void*) genericAdd<int8_t>(value1, value2);
+		isSuccess = true;
+		return (void*)genericAdd<int8_t>(value1, value2);
+
 
 
 	case tkasm_unknown:
 	default:
 		break;
 	}
-	cout << "!!<error> FUCK YOU i'm not telling you what is wrong!!" << endl;
+	cout << "!!<error>subTypes type unknown!!" << endl;
+	isSuccess = false;
+	return nullptr;
+}
+
+template<typename T>
+T genericSub(void* tValue, void* vValue)
+{
+	return ((T)tValue - (T)vValue);
+}
+
+void* subTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/bool& isSuccess, DebugData* data)
+{
+	uint8_t* segments1 = popType(type1, stack);
+	uint8_t* segments2 = popType(type2, stack);
+
+	bool isSuccess1;
+	bool isSuccess2;
+	void* value2 = unsegmentType(type1, segments1, /*out*/isSuccess1);
+	void* value1 = unsegmentType(type2, segments2, /*out*/isSuccess2);
+	if (!isSuccess1 || !isSuccess2)
+	{
+		string message = string(getTypeString(type1)) += string(" and ") += string(getTypeString(type2));
+		exit_SegmentationFailed(message, data);
+	}
+
+	TkasmType biggerType = getBiggerType(type1, type2);
+
+	switch (biggerType)
+	{
+	case tkasm_char:
+		isSuccess = true; 
+		return (void*)genericSub<char>(value1, value2);
+		
+
+	case tkasm_uint64:
+		isSuccess = true; 
+		return (void*)genericSub<uint64_t>(value1, value2);
+		
+
+	case tkasm_int64:
+		isSuccess = true; 
+		return (void*)genericSub<int64_t>(value1, value2);
+		
+
+
+	case tkasm_uint32:
+		isSuccess = true; 
+		return (void*)genericSub<uint32_t>(value1, value2);
+		
+
+	case tkasm_int32:
+		isSuccess = true; 
+		return (void*)genericSub<int32_t>(value1, value2);
+		
+
+
+	case tkasm_uint16:
+		isSuccess = true; 
+		return (void*)genericSub<uint16_t>(value1, value2);
+		
+
+	case tkasm_int16:
+		isSuccess = true; 
+		return (void*)genericSub<int16_t>(value1, value2);
+		
+
+
+	case tkasm_uint8:
+		isSuccess = true; 
+		return (void*)genericSub<uint8_t>(value1, value2);
+		
+
+	case tkasm_int8:
+		isSuccess = true; 
+		return (void*)genericSub<int8_t>(value1, value2);
+		
+
+
+	case tkasm_unknown:
+	default:
+		break;
+	}
+	cout << "!!<error>subTypes type unknown!!" << endl;
+	isSuccess = false;
 	return nullptr;
 }
 
@@ -425,44 +576,53 @@ T getInput()
 template<typename T>
 T getByteInput()
 {
-	int32_t input;
+	int16_t input;
 	cin >> input;
 	return (T)input;
 }
 
-void* readTypeFromConsole(TkasmType &type)
+void* readTypeFromConsole(TkasmType& type, /*out*/bool& isSuccess)
 {
 	switch (type)
 	{
 	case tkasm_char:
+		isSuccess = true;
 		return (void*)getInput<char>();
 
 
 	case tkasm_uint64:
+		isSuccess = true;
 		return (void*)getInput<uint64_t>();
 
 	case tkasm_int64:
+		isSuccess = true;
 		return (void*)getInput<int64_t>();
 
 
 	case tkasm_uint32:
+		isSuccess = true;
 		return (void*)getInput<uint32_t>();
 
 	case tkasm_int32:
+		isSuccess = true;
 		return (void*)getInput<int32_t>();
 
 
 	case tkasm_uint16:
+		isSuccess = true;
 		return (void*)getInput<uint16_t>();
 
 	case tkasm_int16:
+		isSuccess = true;
 		return (void*)getInput<int16_t>();
 
 
 	case tkasm_uint8:
+		isSuccess = true;
 		return (void*)getByteInput<uint8_t>();
 
 	case tkasm_int8:
+		isSuccess = true;
 		return (void*)getByteInput<int8_t>();
 
 
@@ -471,10 +631,11 @@ void* readTypeFromConsole(TkasmType &type)
 		break;
 	}
 
+	isSuccess = false;
 	return nullptr;
 }
 
-void printTypeToConsole(TkasmType &type, void* value)
+void printTypeToConsole(TkasmType& type, void* value)
 {
 	switch (type)
 	{
@@ -520,5 +681,149 @@ void printTypeToConsole(TkasmType &type, void* value)
 	default:
 		cout << "null" << endl;
 		break;
+	}
+}
+
+template<typename T>
+bool genericEquals(T one, T two)
+{
+	return one == two;
+}
+
+template<typename T>
+bool genericGreater(T one, T two)
+{
+	return one > two;
+}
+
+template<typename T>
+bool genericSmaller(T one, T two)
+{
+	return one < two;
+}
+
+bool isTypeEqual0(TkasmType& type, void* value)
+{
+	switch (type)
+	{
+	case tkasm_char:
+		return genericEquals<char>((char)value, (char)0);
+
+	case tkasm_uint64:
+		return genericEquals<uint64_t>((uint64_t)value, (uint64_t)0);
+
+	case tkasm_int64:
+		return genericEquals<int64_t>((int64_t)value, (int64_t)0);
+
+
+	case tkasm_uint32:
+		return genericEquals<uint32_t>((uint32_t)value, (uint32_t)0);
+
+	case tkasm_int32:
+		return genericEquals<int32_t>((int32_t)value, (int32_t)0);
+
+
+	case tkasm_uint16:
+		return genericEquals<uint16_t>((uint16_t)value, (uint16_t)0);
+
+	case tkasm_int16:
+		return genericEquals<int16_t>((int16_t)value, (int16_t)0);
+
+
+	case tkasm_uint8:
+		return genericEquals<uint8_t>((uint8_t)value, (uint8_t)0);
+
+	case tkasm_int8:
+		return genericEquals<int8_t>((int8_t)value, (int8_t)0);
+
+
+	case tkasm_unknown:
+	default:
+		cout << "!<warning> typeEqual0's type unkown!" << endl;
+		return false;
+	}
+}
+
+bool isTypeGreater0(TkasmType& type, void* value)
+{
+	switch (type)
+	{
+	case tkasm_char:
+		return genericGreater<char>((char)value, (char)0);
+
+	case tkasm_uint64:
+		return genericGreater<uint64_t>((uint64_t)value, (uint64_t)0);
+
+	case tkasm_int64:
+		return genericGreater<int64_t>((int64_t)value, (int64_t)0);
+
+
+	case tkasm_uint32:
+		return genericGreater<uint32_t>((uint32_t)value, (uint32_t)0);
+
+	case tkasm_int32:
+		return genericGreater<int32_t>((int32_t)value, (int32_t)0);
+
+
+	case tkasm_uint16:
+		return genericGreater<uint16_t>((uint16_t)value, (uint16_t)0);
+
+	case tkasm_int16:
+		return genericGreater<int16_t>((int16_t)value, (int16_t)0);
+
+
+	case tkasm_uint8:
+		return genericGreater<uint8_t>((uint8_t)value, (uint8_t)0);
+
+	case tkasm_int8:
+		return genericGreater<int8_t>((int8_t)value, (int8_t)0);
+
+
+	case tkasm_unknown:
+	default:
+		cout << "!<warning> typeGreater0's type unkown!" << endl;
+		return false;
+	}
+}
+
+bool isTypeSmaller0(TkasmType& type, void* value)
+{
+	switch (type)
+	{
+	case tkasm_char:
+		return genericSmaller<char>((char)value, (char)0);
+
+	case tkasm_uint64:
+		return genericSmaller<uint64_t>((uint64_t)value, (uint64_t)0);
+
+	case tkasm_int64:
+		return genericSmaller<int64_t>((int64_t)value, (int64_t)0);
+
+
+	case tkasm_uint32:
+		return genericSmaller<uint32_t>((uint32_t)value, (uint32_t)0);
+
+	case tkasm_int32:
+		return genericSmaller<int32_t>((int32_t)value, (int32_t)0);
+
+
+	case tkasm_uint16:
+		return genericSmaller<uint16_t>((uint16_t)value, (uint16_t)0);
+
+	case tkasm_int16:
+		return genericSmaller<int16_t>((int16_t)value, (int16_t)0);
+
+
+	case tkasm_uint8:
+		return genericSmaller<uint8_t>((uint8_t)value, (uint8_t)0);
+
+	case tkasm_int8:
+		return genericSmaller<int8_t>((int8_t)value, (int8_t)0);
+
+
+	case tkasm_unknown:
+	default:
+		cout << "!<warning> typeSmaller0's type unkown!" << endl;
+		return false;
 	}
 }

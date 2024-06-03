@@ -65,7 +65,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="testCode.tkasm">
+    <None Include="printAdd.tkasm">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="testJumpEq0.tkasm">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="readInputLoop.tkasm">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="greaterSmallerJump.tkasm">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Fibonacci.tkasm">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

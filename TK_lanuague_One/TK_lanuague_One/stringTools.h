@@ -12,7 +12,7 @@ using namespace std;
 string trimWhiteSpaces(string& str);
 
 vector<string> splitWhiteSpaces(string& str);
-vector<string> splitString(string &str, char delimiter);
+vector<string> splitString(string& str, char delimiter);
 
 int32_t sizeofString(char* string);
 int32_t sizeofString(const char* string);

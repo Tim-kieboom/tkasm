@@ -13,7 +13,7 @@ using namespace std;
 
 int main()
 {
-    const char* programFilePath = "testCode.tkasm";
-    vector<string>* lines = readFile(programFilePath);
-    interpretCode(lines);
+	const char* programFilePath = "greaterSmallerJump.tkasm";
+	vector<string>* lines = readFile(programFilePath);
+	interpretCode(lines);
 }

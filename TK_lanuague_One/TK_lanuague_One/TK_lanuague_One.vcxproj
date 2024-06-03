@@ -137,9 +137,13 @@
     <ClCompile Include="Type.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="testCode.tkasm">
+    <None Include="Fibonacci.tkasm" />
+    <None Include="greaterSmallerJump.tkasm" />
+    <None Include="printAdd.tkasm">
       <DeploymentContent>false</DeploymentContent>
     </None>
+    <None Include="readInputLoop.tkasm" />
+    <None Include="testJumpEq0.tkasm" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
