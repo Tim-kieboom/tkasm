@@ -19,6 +19,9 @@ instructions needed:
 	add %type %type:                    pop 2 numbers from the stack and sum push the sum
 	sub %type %type:                    pop 2 numbers and push the subtraction
 
+	mul %type %type:					pop 2 numbers from the stack and sum push the mul
+	div %type %type:					pop 2 numbers from the stack and sum push the div
+
 	print "value":                      print string_literal to terminal
 	print.pop %type:                    print the top of the stack
 
@@ -138,6 +141,18 @@ void interpretCode(vector<string>* lines)
 		case tkasm_sub:
 			checkIfStackIsEmpty(stack, debugData);
 			sub(stack, program[i], program[i + 1], debugData);
+			i += 2;
+			break;
+
+		case tkasm_mull:
+			checkIfStackIsEmpty(stack, debugData);
+			mull(stack, program[i], program[i + 1], debugData);
+			i += 2;
+			break;
+
+		case tkasm_div:
+			checkIfStackIsEmpty(stack, debugData);
+			div(stack, program[i], program[i + 1], debugData);
 			i += 2;
 			break;
 

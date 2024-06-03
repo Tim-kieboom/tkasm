@@ -24,6 +24,9 @@ enum TKasmCommand
 	tkasm_add,
 	tkasm_sub,
 
+	tkasm_mull,
+	tkasm_div,
+
 	tkasm_print,
 
 	tkasm_printPop,
@@ -45,6 +48,9 @@ void pop(/*out*/Stack* stack, string& rawType, DebugData* data);
 
 void add(/*out*/Stack* stack, string& rawType1, string rawType2, DebugData* data);
 void sub(/*out*/Stack* stack, string& rawType1, string& rawType2, DebugData* data);
+
+void mull(/*out*/Stack* stack, string& rawType1, string& rawType2, DebugData* data);
+void div(/*out*/Stack* stack, string& rawType1, string& rawType2, DebugData* data);
 
 void print(string& rawValue, DebugData* data);
 

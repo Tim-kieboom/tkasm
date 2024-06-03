@@ -1,6 +1,7 @@
 #include "tokenizer.h"
 #include "stringTools.h"
 #include "Commands.h"
+#include "Types.h"
 #include "debug.h"
 
 void checkForCommands(/*out*/vector<string>& parts)
@@ -19,9 +20,25 @@ void checkForCommands(/*out*/vector<string>& parts)
 	}
 }
 
+string BiggerStringType(string& type1, string& type2)
+{
+	TkasmType t1 = getType(type1);
+	TkasmType t2 = getType(type2);
+	TkasmType biggerType = getBiggerType(t1, t2);
+	string type = string("%") + getTypeString(biggerType);
+	return type;
+}
+
 vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uint32_t>& labelTracker, /*out*/unordered_map<uint32_t, uint32_t>& lineNumberTracker)
 {
+	if(lines->size() == 0)
+	{
+		cout << "!!<error> tkasm code empty!!" << endl;
+		exit(1);
+	}
+
 	vector<string> tokenLines = vector<string>();
+	stack<string> typeStack = stack<string>();
 
 	uint32_t lineNumber = 0;
 	for (uint32_t i = 0; i < lines->size(); i++)
@@ -59,24 +76,90 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 
 		switch (TkCommand)
 		{
+		case tkasm_jump:
+		{
+			checkIfCommandHasType(parts, i);
+
+			string label = parts[1];
+			tokenLines.push_back(label);
+			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
+			lineNumber++;
+		}
+		break;
+
 		case tkasm_pop:
 		case tkasm_printPop:
+		{
+			if (typeStack.size() == 0)
+				exit_stackIsEmpty(new DebugData("pop", i + 1));
+
+			string type = typeStack.top();
+			typeStack.pop();
+
+			tokenLines.push_back(type);
+
+			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
+			lineNumber++;
+
+		}
+		break;
+
 		case tkasm_read:
-		case tkasm_jump:
 		case tkasm_movPush:
 		{
 			checkIfCommandHasType(parts, i);
 
 			string type = parts[1];
 			tokenLines.push_back(type);
+
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
 			lineNumber++;
+
+			typeStack.push(type);
+		}
+		break;
+
+		case tkasm_push:
+		{
+			string type = parts[1];
+			string value = parts[2];
+
+			tokenLines.push_back(type);
+
+			tokenLines.push_back(value);
+
+			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
+			lineNumber+=2;
+
+			typeStack.push(type);
 		}
 		break;
 
 		case tkasm_add:
 		case tkasm_sub:
-		case tkasm_push:
+		case tkasm_mull:
+		case tkasm_div:
+		{
+			if (typeStack.size() < 2)
+				exit_stackIsEmpty(new DebugData("pop..", i + 1));
+
+			string type1 = typeStack.top();
+			typeStack.pop();
+			string type2 = typeStack.top();
+			typeStack.pop();
+
+			tokenLines.push_back(type1);
+
+			tokenLines.push_back(type2);
+
+			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;			
+			lineNumber += 2;
+
+			string type = BiggerStringType(type1, type2);
+			typeStack.push(type);
+		}
+		break;
+
 		case tkasm_movPop:
 		case tkasm_jumpEquals0:
 		case tkasm_jumpGreater0:
@@ -87,50 +170,23 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 			if (parts.size() < 3)
 				exit_LineHasNoValue(i);
 
-			string type = parts[1];
-			tokenLines.push_back(type);
-			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
+			if (typeStack.size() < 2)
+				exit_stackIsEmpty(new DebugData("jump..", i + 1));
+
+			string type = typeStack.top();
+			typeStack.pop();
 
 			string value = parts[2];
+
+			tokenLines.push_back(type);
+
 			tokenLines.push_back(value);
+
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
 
 			lineNumber += 2;
 		}
 		break;
-
-		case tkasm_mov:
-		{
-			checkIfCommandHasType(parts, i);
-
-			if (parts.size() < 3)
-			{
-				cout << "!!<error> no variable name given to command line: " << lineNumber + 1 << "!!" << endl;
-				exit(1);
-			}
-
-			if (parts.size() < 4)
-				exit_LineHasNoValue(i);
-
-
-			string type = parts[1];
-			tokenLines.push_back(type);
-			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
-
-			string name = parts[2];
-			tokenLines.push_back(name);
-			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
-
-			string value = parts[3];
-			tokenLines.push_back(value);
-			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
-
-			lineNumber += 3;
-
-		}
-		break;
-
-
 
 		case tkasm_print:
 		case tkasm_free:
@@ -143,6 +199,7 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 				printable += parts[i];
 
 			tokenLines.push_back(printable);
+
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
 			lineNumber++;
 		}
@@ -153,5 +210,10 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 		}
 	}
 
+	if (tokenLines[tokenLines.size() - 1] != "halt")
+	{
+		cout << "!!<error> tkasm code does not end with halt!!" << endl;
+		exit(1);
+	}
 	return tokenLines;
 }

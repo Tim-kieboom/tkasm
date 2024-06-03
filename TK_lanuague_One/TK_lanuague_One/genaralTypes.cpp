@@ -1,8 +1,17 @@
-#include "Types.h"
+#include "generalTypes.h"
 #include "stringtools.h"
 #include "debug.h"
 
 #define TYPE_IS_BIGGER(type1, type2) (abs(getTypeSize(type1)) > abs(getTypeSize(type2)))
+
+TkasmType getBiggerType(TkasmType type1, TkasmType type2)
+{
+	if (TYPE_IS_BIGGER(type1, type2))
+		return type1;
+
+	return type2;
+}
+
 
 TkasmType getType(string& rawType)
 {
@@ -389,183 +398,6 @@ void* stringToType(TkasmType type, string& rawValue, /*out*/bool& isSuccess)
 }
 
 template<typename T>
-T genericAdd(void* tValue, void* vValue)
-{
-	return ((T)tValue + (T)vValue);
-}
-
-TkasmType getBiggerType(TkasmType type1, TkasmType type2)
-{
-	if (TYPE_IS_BIGGER(type1, type2))
-		return type1;
-
-	return type2;
-}
-
-void* addTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/bool& isSuccess, DebugData* data)
-{
-	uint8_t* segments1 = popType(type1, stack);
-	uint8_t* segments2 = popType(type2, stack);
-
-	if (segments1 == nullptr || segments2 == nullptr)
-		exit_stackIsEmpty(data);
-
-	bool isSuccess1;
-	bool isSuccess2;
-	void* value2 = unsegmentType(type1, segments1, /*out*/isSuccess1);
-	void* value1 = unsegmentType(type2, segments2, /*out*/isSuccess2);
-	if (!isSuccess1 || !isSuccess2)
-	{
-		string message = string(getTypeString(type1)) += string(" and ") += string(getTypeString(type2));
-		exit_SegmentationFailed(message, data);
-	}
-
-	TkasmType biggerType = getBiggerType(type1, type2);
-
-	switch (biggerType)
-	{
-	case tkasm_char:
-		isSuccess = true;
-		return (void*)genericAdd<char>(value1, value2);
-
-
-	case tkasm_uint64:
-		isSuccess = true;
-		return (void*)genericAdd<uint64_t>(value1, value2);
-
-
-	case tkasm_int64:
-		isSuccess = true;
-		return (void*)genericAdd<int64_t>(value1, value2);
-
-
-
-	case tkasm_uint32:
-		isSuccess = true;
-		return (void*)genericAdd<uint32_t>(value1, value2);
-
-
-	case tkasm_int32:
-		isSuccess = true;
-		return (void*)genericAdd<int32_t>(value1, value2);
-
-
-
-	case tkasm_uint16:
-		isSuccess = true;
-		return (void*)genericAdd<uint16_t>(value1, value2);
-
-
-	case tkasm_int16:
-		isSuccess = true;
-		return (void*)genericAdd<int16_t>(value1, value2);
-
-
-
-	case tkasm_uint8:
-		isSuccess = true;
-		return (void*)genericAdd<uint8_t>(value1, value2);
-
-
-	case tkasm_int8:
-		isSuccess = true;
-		return (void*)genericAdd<int8_t>(value1, value2);
-
-
-
-	case tkasm_unknown:
-	default:
-		break;
-	}
-	cout << "!!<error>subTypes type unknown!!" << endl;
-	isSuccess = false;
-	return nullptr;
-}
-
-template<typename T>
-T genericSub(void* tValue, void* vValue)
-{
-	return ((T)tValue - (T)vValue);
-}
-
-void* subTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/bool& isSuccess, DebugData* data)
-{
-	uint8_t* segments1 = popType(type1, stack);
-	uint8_t* segments2 = popType(type2, stack);
-
-	bool isSuccess1;
-	bool isSuccess2;
-	void* value2 = unsegmentType(type1, segments1, /*out*/isSuccess1);
-	void* value1 = unsegmentType(type2, segments2, /*out*/isSuccess2);
-	if (!isSuccess1 || !isSuccess2)
-	{
-		string message = string(getTypeString(type1)) += string(" and ") += string(getTypeString(type2));
-		exit_SegmentationFailed(message, data);
-	}
-
-	TkasmType biggerType = getBiggerType(type1, type2);
-
-	switch (biggerType)
-	{
-	case tkasm_char:
-		isSuccess = true; 
-		return (void*)genericSub<char>(value1, value2);
-		
-
-	case tkasm_uint64:
-		isSuccess = true; 
-		return (void*)genericSub<uint64_t>(value1, value2);
-		
-
-	case tkasm_int64:
-		isSuccess = true; 
-		return (void*)genericSub<int64_t>(value1, value2);
-		
-
-
-	case tkasm_uint32:
-		isSuccess = true; 
-		return (void*)genericSub<uint32_t>(value1, value2);
-		
-
-	case tkasm_int32:
-		isSuccess = true; 
-		return (void*)genericSub<int32_t>(value1, value2);
-		
-
-
-	case tkasm_uint16:
-		isSuccess = true; 
-		return (void*)genericSub<uint16_t>(value1, value2);
-		
-
-	case tkasm_int16:
-		isSuccess = true; 
-		return (void*)genericSub<int16_t>(value1, value2);
-		
-
-
-	case tkasm_uint8:
-		isSuccess = true; 
-		return (void*)genericSub<uint8_t>(value1, value2);
-		
-
-	case tkasm_int8:
-		isSuccess = true; 
-		return (void*)genericSub<int8_t>(value1, value2);
-		
-
-
-	case tkasm_unknown:
-	default:
-		break;
-	}
-	cout << "!!<error>subTypes type unknown!!" << endl;
-	isSuccess = false;
-	return nullptr;
-}
-
-template<typename T>
 T getInput()
 {
 	T input;
@@ -701,6 +533,7 @@ bool genericSmaller(T one, T two)
 {
 	return one < two;
 }
+
 
 bool isTypeEqual0(TkasmType& type, void* value)
 {

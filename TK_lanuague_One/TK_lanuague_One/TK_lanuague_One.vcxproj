@@ -130,19 +130,21 @@
     <ClCompile Include="Commands.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="fileReader.cpp" />
+    <ClCompile Include="generalTypes.h" />
     <ClCompile Include="interpreter.cpp" />
+    <ClCompile Include="operators.cpp" />
     <ClCompile Include="stringTools.cpp" />
     <ClCompile Include="TK_lanuague_One.cpp" />
     <ClCompile Include="tokenizer.cpp" />
-    <ClCompile Include="Type.cpp" />
+    <ClCompile Include="genaralTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fibonacci.tkasm" />
     <None Include="greaterSmallerJump.tkasm" />
     <None Include="printAdd.tkasm">
       <DeploymentContent>false</DeploymentContent>
     </None>
     <None Include="readInputLoop.tkasm" />
+    <None Include="tester.tkasm" />
     <None Include="testJumpEq0.tkasm" />
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +152,9 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="fileReader.h" />
     <ClInclude Include="interpreter.h" />
+    <ClInclude Include="operators.h" />
     <ClInclude Include="stringTools.h" />
+    <ClInclude Include="TkasmType.h" />
     <ClInclude Include="tokenizer.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>

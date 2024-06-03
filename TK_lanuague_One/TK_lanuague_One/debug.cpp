@@ -6,6 +6,12 @@ DebugData::DebugData()
 	commandName = "";
 }
 
+DebugData::DebugData(string commandName, int32_t currentLine)
+{
+	this->currentLine = currentLine;
+	this->commandName = commandName;
+}
+
 void exit_LineHasNoValue(uint32_t lineNumber)
 {
 	cout << "!!<error> no value given to command line: " << lineNumber + 1 << "!!" << endl;

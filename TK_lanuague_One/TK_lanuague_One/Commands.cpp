@@ -41,6 +41,15 @@ TKasmCommand getCommand(const char* command)
 		return tkasm_sub;
 	}
 
+	else if (STR_EQUALS(command, "mull"))
+	{
+		return tkasm_mull;
+	}
+	else if (STR_EQUALS(command, "div"))
+	{
+		return tkasm_div;
+	}
+
 	else if (STR_EQUALS(command, "print"))
 	{
 		return tkasm_print;
@@ -136,6 +145,41 @@ void sub(/*out*/Stack* stack, string& rawType1, string& rawType2, DebugData* dat
 	pushType(type, segments, stack);
 	delete[] segments;
 }
+
+void mull(/*out*/Stack* stack, string& rawType1, string& rawType2, DebugData* data)
+{
+	TkasmType type1 = getType(rawType1);
+	TkasmType type2 = getType(rawType2);
+
+	bool isSuccess;
+	void* value = mullTypes(type1, type2, stack, /*out*/isSuccess, data);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType1 += string(" and ") += rawType2, data);
+
+	TkasmType type = getBiggerType(type1, type2);
+	uint8_t* segments = segmentType(type, value);
+
+	pushType(type, segments, stack);
+	delete[] segments;
+}
+
+void div(/*out*/Stack* stack, string& rawType1, string& rawType2, DebugData* data)
+{
+	TkasmType type1 = getType(rawType1);
+	TkasmType type2 = getType(rawType2);
+
+	bool isSuccess;
+	void* value = divTypes(type1, type2, stack, /*out*/isSuccess, data);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType1 += string(" and ") += rawType2, data);
+
+	TkasmType type = getBiggerType(type1, type2);
+	uint8_t* segments = segmentType(type, value);
+
+	pushType(type, segments, stack);
+	delete[] segments;
+}
+
 
 void print(string& rawValue, DebugData* data)
 {

@@ -37,6 +37,9 @@
     <Filter Include="Source Files\interpreter\metaData\debug">
       <UniqueIdentifier>{1c63097f-c399-4be9-ad75-86614c5b6a57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\interpreter\metaData\Types\operators">
+      <UniqueIdentifier>{a1c0c5ea-6eae-40d8-8598-6c5d3c49ac11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TK_lanuague_One.cpp">
@@ -57,11 +60,17 @@
     <ClCompile Include="Commands.cpp">
       <Filter>Source Files\interpreter\metaData\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="Type.cpp">
+    <ClCompile Include="genaralTypes.cpp">
       <Filter>Source Files\interpreter\metaData\Types</Filter>
     </ClCompile>
     <ClCompile Include="debug.cpp">
       <Filter>Source Files\interpreter\metaData\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="operators.cpp">
+      <Filter>Source Files\interpreter\metaData\Types\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="generalTypes.h">
+      <Filter>Source Files\interpreter\metaData\Types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,7 +86,7 @@
     <None Include="greaterSmallerJump.tkasm">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="Fibonacci.tkasm">
+    <None Include="tester.tkasm">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
@@ -102,6 +111,12 @@
     </ClInclude>
     <ClInclude Include="debug.h">
       <Filter>Source Files\interpreter\metaData\debug</Filter>
+    </ClInclude>
+    <ClInclude Include="operators.h">
+      <Filter>Source Files\interpreter\metaData\Types\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="TkasmType.h">
+      <Filter>Source Files\interpreter\metaData\Types</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

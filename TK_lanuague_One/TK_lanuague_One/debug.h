@@ -15,6 +15,7 @@ struct DebugData
 	string commandName;
 
 	DebugData();
+	DebugData(string commandName, int32_t currentLine);
 };
 
 bool isLineCommand(string line);
