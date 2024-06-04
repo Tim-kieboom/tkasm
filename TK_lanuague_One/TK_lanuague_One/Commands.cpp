@@ -226,13 +226,15 @@ bool isEquals0(/*out*/Stack* stack, string& rawType, DebugData* data)
 {
 	TkasmType type = getType(rawType);
 
-	uint8_t* segments = popType(type, stack);
+	uint8_t* segments = popType(type, /*out*/stack);
+	pushType(type, segments, /*out*/stack);
 
 	bool isSuccess;
 	void* value = unsegmentType(type, segments, /*out*/isSuccess);
 	if (!isSuccess)
 		exit_TypeIsNotValid(rawType, data);
 
+	delete[] segments;
 	return isTypeEqual0(type, value);
 }
 
@@ -240,13 +242,15 @@ bool isGreater0(/*out*/Stack* stack, string& rawType, DebugData* data)
 {
 	TkasmType type = getType(rawType);
 
-	uint8_t* segments = popType(type, stack);
+	uint8_t* segments = popType(type, /*out*/stack);
+	pushType(type, segments, /*out*/stack);
 
 	bool isSuccess;
 	void* value = unsegmentType(type, segments, /*out*/isSuccess);
 	if (!isSuccess)
 		exit_TypeIsNotValid(rawType, data);
 
+	delete[] segments;
 	return isTypeGreater0(type, value);
 }
 
@@ -254,12 +258,14 @@ bool isSmaller0(/*out*/Stack* stack, string& rawType, DebugData* data)
 {
 	TkasmType type = getType(rawType);
 
-	uint8_t* segments = popType(type, stack);
+	uint8_t* segments = popType(type, /*out*/stack);
+	pushType(type, segments, /*out*/stack);
 
 	bool isSuccess;
 	void* value = unsegmentType(type, segments, /*out*/isSuccess);
 	if (!isSuccess)
 		exit_TypeIsNotValid(rawType, data);
 
+	delete[] segments;
 	return isTypeSmaller0(type, value);
 }

@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-	const char* programFilePath = "tester.tkasm";
+	const char* programFilePath = "main.tkasm";
 	vector<string>* lines = readFile(programFilePath);
 	interpretCode(lines);
 	delete lines;

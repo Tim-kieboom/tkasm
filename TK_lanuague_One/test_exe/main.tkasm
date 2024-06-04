@@ -1,0 +1,15 @@
+read %int16 
+jump LOOP
+
+LOOP:
+push %int8 2
+sub 
+jump.equals.0 EVEN
+jump.greater.0 LOOP
+print "number is uneven"
+halt
+
+EVEN:
+print "number is even"
+halt
+

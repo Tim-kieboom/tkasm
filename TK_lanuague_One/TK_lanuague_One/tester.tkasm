@@ -1,5 +1,0 @@
-push %double 2.5
-push %double 200
-add
-print.pop 
-halt

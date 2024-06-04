@@ -7,6 +7,7 @@
 #include "generalTypes.h"
 #include "operators.h"
 #include "console.h"
+#include "stack.h"
 
 #endif
 

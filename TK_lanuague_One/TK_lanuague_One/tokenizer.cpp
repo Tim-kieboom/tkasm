@@ -75,8 +75,6 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 		{
 		case tkasm_jump:
 		{
-			checkIfCommandHasType(parts, i);
-
 			string label = parts[1];
 			tokenLines.push_back(label);
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
@@ -159,18 +157,17 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 		case tkasm_jumpGreater0:
 		case tkasm_jumpSmaller0:
 		{
-			checkIfCommandHasType(parts, i);
-
-			if (parts.size() < 3)
+			if (parts.size() < 1)
 				exit_LineHasNoValue(i);
 
-			if (typeStack.size() < 2)
+			if (typeStack.size() < 1)
 				exit_stackIsEmpty(new DebugData("jump..", i + 1));
 
 			string type = typeStack.top();
 			typeStack.pop();
+			typeStack.push(type);
 
-			string value = parts[2];
+			string value = parts[1];
 
 			tokenLines.push_back(type);
 			tokenLines.push_back(value);

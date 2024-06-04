@@ -46,6 +46,15 @@
     <Filter Include="Source Files\testCode">
       <UniqueIdentifier>{423f459d-8b68-4aa4-a086-0187ae87f7d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\interpreter\metaData\memory">
+      <UniqueIdentifier>{7da8ce99-9dda-46ae-b4f6-43c34efde5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpreter\metaData\memory\stack">
+      <UniqueIdentifier>{0668a955-ba74-4c3d-b582-2d8c5d49cfc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpreter\metaData\memory\heap">
+      <UniqueIdentifier>{793c0f6d-ee89-4dd5-b99b-ab119f520ae4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TK_lanuague_One.cpp">
@@ -81,6 +90,9 @@
     <ClCompile Include="console.cpp">
       <Filter>Source Files\interpreter\metaData\Types\console</Filter>
     </ClCompile>
+    <ClCompile Include="stack.cpp">
+      <Filter>Source Files\interpreter\metaData\memory\stack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="testJumpEq0.tkasm">
@@ -95,7 +107,7 @@
     <None Include="readInputLoop.tkasm">
       <Filter>Source Files\testCode</Filter>
     </None>
-    <None Include="tester.tkasm">
+    <None Include="main.tkasm">
       <Filter>Source Files\testCode</Filter>
     </None>
   </ItemGroup>
@@ -129,6 +141,9 @@
     </ClInclude>
     <ClInclude Include="console.h">
       <Filter>Source Files\interpreter\metaData\Types\console</Filter>
+    </ClInclude>
+    <ClInclude Include="stack.h">
+      <Filter>Source Files\interpreter\metaData\memory\stack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

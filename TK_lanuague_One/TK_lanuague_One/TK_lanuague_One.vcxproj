@@ -133,6 +133,7 @@
     <ClCompile Include="fileReader.cpp" />
     <ClCompile Include="generalTypes.h" />
     <ClCompile Include="interpreter.cpp" />
+    <ClCompile Include="stack.cpp" />
     <ClCompile Include="operators.cpp" />
     <ClCompile Include="stringTools.cpp" />
     <ClCompile Include="TK_lanuague_One.cpp" />
@@ -145,7 +146,7 @@
       <DeploymentContent>false</DeploymentContent>
     </None>
     <None Include="readInputLoop.tkasm" />
-    <None Include="tester.tkasm" />
+    <None Include="main.tkasm" />
     <None Include="testJumpEq0.tkasm" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +155,7 @@
     <ClInclude Include="debug.h" />
     <ClInclude Include="fileReader.h" />
     <ClInclude Include="interpreter.h" />
+    <ClInclude Include="stack.h" />
     <ClInclude Include="operators.h" />
     <ClInclude Include="stringTools.h" />
     <ClInclude Include="TkasmType.h" />
