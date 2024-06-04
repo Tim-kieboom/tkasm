@@ -1,5 +1,0 @@
-push %int32 5          // Push 5 onto the stack
-push %int32 3          // Push 3 onto the stack
-add %int32 %int32      // Add top two values (5 + 3 = 8), push the result
-print.pop %int32       // Print the top value (8)
-halt                   // Stop the program

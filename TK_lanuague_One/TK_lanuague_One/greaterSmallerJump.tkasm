@@ -1,8 +1,0 @@
-push %int32 5          // Push 5 onto the stack
-push %int32 2          // Push 2 onto the stack
-sub %int32 %int32      // Subtract 2 from 5 (result: 3)
-jump.greater.0 %int32 greater_label  // Jump if the result is greater than 0
-print "This will not be printed"     // This won't be executed
-greater_label:
-print "3 is greater than 0"
-halt                   // Stop the program

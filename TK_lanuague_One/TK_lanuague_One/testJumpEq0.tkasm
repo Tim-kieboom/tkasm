@@ -1,9 +1,0 @@
-push %int32 10						// Push 10 onto the stack
-push %int32 0						// Push 0 onto the stack
-jump.equals.0 %int32 label1			// Jump to label1 if the top of the stack is 0 (it is)
-print "jump failed"	// This won't be executed
-halt
-
-label1:
-print "Jump successful"				// Print this message
-halt								// Stop the program
