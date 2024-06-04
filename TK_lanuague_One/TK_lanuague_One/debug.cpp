@@ -36,6 +36,12 @@ void exit_SegmentationFailed(string& rawType, DebugData* data)
 	exit(1);
 }
 
+void exit_CastingFailed(string& rawType, DebugData* data)
+{
+	cout << "!!<error> type[" << rawType << "] has a typeCasting error" << stringOfDebugData(data) << "!!" << endl;
+	exit(1);
+}
+
 bool isLineCommand(string line)
 {
 	if (line.size() < 2)

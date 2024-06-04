@@ -1,7 +1,7 @@
 #include "Commands.h"
 #include "stringTools.h"
 
-#define JUMP_TO_LABEL(hashMap, label) hashMap[label] 
+#define JUMP_TO_LABEL(hashMap, strLabel) hashMap[strLabel] 
 
 TKasmCommand getCommand(const char* command)
 {

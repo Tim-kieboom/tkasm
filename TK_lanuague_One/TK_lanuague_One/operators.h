@@ -10,6 +10,10 @@ void* subTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/boo
 void* mullTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/bool& isSuccess, DebugData* data);
 void* divTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/bool& isSuccess, DebugData* data);
 
+bool isTypeEqual0(TkasmType& type, void* value);
+bool isTypeGreater0(TkasmType& type, void* value);
+bool isTypeSmaller0(TkasmType& type, void* value);
+
 #endif 
 
 

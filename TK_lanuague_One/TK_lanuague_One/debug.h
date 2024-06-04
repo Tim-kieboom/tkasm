@@ -25,6 +25,7 @@ void exit_LineHasNoValue(uint32_t lineNumber);
 void exit_TypeIsNotValid(string& rawType, DebugData* data);
 void exit_stackIsEmpty(DebugData* data);
 void exit_SegmentationFailed(string& rawType, DebugData* data);
+void exit_CastingFailed(string& rawType, DebugData* data);
 
 void checkIfStackIsEmpty(stack<uint8_t>* st, DebugData* data);
 void checkIfCommandHasType(vector<string> parts, uint32_t lineNumber);

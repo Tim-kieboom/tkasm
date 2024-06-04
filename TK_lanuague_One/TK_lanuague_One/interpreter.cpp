@@ -6,31 +6,31 @@
 
 
 /*
-instructions needed:
+instructions needed (/../ means done in tokenizer):
 	push %type (value):                 push stack
-	pop %type:                          pop stack
+	pop /%type/:                        pop stack
 
 	mov.push (name):                    move value in heap to stack
-	mov.pop %type (name):               move top of stack to heap
+	mov.pop /%type/ (name):             move top of stack to heap
 	mov %type (name) (value):           move value to heap
 
 	free (name):                        free value to heap
 
-	add %type %type:                    pop 2 numbers from the stack and sum push the sum
-	sub %type %type:                    pop 2 numbers and push the subtraction
+	add /%type/ /%type/:                pop 2 numbers from the stack and sum push the sum
+	sub /%type/ /%type/:                pop 2 numbers and push the subtraction
 
-	mul %type %type:					pop 2 numbers from the stack and sum push the mul
-	div %type %type:					pop 2 numbers from the stack and sum push the div
+	mul /%type /%type/:					pop 2 numbers from the stack and sum push the mul
+	div /%type/ /%type/:				pop 2 numbers from the stack and sum push the div
 
 	print "value":                      print string_literal to terminal
-	print.pop %type:                    print the top of the stack
+	print.pop /%type/:                  print the top of the stack
 
 	read %type:                         read number from io input and push it to stack
 
 	jump (label):                       jump to label
-	jump.equals.0 %type (label):        jump to label if top of stack is 0
-	jump.greater.0 %type (label):       jump to label if top of stack is greater then 0
-	jump.smaller.0 %type (label):       jump to label if top of stack is smaller then 0
+	jump.equals.0 /%type/ (label):      jump to label if top of stack is 0
+	jump.greater.0 /%type/ (label):     jump to label if top of stack is greater then 0
+	jump.smaller.0 /%type/ (label):     jump to label if top of stack is smaller then 0
 
 	halt:                               stop program
 
@@ -98,13 +98,13 @@ void interpretCode(vector<string>* lines)
 		switch (TkCommand)
 		{
 		case tkasm_push:
-			push(stack, program[i], program[i + 1], debugData);
+			push(/*out*/stack, program[i], program[i + 1], debugData);
 			i += 2;
 			break;
 
 		case tkasm_pop:
 			checkIfStackIsEmpty(stack, debugData);
-			pop(stack, program[i], debugData);
+			pop(/*out*/stack, program[i], debugData);
 			i++;
 			break;
 
@@ -134,25 +134,25 @@ void interpretCode(vector<string>* lines)
 
 		case tkasm_add:
 			checkIfStackIsEmpty(stack, debugData);
-			add(stack, program[i], program[i + 1], debugData);
+			add(/*out*/stack, program[i], program[i + 1], debugData);
 			i += 2;
 			break;
 
 		case tkasm_sub:
 			checkIfStackIsEmpty(stack, debugData);
-			sub(stack, program[i], program[i + 1], debugData);
+			sub(/*out*/stack, program[i], program[i + 1], debugData);
 			i += 2;
 			break;
 
 		case tkasm_mull:
 			checkIfStackIsEmpty(stack, debugData);
-			mull(stack, program[i], program[i + 1], debugData);
+			mull(/*out*/stack, program[i], program[i + 1], debugData);
 			i += 2;
 			break;
 
 		case tkasm_div:
 			checkIfStackIsEmpty(stack, debugData);
-			div(stack, program[i], program[i + 1], debugData);
+			div(/*out*/stack, program[i], program[i + 1], debugData);
 			i += 2;
 			break;
 
@@ -162,12 +162,12 @@ void interpretCode(vector<string>* lines)
 			break;
 
 		case tkasm_printPop:
-			printPop(stack, program[i], debugData);
+			printPop(/*out*/stack, program[i], debugData);
 			i++;
 			break;
 
 		case tkasm_read:
-			read(stack, program[i], debugData);
+			read(/*out*/stack, program[i], debugData);
 			i++;
 			break;
 

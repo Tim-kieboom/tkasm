@@ -40,6 +40,12 @@
     <Filter Include="Source Files\interpreter\metaData\Types\operators">
       <UniqueIdentifier>{a1c0c5ea-6eae-40d8-8598-6c5d3c49ac11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\interpreter\metaData\Types\console">
+      <UniqueIdentifier>{66a18d60-9d9b-475f-845d-0c5ce0bc6aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\testCode">
+      <UniqueIdentifier>{423f459d-8b68-4aa4-a086-0187ae87f7d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TK_lanuague_One.cpp">
@@ -72,22 +78,25 @@
     <ClCompile Include="generalTypes.h">
       <Filter>Source Files\interpreter\metaData\Types</Filter>
     </ClCompile>
+    <ClCompile Include="console.cpp">
+      <Filter>Source Files\interpreter\metaData\Types\console</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="printAdd.tkasm">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="testJumpEq0.tkasm">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="readInputLoop.tkasm">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\testCode</Filter>
     </None>
     <None Include="greaterSmallerJump.tkasm">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\testCode</Filter>
+    </None>
+    <None Include="printAdd.tkasm">
+      <Filter>Source Files\testCode</Filter>
+    </None>
+    <None Include="readInputLoop.tkasm">
+      <Filter>Source Files\testCode</Filter>
     </None>
     <None Include="tester.tkasm">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\testCode</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +126,9 @@
     </ClInclude>
     <ClInclude Include="TkasmType.h">
       <Filter>Source Files\interpreter\metaData\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="console.h">
+      <Filter>Source Files\interpreter\metaData\Types\console</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

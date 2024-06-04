@@ -24,7 +24,20 @@ enum TkasmType
 	tkasm_uint8,
 	tkasm_int8,
 
+	tkasm_float,
+	tkasm_double,
+
 	tkasm_unknown,
+};
+
+//number don't matter but THE ORDER DOES!!
+enum TkasmTypeClass
+{
+	tkasmClass_uint = 1,
+	tkasmClass_int = 2,
+	tkasmClass_float = 3,
+	tkasmClass_array = 4,
+	tkasmClass_unknown = 5
 };
 
 #endif

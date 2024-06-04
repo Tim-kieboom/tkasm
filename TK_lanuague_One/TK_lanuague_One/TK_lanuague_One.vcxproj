@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Commands.cpp" />
+    <ClCompile Include="console.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="fileReader.cpp" />
     <ClCompile Include="generalTypes.h" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
+    <ClInclude Include="console.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="fileReader.h" />
     <ClInclude Include="interpreter.h" />

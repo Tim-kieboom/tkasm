@@ -22,11 +22,8 @@ void checkForCommands(/*out*/vector<string>& parts)
 
 string BiggerStringType(string& type1, string& type2)
 {
-	TkasmType t1 = getType(type1);
-	TkasmType t2 = getType(type2);
-	TkasmType biggerType = getBiggerType(t1, t2);
-	string type = string("%") + getTypeString(biggerType);
-	return type;
+	TkasmType biggerType = getBiggerType(getType(type1), getType(type2));
+	return string("%") + getTypeString(biggerType);
 }
 
 vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uint32_t>& labelTracker, /*out*/unordered_map<uint32_t, uint32_t>& lineNumberTracker)
@@ -100,7 +97,6 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
 			lineNumber++;
-
 		}
 		break;
 
@@ -125,7 +121,6 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 			string value = parts[2];
 
 			tokenLines.push_back(type);
-
 			tokenLines.push_back(value);
 
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
@@ -142,14 +137,13 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 		{
 			if (typeStack.size() < 2)
 				exit_stackIsEmpty(new DebugData("pop..", i + 1));
-
+			
 			string type1 = typeStack.top();
 			typeStack.pop();
 			string type2 = typeStack.top();
 			typeStack.pop();
 
 			tokenLines.push_back(type1);
-
 			tokenLines.push_back(type2);
 
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;			
@@ -179,11 +173,9 @@ vector<string> tokenizer(vector<string>* lines, /*out*/unordered_map<string, uin
 			string value = parts[2];
 
 			tokenLines.push_back(type);
-
 			tokenLines.push_back(value);
 
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
-
 			lineNumber += 2;
 		}
 		break;
