@@ -1,11 +1,13 @@
 # ninja log v6
-4	83	7392324250047845	CMakeFiles/TK_lanuague_One.dir/main.c.obj	ab05cafe8a24964f
+21	316	7392408499461356	CMakeFiles/TK_lanuague_One.dir/main.c.obj	ab05cafe8a24964f
 85	190	7392325740284675	TK_lanuague_One.exe	e58305aed7c85b7a
 25	115	7392285381832394	CMakeFiles/TK_lanuague_One.dir/LinkedList/LinkedList.c.obj	ab4073f428d29e9d
 4	79	7392302475798701	CMakeFiles/TK_lanuague_One.dir/StringStream/StringStream.c.obj	27a73d861b88b0d9
-2	293	7392359353862939	build.ninja	3edabd3f718db873
 10	99	7392323102540518	CMakeFiles/TK_lanuague_One.dir/lib/ArrayList/ArrayList.c.obj	68ae938e25254845
+3	483	7392408993925520	build.ninja	3edabd3f718db873
 5	96	7392301245286900	CMakeFiles/TK_lanuague_One.dir/ArrayList/ArrayList.c.obj	3331b9d1864e2df2
 16	101	7392323102596186	CMakeFiles/TK_lanuague_One.dir/lib/StringStream/StringStream.c.obj	e2954e2dd64c4ec9
 2	16	7392322065074911	clean	567f01a6bad3308b
-4	85	7392325739468560	CMakeFiles/TK_lanuague_One.dir/lib/fileReader/fileReader.c.obj	4d7bea66b945fece
+32	317	7392408499571254	CMakeFiles/TK_lanuague_One.dir/lib/fileReader/fileReader.c.obj	4d7bea66b945fece
+50	317	7392408499742222	CMakeFiles/TK_lanuague_One.dir/lib/HashMap/map.c.obj	566c98ffeb268de1
+57	317	7392408499812240	CMakeFiles/TK_lanuague_One.dir/lib/Stack/Stack.c.obj	f27b5b8f07eb5610

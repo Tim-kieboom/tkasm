@@ -56,6 +56,14 @@ void Stack_push(Stack *list, void *data)
     }
 }
 
+bool Stack_isEmpty(Stack *list)
+{
+    if((*list)->data == NULL)
+        return true;
+    else
+        return false;
+}
+
 void *Stack_pop(Stack *list)
 {
     void *popped_data;
@@ -70,6 +78,18 @@ void *Stack_pop(Stack *list)
     free(head);
 
     return popped_data;
+}
+
+void** Stack_array(Stack *list) {
+    arraylist *dynArray = arraylist_create();
+
+    while((*list)->next != NULL)
+    {
+        arraylist_add(dynArray, Stack_pop(list));
+    }
+    void** arr = arraylist_get(dynArray, 0);
+    free(dynArray);
+    return arr;
 }
 
 void Stack_print(Stack *list, void (*print)(void *))

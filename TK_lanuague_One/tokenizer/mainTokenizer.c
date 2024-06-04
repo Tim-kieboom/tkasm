@@ -3,17 +3,20 @@
 //
 
 #include "mainTokenizer.h"
+
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 
 #include "../metaData/Types.h"
-#include "../lib/ArrayList/ArrayList.h"
 #include "../lib/String/String.h"
 #include "../lib/HashMap/map.h"
 #include "../lib/Stack/Stack.h"
+#include "../lib/stringTools/stringTools.h"
 
 typedef enum TkasmType TkasmType;
+typedef enum TkasmCommand TkasmCommand;
 
 void checkForCommands(arraylist/*strings*/ *parts)
 {
@@ -31,13 +34,21 @@ void checkForCommands(arraylist/*strings*/ *parts)
 	}
 }
 
-String *BiggerStringType(String *type1, String *type2)
+bool isLineCommand(String *line)
 {
-	TkasmType biggerType = getBiggerType(getType(type1), getType(type2));
-	return String("%") + getTypeString(biggerType);
+	if (String_size(line) < 2)
+		return false;
+
+	return String_at(line , 0) == '/' && String_at(line , 1) == '/';
 }
 
-arraylist/*strings*/ tokenizer(arraylist/*strings*/* lines, /*out*/map_int_t *labelTracker, /*out*/map_int_t *lineNumberTracker)
+String *BiggerStringType(String *type1, String *type2)
+{
+	//TkasmType biggerType = getBiggerType(getType(type1), getType(type2));
+	//return String("%") + getTypeString(biggerType);
+}
+
+arraylist/*strings*/ *tokenizer(arraylist/*strings*/* lines, /*out*/map_int_t *labelTracker, /*out*/map_int_t *lineNumberTracker)
 {
 
 	if(lines->size == 0)
@@ -48,7 +59,7 @@ arraylist/*strings*/ tokenizer(arraylist/*strings*/* lines, /*out*/map_int_t *la
 
 	arraylist/*strings*/ *tokenLines = arraylist_create();
 
-	Stack/*string*/ typeStack = Stack_create(NULL);
+	Stack/*string*/ *typeStack = Stack_create(NULL);
 
 	uint32_t lineNumber = 0;
 	for (uint32_t i = 0; i < lines->size(); i++)
@@ -61,25 +72,28 @@ arraylist/*strings*/ tokenizer(arraylist/*strings*/* lines, /*out*/map_int_t *la
 		if (isLineCommand(line))
 			continue;
 
-		vector<string> parts = splitWhiteSpaces(line);
+		arraylist/*strings*/ *parts = splitWhiteSpaces(line);
 
 		checkForCommands(/*out*/parts);
 
-		if (parts.size() == 0)
+		if (parts->size == 0)
 			continue;
 
-		const char* command = parts[0].data();
+		String* command = (String*)arraylist_get(parts, 0);
 
 		//check if line is label
-		if (stringLastChar(command) == ':')
+		const char lastChar = String_at(command, String_size(command)-1);
+		if (lastChar == ':')
 		{
-			string label = splitString(line, ':')[0];
-			labelTracker[label] = lineNumber;
+			char **label = (char**)split_string((char*)line->data, ':')[0];
+			map_set(labelTracker, label[0], lineNumber);
 			continue;
 		}
 
-		tokenLines.push_back(command);
-		lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
+		String_free(line);
+
+		arraylist_add(tokenLines, command);
+		map_set(lineNumberTracker, uint32_toString(tokenLines->size - 1) , i+1);
 		lineNumber++;
 
 		TKasmCommand TkCommand = getCommand(command);
@@ -88,7 +102,7 @@ arraylist/*strings*/ tokenizer(arraylist/*strings*/* lines, /*out*/map_int_t *la
 		{
 		case tkasm_jump:
 		{
-			string label = parts[1];
+			struct string label = parts[1];
 			tokenLines.push_back(label);
 			lineNumberTracker[(int)tokenLines.size() - 1] = i + 1;
 			lineNumber++;
@@ -211,11 +225,13 @@ arraylist/*strings*/ tokenizer(arraylist/*strings*/* lines, /*out*/map_int_t *la
 			break;
 		}
 	}
-
-	if (tokenLines[tokenLines.size() - 1] != "halt")
+    String *lastCommand = arraylist_get(tokenLines, tokenLines->size - 1);
+	if (strcmp(lastCommand->data, "halt") != 0)
 	{
-		cout << "!!<error> tkasm code does not end with halt!!" << endl;
+		printf("!!<error> tkasm code does not end with halt!!");
 		exit(1);
 	}
+	
+	String_free(lastCommand);
 	return tokenLines;
 }

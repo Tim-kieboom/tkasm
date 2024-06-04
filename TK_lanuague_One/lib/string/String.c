@@ -3,6 +3,7 @@
 //
 #include "String.h"
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -26,6 +27,7 @@ String *String_newFromInt(const uint32_t value)
 {
     return String_new(uint32_toString(value));
 }
+
 uint64_t String_size(const String* string)
 {
     const char* data = string->data;

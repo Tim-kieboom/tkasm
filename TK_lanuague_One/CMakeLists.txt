@@ -20,5 +20,5 @@ add_executable(TK_lanuague_One main.c
         lib/HashMap/map.h
         lib/Stack/Stack.c
         lib/Stack/Stack.h
-        lib/llist/llist.c
-        lib/llist/llist.h)
+        lib/stringTools/stringTools.c
+        lib/stringTools/stringTools.h)
