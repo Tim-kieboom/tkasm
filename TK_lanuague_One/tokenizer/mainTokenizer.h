@@ -7,6 +7,8 @@
 #pragma once
 
 #include "../lib/ArrayList/ArrayList.h"
+#include "../lib/HashMap/map.h"
+
 arraylist/*strings*/ *tokenizer(arraylist/*strings*/* lines, /*out*/map_int_t *labelTracker, /*out*/map_int_t *lineNumberTracker);
 
 #endif //MAINTOKENIZER_H

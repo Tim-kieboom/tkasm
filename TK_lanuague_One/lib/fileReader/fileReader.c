@@ -21,11 +21,13 @@ arraylist* readFile(const char* path)
 
     char letter;
     uint32_t i = 0;
+
     while((letter = fgetc(file)) != EOF)
     {
         if(letter == '\n' || letter == '\r')
         {
             const char* line = StringStream_toCharPtr(stream);
+
             arraylist_add(fileString, (char*)line);
 
             StringStream_free(stream);
@@ -35,9 +37,14 @@ arraylist* readFile(const char* path)
 
         StringStream_append(stream, letter);
         i++;
-
     }
 
+    //handle last line
+    if (stream->size > 0)
+    {
+        const char* line = StringStream_toCharPtr(stream);
+        arraylist_add(fileString, (char*)line);
+    }
     fclose(file);
     StringStream_free(stream);
     return fileString;

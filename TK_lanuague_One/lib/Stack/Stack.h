@@ -16,24 +16,23 @@ struct node
 
 typedef struct node * Stack;
 
-/* Stack_create: Create a linked list */
 Stack *Stack_create(void *data);
 
-/* Stack_free: Free a linked list */
 void Stack_free(Stack *list);
 
-/* Stack_push: Add to head of list */
 void Stack_push(Stack *list, void *data);
 
-/* Stack_pop: remove and return head of linked list */
 void *Stack_pop(Stack *list);
 
-/* Stack_array: return array of linkedlist */
+//only works if value is <= 64bits
+int64_t Stack_find(const Stack *list, void* value);
+
+uint32_t Stack_size(const Stack *list);
+
 void** Stack_array(Stack *list);
 
-bool Stack_isEmpty(Stack *list);
+bool Stack_isEmpty(const Stack *list);
 
-/* Stack_print: print linked list */
-void Stack_print(Stack *list, void (*print)(void *data));
+void Stack_print(const Stack *list, void (*print)(void *data));
 
 #endif //STACK_H

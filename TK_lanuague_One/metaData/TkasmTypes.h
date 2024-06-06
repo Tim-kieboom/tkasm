@@ -38,4 +38,7 @@ enum TkasmTypeClass
     tkasmClass_unknown = 5
 };
 
+typedef enum TkasmType TkasmType;
+typedef enum TkasmTypeClass TkasmTypeClass;
+
 #endif //TKASMTYPES_H

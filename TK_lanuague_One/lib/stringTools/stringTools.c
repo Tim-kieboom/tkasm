@@ -6,44 +6,65 @@
 #define IS_WHITE_SPACE(ch) ((ch == ' ') || (ch == '\t') || (ch == '\n'))
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-arraylist/*strings*/* splitWhiteSpaces(const String *str)
+const char* trimWhiteSpaces(const char* str)
 {
-    Stack/*chars*/ *token = Stack_create(NULL);
-    arraylist/*strings*/ *tokens = arraylist_create();
+    StringStream *token = StringStream_new();
+    bool isInString = false;
+
+    size_t i = -1;
+    while (str[++i] != '\0')
+    {
+        const char letter = str[i];
+
+        if (letter == '\"')
+            isInString = !isInString;
+
+        if (!IS_WHITE_SPACE(letter) || isInString == true)
+            StringStream_append(token, letter);
+    }
+
+    const char* strtoken = StringStream_toCharPtr(token);
+    StringStream_free(token);
+    return strtoken;
+}
+
+arraylist/*const char[]*/* splitWhiteSpaces(const char *str)
+{
+    StringStream *token = StringStream_new();
+    arraylist/*const char[]*/ *tokens = arraylist_create();
 
     bool isInString = false;
 
     size_t i = -1;
-    while (String_at(str, ++i) != '\0')
+    while (str[++i] != '\0')
     {
-        char letter = String_at(str, i);
+        const char letter = str[i];
 
         if (letter == '\"')
             isInString = !isInString;
 
         if (IS_WHITE_SPACE(letter) && (isInString == false))
         {
-            if (Stack_isEmpty(token))
+            if (token->size == 0)
                 continue;
 
-            String *strToken = String_new((const char*)Stack_array(token));
+            const char* strToken = StringStream_toCharPtr(token);
 
-            arraylist_add(tokens, strToken);
+            arraylist_add(tokens, (void*)strToken);
         }
 
         if (!IS_WHITE_SPACE(letter) || (isInString == true))
-            Stack_push(token, (void*)letter);
+            StringStream_append(token, letter);
     }
 
-    if (!Stack_isEmpty(token))
+    if (token->size != 0)
     {
-        String *strToken = String_new((const char*)Stack_array(token));
-        arraylist_add(tokens, strToken);
+        const char *strToken = StringStream_toCharPtr(token);
+        arraylist_add(tokens, (void*)strToken);
     }
 
-    Stack_free(token);
+    StringStream_free(token);
     return tokens;
 }
 
@@ -66,7 +87,7 @@ char** split_string(char* str, const char delim)
     return tokens;
 }
 
-const char* uint32_toString(uint32_t value)
+const char* uint32_toString(const uint32_t value)
 {
     //get the size of the string
     const int lenght = snprintf(NULL, 0, "%d", value);

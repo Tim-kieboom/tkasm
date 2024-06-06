@@ -7,5 +7,7 @@
 #pragma once
 
 #include "TkasmTypes.h"
+#include "generalType/generalType.h"
 
+#define nullptr NULL
 #endif //TYPES_H

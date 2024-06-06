@@ -1,6 +1,12 @@
-hello
-test
-test
-foo
-boo
-var
+push %int32 5 //test commands
+pop
+push %int8 5
+push %uint64 8
+add
+jump.equals.0 JUMP
+print "not 0"
+halt
+
+JUMP:
+print "is 0"
+halt

@@ -6,15 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-const char* uint32_toString(uint32_t value)
-{
-    //get the size of the string
-    const int lenght = snprintf(NULL, 0, "%d", value);
-    char* str = malloc(lenght + 1);
-    snprintf(str, lenght + 1, "%d", value);
-    return str;
-}
+#include "../../lib/stringTools/stringTools.h"
 
 String *String_new(const char* string)
 {
@@ -28,15 +20,16 @@ String *String_newFromInt(const uint32_t value)
     return String_new(uint32_toString(value));
 }
 
-uint64_t String_size(const String* string)
+uint64_t String_size(const char* string)
 {
-    const char* data = string->data;
-    uint64_t size = 0;
-    while(*data != '\0')
-    {
-        size++;
-        data++;
-    }
+    const char* data = string;
+
+    if(string == NULL || string[0] == '\0')
+        return 0;
+
+    uint64_t size = -1;
+    while(data[++size] != '\0');
+
     return size;
 }
 

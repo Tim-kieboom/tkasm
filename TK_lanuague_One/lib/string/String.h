@@ -17,9 +17,7 @@ String *String_new(const char* string);
 
 String *String_newFromInt(const uint32_t string);
 
-uint64_t String_size(const String* string);
-
-arraylist *splitWhiteSpaces(const String *str);
+uint64_t String_size(const char* string);
 char String_at(const String* string, const uint32_t index);
 
 void String_free(String* string);

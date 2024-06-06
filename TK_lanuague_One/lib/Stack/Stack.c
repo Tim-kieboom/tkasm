@@ -6,15 +6,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-Stack *Stack_create(void *new_data)
-{
-    struct node *new_node;
+#include "../../metaData/Types.h"
 
-    Stack *new_list = (Stack *)malloc(sizeof (Stack));
+Stack *Stack_create(void *data)
+{
+    Stack *new_list = malloc(sizeof (Stack));
     *new_list = (struct node *)malloc(sizeof (struct node));
 
-    new_node = *new_list;
-    new_node->data = new_data;
+    struct node *new_node = *new_list;
+    new_node->data = data;
     new_node->next = NULL;
     return new_list;
 }
@@ -22,10 +22,10 @@ Stack *Stack_create(void *new_data)
 void Stack_free(Stack *list)
 {
     struct node *curr = *list;
-    struct node *next;
 
-    while (curr != NULL) {
-        next = curr->next;
+    while (curr != NULL)
+    {
+        struct node *next = curr->next;
         free(curr);
         curr = next;
     }
@@ -35,28 +35,34 @@ void Stack_free(Stack *list)
 
 void Stack_push(Stack *list, void *data)
 {
-    struct node *head;
-    struct node *new_node;
-    if (list == NULL || *list == NULL) {
-        fprintf(stderr, "llist_add_inorder: list is null\n");
+    if (list == NULL || *list == NULL)
+    {
+        fprintf(stderr, "Stack_push: list is null\n");
     }
 
-    head = *list;
+    struct node *head = *list;
+
+    if(head == NULL)
+    {
+        fprintf(stderr, "!!<error> stack_push has no head!!\n");
+        exit(1);
+    }
 
     // Head is empty node
     if (head->data == NULL)
+    {
         head->data = data;
-
-    // Head is not empty, add new node to front
-    else {
-        new_node = malloc(sizeof (struct node));
+    }
+    else
+    {
+        struct node *new_node = malloc(sizeof(struct node));
         new_node->data = data;
         new_node->next = head;
         *list = new_node;
     }
 }
 
-bool Stack_isEmpty(Stack *list)
+bool Stack_isEmpty(const Stack *list)
 {
     if((*list)->data == NULL)
         return true;
@@ -64,15 +70,52 @@ bool Stack_isEmpty(Stack *list)
         return false;
 }
 
+int64_t Stack_find(const Stack *list, void* value)
+{
+    struct node *curr = *list;
+    uint32_t index = 0;
+
+    while (curr != NULL)
+    {
+        if (*(uint64_t*)&curr->data == *(uint64_t*)&value)
+            return index;
+
+        curr = curr->next;
+        index++;
+    }
+    return -1;
+}
+
+uint32_t Stack_size(const Stack *list)
+{
+    uint32_t index = 0;
+    struct node *curr = *list;
+    while (curr != NULL)
+    {
+        index++;
+        curr = curr->next;
+    }
+    return index;
+
+}
+
 void *Stack_pop(Stack *list)
 {
-    void *popped_data;
-    struct node *head = *list;
-
-    if (list == NULL || head->data == NULL)
+    if(list == NULL)
         return NULL;
 
-    popped_data = head->data;
+    struct node *head = *list;
+
+    if (*list == NULL || head->data == NULL)
+        return NULL;
+
+    void *popped_data = head->data;
+
+    if(head->next == NULL)
+    {
+        head->data = NULL;
+        return popped_data;
+    }
     *list = head->next;
 
     free(head);
@@ -80,7 +123,8 @@ void *Stack_pop(Stack *list)
     return popped_data;
 }
 
-void** Stack_array(Stack *list) {
+void** Stack_array(Stack *list)
+{
     arraylist *dynArray = arraylist_create();
 
     while((*list)->next != NULL)
@@ -92,9 +136,9 @@ void** Stack_array(Stack *list) {
     return arr;
 }
 
-void Stack_print(Stack *list, void (*print)(void *))
+void Stack_print(const Stack *list, void (*print)(void *))
 {
-    struct node *curr = *list;
+    const struct node *curr = *list;
     while (curr != NULL) {
         print(curr->data);
         printf(" ");

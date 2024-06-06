@@ -21,4 +21,12 @@ add_executable(TK_lanuague_One main.c
         lib/Stack/Stack.c
         lib/Stack/Stack.h
         lib/stringTools/stringTools.c
-        lib/stringTools/stringTools.h)
+        lib/stringTools/stringTools.h
+        metaData/generalType/generalType.c
+        metaData/generalType/generalType.h
+        metaData/Commands/commands.c
+        metaData/Commands/commands.h
+        metaData/debug/debug.c
+        metaData/debug/debug.h
+        metaData/generalType/console/console.c
+        metaData/generalType/console/console.h)

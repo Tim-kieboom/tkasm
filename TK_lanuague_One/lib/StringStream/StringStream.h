@@ -2,20 +2,22 @@
 #define STRINGSTREAM_H
 #pragma once
 
-#include "../ArrayList/ArrayList.h"
+#include "../Stack/Stack.h"
 #include "../String/String.h"
 
 typedef struct stringStream
 {
-    arraylist *list;
+    Stack *list;
+    uint32_t size;
 } StringStream;
 
 StringStream* StringStream_new();
 
-void StringStream_append(const StringStream *stringStream, char letter);
-const char* StringStream_toCharPtr(StringStream *stringStream);
+void StringStream_append(StringStream *stringStream, char letter);
+void StringStream_appendCharPtr(StringStream *stringStream, const char* word);
 
-String* StringStream_toString(const StringStream *stringStream);
+String* StringStream_toString(StringStream *stringStream);
+const char* StringStream_toCharPtr(StringStream *stringStream);
 
 void StringStream_free(StringStream *stringStream);
 #endif
