@@ -74,6 +74,15 @@ TKasmCommand getCommand(const char* command)
 		return tkasm_div;
 	}
 
+	else if (STR_EQUALS(command, "shift.left"))
+	{
+		return tkasm_shiftLeft;
+	}
+	else if (STR_EQUALS(command, "shift.right"))
+	{
+		return tkasm_shiftRight;
+	}
+
 	else if (STR_EQUALS(command, "print"))
 	{
 		return tkasm_print;
@@ -208,6 +217,47 @@ void tk_div(/*out*/Stack* stack, const char* rawType1, const char* rawType2, con
 	free(segments);
 }
 
+void tk_shiftLeft(/*out*/Stack* stack, const char* rawType, const char* rawValue, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+	const uint32_t amount = atoi(rawValue);
+
+	uint8_t* segments = popType(&type, stack);
+
+	bool isSuccess;
+	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
+	if(!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	uint64_t uvalue = (uint64_t)value;
+	uvalue <<= amount;
+
+	uint8_t* pushSegments = segmentType(&type, (void*)uvalue);
+	pushType(&type, pushSegments, stack);
+	free(segments);
+	free(pushSegments);
+}
+
+void tk_shiftRight(/*out*/Stack* stack, const char* rawType, const char* rawValue, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+	const uint32_t amount = atoi(rawValue);
+
+	uint8_t* segments = popType(&type, stack);
+
+	bool isSuccess;
+	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
+	if(!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	uint64_t uvalue = (uint64_t)value;
+	uvalue >>= amount;
+
+	uint8_t* pushSegments = segmentType(&type, (void*)uvalue);
+	pushType(&type, pushSegments, stack);
+	free(segments);
+	free(pushSegments);
+}
 
 void tk_print(const char* rawValue, DebugData* data)
 {

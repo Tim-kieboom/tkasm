@@ -26,6 +26,10 @@ enum TKasmCommand
     tkasm_mull,
     tkasm_div,
 
+    tkasm_shiftLeft,
+    tkasm_shiftRight,
+
+    tkasm_printPush,
     tkasm_print,
 
     tkasm_printPop,
@@ -52,6 +56,10 @@ void tk_sub(/*out*/Stack* stack, const char* rawType1, const char* rawType2, con
 
 void tk_mull(/*out*/Stack* stack, const char* rawType1, const char* rawType2, const DebugData* data);
 void tk_div(/*out*/Stack* stack, const char* rawType1, const char* rawType2, const DebugData* data);
+
+void tk_shiftLeft(/*out*/Stack* stack, const char* rawType, const char* rawValue, const DebugData* data);
+void tk_shiftRight(/*out*/Stack* stack, const char* rawType, const char* rawValue, const DebugData* data);
+
 
 void tk_print(const char* rawValue, DebugData* data);
 void tk_printPop(/*out*/Stack* stack, const char* rawType, const DebugData* data);

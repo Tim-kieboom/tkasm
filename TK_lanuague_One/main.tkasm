@@ -1,14 +1,4 @@
-push %int64 1 //test commands
-print "read \"value\": "
+push %uint32 2
+shift.left 1
 print.pop
-print " \n"
-push %int8 1
-push %uint64 1
-sub
-print.pop
-//print "not 0"
-halt
-
-JUMP:
-print "is 0"
 halt

@@ -3,9 +3,10 @@
 //
 
 #include "stringTools.h"
-#define IS_WHITE_SPACE(ch) ((ch == ' ') || (ch == '\t') || (ch == '\n'))
 #include <stdio.h>
 #include <stdlib.h>
+
+#define IS_WHITE_SPACE(ch) ((ch == ' ') || (ch == '\t') || (ch == '\n'))
 
 const char* trimWhiteSpaces(const char* str)
 {

@@ -137,6 +137,25 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 		}
 		break;
 
+		case tkasm_shiftLeft:
+		case tkasm_shiftRight:
+		{
+			const char *type = Stream_pop(typeStack);
+			if(getType(type) == tkasm_unknown)
+				exit_TypeIsNotValid(type, DebugData_new(command, i));
+
+			const char *value = arraylist_get(parts, 1);
+
+			arraylist_add(tokenLines, (void*)type);
+			arraylist_add(tokenLines, (void*)value);
+
+			SET_LINETRACKER(lineNumberTracker, tokenLines, i + 1);
+			lineNumber+=2;
+
+			Stream_push(typeStack, (void*)type);
+		}
+		break;
+
 		case tkasm_push:
 		{
 			checkIfCommandHasType(parts, i);

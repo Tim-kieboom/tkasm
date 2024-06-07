@@ -37,6 +37,9 @@ instructions needed (/../ means done in tokenizer):
 	mul /%type /%type/:					pop 2 numbers from the stack and sum push the mul
 	div /%type/ /%type/:				pop 2 numbers from the stack and sum push the div
 
+	shift.left /%type/ amount:			pops the top of the stack and bitshift left "amount" times
+	shift.right /%type/ amount:			pops the top of the stack and bitshift right "amount" times
+
 	print "value":                      print const char*_literal to terminal
 	print.pop /%type/:                  print the top of the stack
 
@@ -168,6 +171,18 @@ void interpretCode(arraylist/*const char[]*/* lines)
 			checkIfStackIsEmpty(stack, debugData);
 			tk_div(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
 			i += 2;
+			break;
+
+		case tkasm_shiftLeft:
+			checkIfStackIsEmpty(stack, debugData);
+			tk_shiftLeft(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
+			i+=2;
+			break;
+
+		case tkasm_shiftRight:
+			checkIfStackIsEmpty(stack, debugData);
+			tk_shiftRight(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
+			i+=2;
 			break;
 
 		case tkasm_print:

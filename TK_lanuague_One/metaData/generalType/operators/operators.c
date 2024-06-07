@@ -40,10 +40,8 @@ void* addTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/boo
 
 	bool isConvertSucces;
 	const TkasmType biggerType = getBiggerType(type1, type2);
-	if (type2 == biggerType)
-		value1 = convertToTypeClass(type1, biggerType, value1, &isConvertSucces);
-	else
-		value2 = convertToTypeClass(type2, biggerType, value2, &isConvertSucces);
+	value1 = convertToTypeClass(type1, biggerType, value1, &isConvertSucces);
+	value2 = convertToTypeClass(type2, biggerType, value2, &isConvertSucces);
 
 	if (!isConvertSucces)
 	{
@@ -147,15 +145,8 @@ void* subTypes(TkasmType type1, TkasmType type2, /*out*/Stack* stack, /*out*/boo
 
 	bool isConvertSucces;
 	const TkasmType biggerType = getBiggerType(type1, type2);
-
-	printf("value1: %llu\n", (uint64_t)value1);
-	printf("value2: %llu\n", (uint64_t)value2);
-
 	value1 = convertToTypeClass(type1, biggerType, value1, &isConvertSucces);
 	value2 = convertToTypeClass(type2, biggerType, value2, &isConvertSucces);
-
-	printf("value1: %llu\n", (uint64_t)value1);
-	printf("value2: %llu\n", (uint64_t)value2);
 
 	if (!isConvertSucces)
 	{
@@ -257,10 +248,8 @@ void* mullTypes(const TkasmType type1, const TkasmType type2, /*out*/Stack* stac
 
 	bool isConvertSucces;
 	const TkasmType biggerType = getBiggerType(type1, type2);
-	if (type2 == biggerType)
-		value1 = convertToTypeClass(type1, biggerType, value1, &isConvertSucces);
-	else
-		value2 = convertToTypeClass(type2, biggerType, value2, &isConvertSucces);
+	value1 = convertToTypeClass(type1, biggerType, value1, &isConvertSucces);
+	value2 = convertToTypeClass(type2, biggerType, value2, &isConvertSucces);
 
 	if (!isConvertSucces)
 	{
@@ -361,10 +350,8 @@ void* divTypes(const TkasmType type1, const TkasmType type2, /*out*/Stack* stack
 
 	bool isConvertSucces;
 	const TkasmType biggerType = getBiggerType(type1, type2);
-	if (type2 == biggerType)
-		value1 = convertToTypeClass(type1, biggerType, value1, &isConvertSucces);
-	else
-		value2 = convertToTypeClass(type2, biggerType, value2, &isConvertSucces);
+	value1 = convertToTypeClass(type1, biggerType, value1, &isConvertSucces);
+	value2 = convertToTypeClass(type2, biggerType, value2, &isConvertSucces);
 
 	if (!isConvertSucces)
 	{
