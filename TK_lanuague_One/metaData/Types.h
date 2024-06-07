@@ -8,6 +8,8 @@
 
 #include "TkasmTypes.h"
 #include "generalType/generalType.h"
+#include "generalType/operators/operators.h"
+#include "generalType/console/console.h"
 
 #define nullptr NULL
 #endif //TYPES_H

@@ -11,7 +11,7 @@
 
 #include "../metaData/Types.h"
 #include "../lib/String/String.h"
-#include "../lib/Stack/Stack.h"
+#include "../lib/Stream/Stream.h"
 #include "../lib/stringTools/stringTools.h"
 #include "../metaData/Commands/commands.h"
 #include "../metaData/debug/debug.h"
@@ -56,7 +56,7 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 
 	arraylist/*const char[]*/ *tokenLines = arraylist_create();
 
-	Stack/*const char[]*/ *typeStack = Stack_create(NULL);
+	Stream/*const char[]*/ *typeStack = Stream_create(NULL);
 
 	uint32_t lineNumber = 0;
 	for (uint32_t i = 0; i < lines->size; i++)
@@ -81,8 +81,10 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 		const char lastChar = command[String_size(command)-1];
 		if (lastChar == ':')
 		{
-			const char *label = split_string((char*)line, ':')[0];
-			map_set(labelTracker, label, lineNumber);
+			line = trimWhiteSpaces(line);
+			const char **split = split_string((char*)line, ":");
+			map_set(labelTracker, split[0], lineNumber);
+			free(split);
 			continue;
 		}
 
@@ -106,10 +108,12 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 		case tkasm_pop:
 		case tkasm_printPop:
 		{
-			if (Stack_size(typeStack) == 0)
+			if (Stream_size(typeStack) == 0)
 				exit_stackIsEmpty(DebugData_new("pop", i + 1));
 
-			const char *type = Stack_pop(typeStack);
+			const char *type = Stream_pop(typeStack);
+			if(getType(type) == tkasm_unknown)
+				exit_TypeIsNotValid(type, DebugData_new(command, i));
 
 			arraylist_add(tokenLines, (void*)type);
 
@@ -129,12 +133,14 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 			SET_LINETRACKER(lineNumberTracker, tokenLines, i + 1);
 			lineNumber++;
 
-			Stack_push(typeStack, (void*)type);
+			Stream_push(typeStack, (void*)type);
 		}
 		break;
 
 		case tkasm_push:
 		{
+			checkIfCommandHasType(parts, i);
+
 			const char *type = arraylist_get(parts, 1);
 			const char *value = arraylist_get(parts, 2);
 
@@ -144,7 +150,7 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 			SET_LINETRACKER(lineNumberTracker, tokenLines, i + 1);
 			lineNumber+=2;
 
-			Stack_push(typeStack, (void*)type);
+			Stream_push(typeStack, (void*)type);
 		}
 		break;
 
@@ -153,11 +159,16 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 		case tkasm_mull:
 		case tkasm_div:
 		{
-			if (Stack_size(typeStack) < 2)
+			if (Stream_size(typeStack) < 2)
 				exit_stackIsEmpty(DebugData_new("pop..", i + 1));
 
-			const char *type1 = Stack_pop(typeStack);
-			const char *type2 = Stack_pop(typeStack);
+			const char *type1 = Stream_pop(typeStack);
+			if(getType(type1) == tkasm_unknown)
+				exit_TypeIsNotValid(type1, DebugData_new(command, i));
+
+			const char *type2 = Stream_pop(typeStack);
+			if(getType(type2) == tkasm_unknown)
+				exit_TypeIsNotValid(type2, DebugData_new(command, i));
 
 			arraylist_add(tokenLines, (void*)type1);
 			arraylist_add(tokenLines, (void*)type2);
@@ -166,7 +177,7 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 			lineNumber += 2;
 
 			const char *type = BiggerStringType(type1, type2);
-			Stack_push(typeStack, (void*)type);
+			Stream_push(typeStack, (void*)type);
 		}
 		break;
 
@@ -178,11 +189,14 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 			if (parts->size < 1)
 				exit_LineHasNoValue(i);
 
-			if (Stack_size(typeStack) < 1)
+			if (Stream_size(typeStack) < 1)
 				exit_stackIsEmpty(DebugData_new("jump..", i + 1));
 
-			const char *type = Stack_pop(typeStack);
-			Stack_push(typeStack, (void*)type);
+			const char *type = Stream_pop(typeStack);
+			if(getType(type) == tkasm_unknown)
+				exit_TypeIsNotValid(type, DebugData_new(command, i));
+
+			Stream_push(typeStack, (void*)type);
 
 			const char* value = arraylist_get(parts, 1);
 
@@ -225,6 +239,6 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 		exit(1);
 	}
 
-	Stack_free(typeStack);
+	Stream_free(typeStack);
 	return tokenLines;
 }

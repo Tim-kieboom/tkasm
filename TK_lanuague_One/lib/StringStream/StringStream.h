@@ -2,12 +2,12 @@
 #define STRINGSTREAM_H
 #pragma once
 
-#include "../Stack/Stack.h"
+#include "../Stream/Stream.h"
 #include "../String/String.h"
 
 typedef struct stringStream
 {
-    Stack *list;
+    Stream *list;
     uint32_t size;
 } StringStream;
 

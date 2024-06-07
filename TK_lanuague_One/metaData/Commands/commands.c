@@ -13,7 +13,19 @@
 #include "../debug/debug.h"
 #include "../Types.h"
 
-#define JUMP_TO_LABEL(hashMap, strLabel) (int)map_get(hashMap, strLabel)
+#define JUMP_TO_LABEL(hashMap, strLabel) map_get(hashMap, strLabel)
+
+void exit_type1and2NotValid(const char* type1, const char* type2 , const DebugData *data)
+{
+	StringStream *stream = StringStream_new();
+	StringStream_appendCharPtr(stream, type1);
+	StringStream_appendCharPtr(stream, " and");
+	StringStream_appendCharPtr(stream, type2);
+	const char* message = StringStream_toCharPtr(stream);
+	StringStream_free(stream);
+
+	exit_TypeIsNotValid(message, data);
+}
 
 TKasmCommand getCommand(const char* command)
 {
@@ -105,183 +117,185 @@ TKasmCommand getCommand(const char* command)
 	exit(1);
 }
 
-// void push(/*out*/Stack* stack, const char* rawType, const char* rawValue, DebugData* data)
-// {
-// 	TkasmType type = getType(rawType);
-//
-// 	bool isSuccess;
-// 	void* value = stringToType(type, rawValue, /*out*/isSuccess);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType, data);
-//
-// 	uint8_t* segments = segmentType(type, value);
-// 	pushType(type, segments, stack);
-//
-// 	free(segments);
-// }
-//
-// void pop(/*out*/Stack* stack, const char* rawType, DebugData* data)
-// {
-// 	TkasmType type = getType(rawType);
-// 	uint8_t* segments = popType(type, stack);
-// 	free(segments);
-// }
-//
-//
-// void add(/*out*/Stack* stack, const char* rawType1, String rawType2, DebugData* data)
-// {
-// 	TkasmType type1 = getType(rawType1);
-// 	TkasmType type2 = getType(rawType2);
-//
-// 	bool isSuccess;
-// 	void* value = addTypes(type1, type2, /*out*/stack, /*out*/isSuccess, data);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType1 += string(" and ") += rawType2, data);
-//
-// 	TkasmType type = getBiggerType(type1, type2);
-// 	uint8_t* segments = segmentType(type, value);
-//
-// 	pushType(type, segments, stack);
-// 	free(segments);
-// }
-//
-// void sub(/*out*/Stack* stack, const char* rawType1, const char* rawType2, DebugData* data)
-// {
-// 	TkasmType type1 = getType(rawType1);
-// 	TkasmType type2 = getType(rawType2);
-//
-// 	bool isSuccess;
-// 	void* value = subTypes(type1, type2, stack, /*out*/isSuccess, data);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType1 += string(" and ") += rawType2, data);
-//
-// 	TkasmType type = getBiggerType(type1, type2);
-// 	uint8_t* segments = segmentType(type, value);
-//
-// 	pushType(type, segments, stack);
-// 	free(segments);
-// }
-//
-// void mull(/*out*/Stack* stack, const char* rawType1, const char* rawType2, DebugData* data)
-// {
-// 	TkasmType type1 = getType(rawType1);
-// 	TkasmType type2 = getType(rawType2);
-//
-// 	bool isSuccess;
-// 	void* value = mullTypes(type1, type2, stack, /*out*/isSuccess, data);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType1 += string(" and ") += rawType2, data);
-//
-// 	TkasmType type = getBiggerType(type1, type2);
-// 	uint8_t* segments = segmentType(type, value);
-//
-// 	pushType(type, segments, stack);
-// 	free(segments);
-// }
-//
-// void div(/*out*/Stack* stack, const char* rawType1, const char* rawType2, DebugData* data)
-// {
-// 	TkasmType type1 = getType(rawType1);
-// 	TkasmType type2 = getType(rawType2);
-//
-// 	bool isSuccess;
-// 	void* value = divTypes(type1, type2, stack, /*out*/isSuccess, data);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType1 += string(" and ") += rawType2, data);
-//
-// 	TkasmType type = getBiggerType(type1, type2);
-// 	uint8_t* segments = segmentType(type, value);
-//
-// 	pushType(type, segments, stack);
-// 	free(segments);
-// }
-//
-//
-// void print(const char* rawValue, DebugData* data)
-// {
-// 	printf(rawValue);
-// }
-//
-// void printPop(/*out*/Stack* stack, const char* rawType, DebugData* data);
-// {
-// 	TkasmType type = getType(rawType);
-//
-// 	uint8_t* segments = popType(type, stack);
-//
-// 	bool isSuccess;
-// 	void* value = unsegmentType(type, segments, /*out*/isSuccess);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType, data);
-//
-// 	printTypeToConsole(type, value);
-//
-// 	free(segments);
-// }
-//
-// void read(/*out*/Stack* stack, const char* rawType, DebugData* data)
-// {
-// 	TkasmType type = getType(rawType);
-//
-// 	bool isSuccess = false;
-// 	void* value = readTypeFromConsole(type, /*out*/isSuccess);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType, data);
-//
-// 	uint8_t* segments = segmentType(type, value);
-// 	pushType(type, segments, stack);
-//
-// 	free(segments);
-// }
-//
-// void jump(/*out*/uint32_t *index, map_int_t *labelTracker, const char* label)
-// {
-// 	*index = (int)JUMP_TO_LABEL(labelTracker, label);
-// }
-//
-// bool isEquals0(/*out*/Stack* stack, const char* rawType, DebugData* data)
-// {
-// 	TkasmType type = getType(rawType);
-//
-// 	uint8_t* segments = popType(type, /*out*/stack);
-// 	pushType(type, segments, /*out*/stack);
-//
-// 	bool isSuccess;
-// 	void* value = unsegmentType(type, segments, /*out*/isSuccess);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType, data);
-//
-// 	free(segments);
-// 	return isTypeEqual0(type, value);
-// }
-//
-// bool isGreater0(/*out*/Stack* stack, const char* rawType, DebugData* data)
-// {
-// 	TkasmType type = getType(rawType);
-//
-// 	uint8_t* segments = popType(type, /*out*/stack);
-// 	pushType(type, segments, /*out*/stack);
-//
-// 	bool isSuccess;
-// 	void* value = unsegmentType(type, segments, /*out*/isSuccess);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType, data);
-//
-// 	free(segments);
-// 	return isTypeGreater0(type, value);
-// }
-//
-// bool isSmaller0(/*out*/Stack* stack, const char* rawType, DebugData* data)
-// {
-// 	TkasmType type = getType(rawType);
-//
-// 	uint8_t* segments = popType(type, /*out*/stack);
-// 	pushType(type, segments, /*out*/stack);
-//
-// 	bool isSuccess;
-// 	void* value = unsegmentType(type, segments, /*out*/isSuccess);
-// 	if (!isSuccess)
-// 		exit_TypeIsNotValid(rawType, data);
-//
-// 	free(segments);
-// 	return isTypeSmaller0(type, value);
-// }
+void tk_push(/*out*/Stack* stack, const char* rawType, const char* rawValue, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+
+	bool isSuccess;
+	void* value = stringToType(&type, rawValue, /*out*/&isSuccess);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	uint8_t* segments = segmentType(&type, value);
+	pushType(&type, segments, stack);
+
+	free(segments);
+}
+
+void tk_pop(/*out*/Stack* stack, const char* rawType, DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+	uint8_t* segments = popType(&type, stack);
+	free(segments);
+}
+
+
+void tk_add(/*out*/Stack* stack, const char* rawType1, const char* rawType2, const DebugData* data)
+{
+	const TkasmType type1 = getType(rawType1);
+	const TkasmType type2 = getType(rawType2);
+
+	bool isSuccess;
+	void* value = addTypes(type1, type2, /*out*/stack, /*out*/&isSuccess, data);
+	if (!isSuccess)
+		exit_type1and2NotValid(rawType1, rawType2, data);
+
+	const TkasmType type = getBiggerType(type1, type2);
+	uint8_t* segments = segmentType(&type, value);
+
+	pushType(&type, segments, stack);
+	free(segments);
+}
+
+void tk_sub(/*out*/Stack* stack, const char* rawType1, const char* rawType2, const DebugData* data)
+{
+	const TkasmType type1 = getType(rawType1);
+	const TkasmType type2 = getType(rawType2);
+
+	bool isSuccess;
+	void* value = subTypes(type1, type2, stack, /*out*/&isSuccess, data);
+	if (!isSuccess)
+		exit_type1and2NotValid(rawType1, rawType2, data);
+
+	const TkasmType type = getBiggerType(type1, type2);
+	uint8_t* segments = segmentType(&type, value);
+
+	pushType(&type, segments, stack);
+	free(segments);
+}
+
+void tk_mull(/*out*/Stack* stack, const char* rawType1, const char* rawType2, const DebugData* data)
+{
+	const TkasmType type1 = getType(rawType1);
+	const TkasmType type2 = getType(rawType2);
+
+	bool isSuccess;
+	void* value = mullTypes(type1, type2, stack, /*out*/&isSuccess, data);
+	if (!isSuccess)
+		exit_type1and2NotValid(rawType1, rawType2, data);
+
+	const TkasmType type = getBiggerType(type1, type2);
+	uint8_t* segments = segmentType(&type, value);
+
+	pushType(&type, segments, stack);
+	free(segments);
+}
+
+void tk_div(/*out*/Stack* stack, const char* rawType1, const char* rawType2, const DebugData* data)
+{
+	const TkasmType type1 = getType(rawType1);
+	const TkasmType type2 = getType(rawType2);
+
+	bool isSuccess;
+	void* value = divTypes(type1, type2, stack, /*out*/&isSuccess, data);
+	if (!isSuccess)
+		exit_type1and2NotValid(rawType1, rawType2, data);
+
+	const TkasmType type = getBiggerType(type1, type2);
+	uint8_t* segments = segmentType(&type, value);
+
+	pushType(&type, segments, stack);
+	free(segments);
+}
+
+
+void tk_print(const char* rawValue, DebugData* data)
+{
+	const char* message = getInternalString((char*)rawValue);
+	message = parse_backslash(message);
+	printf(message);
+}
+
+void tk_printPop(/*out*/Stack* stack, const char* rawType, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+
+	uint8_t* segments = popType(&type, stack);
+
+	bool isSuccess;
+	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	printTypeToConsole(&type, value);
+
+	free(segments);
+}
+
+void tk_read(/*out*/Stack* stack, const char* rawType, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+
+	bool isSuccess = false;
+	void* value = readTypeFromConsole(&type, /*out*/&isSuccess);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	uint8_t* segments = segmentType(&type, value);
+	pushType(&type, segments, stack);
+
+	free(segments);
+}
+
+void tk_jump(/*out*/uint32_t *index, map_int_t *labelTracker, const char* label)
+{
+	*index = *JUMP_TO_LABEL(labelTracker, label);
+}
+
+bool tk_isEquals0(/*out*/Stack* stack, const char* rawType, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+
+	uint8_t* segments = popType(&type, /*out*/stack);
+	pushType(&type, segments, /*out*/stack);
+
+	bool isSuccess;
+	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	free(segments);
+	return isTypeEqual0(&type, value);
+}
+
+bool tk_isGreater0(/*out*/Stack* stack, const char* rawType, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+
+	uint8_t* segments = popType(&type, /*out*/stack);
+	pushType(&type, segments, /*out*/stack);
+
+	bool isSuccess;
+	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	free(segments);
+	return isTypeGreater0(&type, value);
+}
+
+bool tk_isSmaller0(/*out*/Stack* stack, const char* rawType, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+
+	uint8_t* segments = popType(&type, /*out*/stack);
+	pushType(&type, segments, /*out*/stack);
+
+	bool isSuccess;
+	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	free(segments);
+	return isTypeSmaller0(&type, value);
+}

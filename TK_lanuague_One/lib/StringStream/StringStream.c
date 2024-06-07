@@ -12,14 +12,14 @@ StringStream* StringStream_new()
 	if (stream == NULL)
 		return NULL;
 
-    stream->list = Stack_create(NULL);
+    stream->list = Stream_create(NULL);
     stream->size = 0;
 	return stream;
 }
 
 void StringStream_append(StringStream *stringStream, const char letter)
 {
-    Stack_push(stringStream->list, (void*)letter);
+    Stream_push(stringStream->list, (void*)letter);
     stringStream->size++;
 }
 
@@ -40,7 +40,7 @@ const char* StringStream_toCharPtr(StringStream *stringStream)
 
     while(stringStream->size != 0)
     {
-        const char ch = (char)Stack_pop(stringStream->list);
+        const char ch = (char)Stream_pop(stringStream->list);
 
         string[stringStream->size-1] = ch;
         stringStream->size--;
@@ -61,7 +61,7 @@ void StringStream_free(StringStream *stringStream)
         return;
 
     if(stringStream->list != NULL)
-        Stack_free(stringStream->list);
+        Stream_free(stringStream->list);
     
     free(stringStream);
 }

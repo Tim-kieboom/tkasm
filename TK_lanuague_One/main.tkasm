@@ -1,10 +1,12 @@
-push %int32 5 //test commands
-pop
-push %int8 5
-push %uint64 8
-add
-jump.equals.0 JUMP
-print "not 0"
+push %int64 1 //test commands
+print "read \"value\": "
+print.pop
+print " \n"
+push %int8 1
+push %uint64 1
+sub
+print.pop
+//print "not 0"
 halt
 
 JUMP:

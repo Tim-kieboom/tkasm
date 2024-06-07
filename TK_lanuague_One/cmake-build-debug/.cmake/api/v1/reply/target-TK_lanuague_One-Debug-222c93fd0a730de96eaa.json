@@ -64,7 +64,11 @@
 				19,
 				21,
 				23,
-				25
+				25,
+				27,
+				29,
+				31,
+				33
 			]
 		}
 	],
@@ -113,7 +117,11 @@
 				19,
 				21,
 				23,
-				25
+				25,
+				27,
+				29,
+				31,
+				33
 			]
 		},
 		{
@@ -133,7 +141,11 @@
 				20,
 				22,
 				24,
-				26
+				26,
+				28,
+				30,
+				32,
+				34
 			]
 		}
 	],
@@ -224,12 +236,12 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "lib/Stack/Stack.c",
+			"path" : "lib/Stream/Stream.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "lib/Stack/Stack.h",
+			"path" : "lib/Stream/Stream.h",
 			"sourceGroupIndex" : 1
 		},
 		{
@@ -285,6 +297,50 @@
 		{
 			"backtrace" : 1,
 			"path" : "metaData/generalType/console/console.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "metaData/generalType/operators/operators.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "metaData/generalType/operators/operators.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "metaData/memory/stack/stackMemory.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "metaData/memory/stack/stackMemory.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "lib/Stack/Stack.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "lib/Stack/Stack.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Interpreter/Interpreter.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Interpreter/Interpreter.h",
 			"sourceGroupIndex" : 1
 		}
 	],

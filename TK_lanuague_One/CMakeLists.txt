@@ -18,8 +18,8 @@ add_executable(TK_lanuague_One main.c
         lib/string/String.h
         lib/HashMap/map.c
         lib/HashMap/map.h
-        lib/Stack/Stack.c
-        lib/Stack/Stack.h
+        lib/Stream/Stream.c
+        lib/Stream/Stream.h
         lib/stringTools/stringTools.c
         lib/stringTools/stringTools.h
         metaData/generalType/generalType.c
@@ -29,4 +29,12 @@ add_executable(TK_lanuague_One main.c
         metaData/debug/debug.c
         metaData/debug/debug.h
         metaData/generalType/console/console.c
-        metaData/generalType/console/console.h)
+        metaData/generalType/console/console.h
+        metaData/generalType/operators/operators.c
+        metaData/generalType/operators/operators.h
+        metaData/memory/stack/stackMemory.c
+        metaData/memory/stack/stackMemory.h
+        lib/Stack/Stack.c
+        lib/Stack/Stack.h
+        Interpreter/Interpreter.c
+        Interpreter/Interpreter.h)

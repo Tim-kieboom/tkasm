@@ -6,7 +6,7 @@
 #define STRINGTOOLS_H
 #pragma once
 #include "../ArrayList/ArrayList.h"
-#include "../Stack/Stack.h"
+#include "../Stream/Stream.h"
 #include "../StringStream/StringStream.h"
 #include "../String/String.h"
 #include <string.h>
@@ -15,7 +15,10 @@
 
 const char* trimWhiteSpaces(const char* str);
 arraylist/*strings*/* splitWhiteSpaces(const char *str);
-char** split_string(char* str, const char delim);
+const char** split_string(const char* str, const char *delim);
 const char* uint32_toString(uint32_t value);
+
+const char* parse_backslash(const char* string);
+const char* getInternalString(const char* str);
 
 #endif //STRINGTOOLS_H

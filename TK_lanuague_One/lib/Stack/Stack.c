@@ -1,148 +1,46 @@
 //
-// Created by tim_k on 04/06/2024.
+// Created by tim_k on 06/06/2024.
 //
 
 #include "Stack.h"
+
 #include <stdlib.h>
-#include <stdio.h>
 
-#include "../../metaData/Types.h"
-
-Stack *Stack_create(void *data)
+Stack* Stack_new(const uint64_t size)
 {
-    Stack *new_list = malloc(sizeof (Stack));
-    *new_list = (struct node *)malloc(sizeof (struct node));
-
-    struct node *new_node = *new_list;
-    new_node->data = data;
-    new_node->next = NULL;
-    return new_list;
+    Stack* st = malloc(sizeof(Stack));
+    st->data = malloc(size * sizeof(uint8_t));
+    st->top = -1;
+    return st;
 }
 
-void Stack_free(Stack *list)
+
+void Stack_push(Stack* st, const uint8_t value)
 {
-    struct node *curr = *list;
-
-    while (curr != NULL)
-    {
-        struct node *next = curr->next;
-        free(curr);
-        curr = next;
-    }
-
-    free(list);
+    st->data[++st->top] = value;
 }
 
-void Stack_push(Stack *list, void *data)
+uint8_t Stack_peek(const Stack* st)
 {
-    if (list == NULL || *list == NULL)
-    {
-        fprintf(stderr, "Stack_push: list is null\n");
-    }
-
-    struct node *head = *list;
-
-    if(head == NULL)
-    {
-        fprintf(stderr, "!!<error> stack_push has no head!!\n");
-        exit(1);
-    }
-
-    // Head is empty node
-    if (head->data == NULL)
-    {
-        head->data = data;
-    }
-    else
-    {
-        struct node *new_node = malloc(sizeof(struct node));
-        new_node->data = data;
-        new_node->next = head;
-        *list = new_node;
-    }
+    return st->data[st->top];
 }
 
-bool Stack_isEmpty(const Stack *list)
+uint8_t Stack_pop(Stack* st)
 {
-    if((*list)->data == NULL)
-        return true;
-    else
-        return false;
+    return st->data[st->top--];
 }
 
-int64_t Stack_find(const Stack *list, void* value)
+
+uint64_t Stack_size(const Stack* st)
 {
-    struct node *curr = *list;
-    uint32_t index = 0;
-
-    while (curr != NULL)
-    {
-        if (*(uint64_t*)&curr->data == *(uint64_t*)&value)
-            return index;
-
-        curr = curr->next;
-        index++;
-    }
-    return -1;
+    return st->top + 1;
 }
 
-uint32_t Stack_size(const Stack *list)
+
+void MemStack_free(Stack* st)
 {
-    uint32_t index = 0;
-    struct node *curr = *list;
-    while (curr != NULL)
-    {
-        index++;
-        curr = curr->next;
-    }
-    return index;
+    if(st->data != NULL)
+        free(st->data);
 
-}
-
-void *Stack_pop(Stack *list)
-{
-    if(list == NULL)
-        return NULL;
-
-    struct node *head = *list;
-
-    if (*list == NULL || head->data == NULL)
-        return NULL;
-
-    void *popped_data = head->data;
-
-    if(head->next == NULL)
-    {
-        head->data = NULL;
-        return popped_data;
-    }
-    *list = head->next;
-
-    free(head);
-
-    return popped_data;
-}
-
-void** Stack_array(Stack *list)
-{
-    arraylist *dynArray = arraylist_create();
-
-    while((*list)->next != NULL)
-    {
-        arraylist_add(dynArray, Stack_pop(list));
-    }
-    void** arr = arraylist_get(dynArray, 0);
-    free(dynArray);
-    return arr;
-}
-
-void Stack_print(const Stack *list, void (*print)(void *))
-{
-    const struct node *curr = *list;
-    while (curr != NULL) {
-        print(curr->data);
-        printf(" ");
-        curr = curr->next;
-    }
-    putchar('\n');
+    free(st);
 }

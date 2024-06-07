@@ -1,38 +1,28 @@
 //
-// Created by tim_k on 04/06/2024.
+// Created by tim_k on 06/06/2024.
 //
 
-#ifndef STACK_H
-#define STACK_H
-#include <stdbool.h>
+#ifndef MEMSTACK_H
+#define MEMSTACK_H
+#pragma once
+
 #include <stdint.h>
-#include "../ArrayList/ArrayList.h"
 
-struct node
+struct stack
 {
-    void *data;
-    struct node *next;
+    uint8_t *data;
+    int64_t top;
 };
+typedef struct stack Stack;
 
-typedef struct node * Stack;
+Stack* Stack_new(uint64_t size);
 
-Stack *Stack_create(void *data);
+void Stack_push(Stack* st, const uint8_t value);
+uint8_t Stack_peek(const Stack* st);
+uint8_t Stack_pop(Stack* st);
 
-void Stack_free(Stack *list);
+uint64_t Stack_size(const Stack* st);
 
-void Stack_push(Stack *list, void *data);
+void Stack_free(Stack* st);
 
-void *Stack_pop(Stack *list);
-
-//only works if value is <= 64bits
-int64_t Stack_find(const Stack *list, void* value);
-
-uint32_t Stack_size(const Stack *list);
-
-void** Stack_array(Stack *list);
-
-bool Stack_isEmpty(const Stack *list);
-
-void Stack_print(const Stack *list, void (*print)(void *data));
-
-#endif //STACK_H
+#endif //MEMSTACK_H

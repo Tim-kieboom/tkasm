@@ -187,6 +187,13 @@ void arraylist_splice(arraylist* l, arraylist* source, unsigned int index)
 	l->size += source->size;
 }
 
+void** arraylist_toArray(arraylist* l, const unsigned int sizeOfValue)
+{
+	void** array = malloc(sizeOfValue * l->size);
+	memcpy(l->body, array, sizeOfValue * l->size);
+	return array;
+}
+
 void arraylist_destroy(arraylist* l)
 {
 	free(l->body);

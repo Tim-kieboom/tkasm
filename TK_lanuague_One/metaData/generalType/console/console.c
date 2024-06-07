@@ -10,14 +10,21 @@
 #include <stdlib.h>
 
 #include "../../../lib/string/String.h"
-#include "../../Types.h"
 
 #define GET_INPUT(T)		\
 ({							\
 	char line[100];			\
 	scanf("%s", line);		\
-	T num = (T)atol(line);	\
-	&num;					\
+	T num = (T)atoll(line);	\
+	(void*)num;		        \
+})
+
+#define GET_INPUT_FLOAT(T)	\
+({							\
+	char line[100];			\
+	scanf("%s", line);		\
+	T num = (T)atof(line);	\
+	num;					\
 })
 
 void* stringToType(const TkasmType *type, const char* rawValue, /*out*/bool *isSuccess)
@@ -144,15 +151,15 @@ void* readTypeFromConsole(const TkasmType *type, /*out*/bool *isSuccess)
 	case tkasm_float:
 	{
 		*isSuccess = true;
-		float* value = GET_INPUT(float);
-		return FLOAT_TO_VOIDP(value);
+		float value = GET_INPUT_FLOAT(float);
+		return FLOAT_TO_VOIDP(&value);
 	}
 
 	case tkasm_double:
 	{
 		*isSuccess = true;
-		double* value = GET_INPUT(double);
-		return DOUBLE_TO_VOIDP(value);
+		double value = GET_INPUT_FLOAT(double);
+		return DOUBLE_TO_VOIDP(&value);
 	}
 
 	case tkasm_unknown:
@@ -169,42 +176,42 @@ void printTypeToConsole(const TkasmType *type, void* value)
 	switch (*type)
 	{
 	case tkasm_char:
-		printf("%c", *(char*)value);
+		printf("%c", (char)value);
 		break;
 
 	case tkasm_uint64:
-		printf("%llu", *(uint64_t*)value);
+		printf("%llu", (uint64_t)value);
 		break;
 
 	case tkasm_int64:
-		printf("%lld", *(int64_t*)value);
+		printf("%lld", (int64_t)value);
 		break;
 
 
 	case tkasm_uint32:
-		printf("%u", *(uint32_t*)value);
+		printf("%u", (uint32_t)value);
 		break;
 
 	case tkasm_int32:
-		printf("%d", *(int32_t*)value);
+		printf("%d", (int32_t)value);
 		break;
 
 
 	case tkasm_uint16:
-		printf("%u", *(uint16_t*)value);
+		printf("%u", (uint16_t)value);
 		break;
 
 	case tkasm_int16:
-		printf("%d", *(int16_t*)value);
+		printf("%d", (int16_t)value);
 		break;
 
 
 	case tkasm_uint8:
-		printf("%u", *(uint16_t*)value);
+		printf("%u", (uint16_t)value);
 		break;
 
 	case tkasm_int8:
-		printf("%d", *(int16_t*)value);
+		printf("%d", (int16_t)value);
 		break;
 
 

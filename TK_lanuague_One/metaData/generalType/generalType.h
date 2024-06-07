@@ -19,5 +19,6 @@ TkasmType getType(const char *type);
 const char* getTypeString(const TkasmType *type);
 int16_t getTypeSize(const TkasmType *type);
 
+void* convertToTypeClass(const TkasmType oldType, const TkasmType newType, void* value, /*out*/bool *isSuccess);
 
 #endif //GENERALTYPE_H

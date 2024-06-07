@@ -17,7 +17,7 @@ const char* trimWhiteSpaces(const char* str)
     {
         const char letter = str[i];
 
-        if (letter == '\"')
+        if (letter == '"' && str[i - 1] != '\\')
             isInString = !isInString;
 
         if (!IS_WHITE_SPACE(letter) || isInString == true)
@@ -41,7 +41,7 @@ arraylist/*const char[]*/* splitWhiteSpaces(const char *str)
     {
         const char letter = str[i];
 
-        if (letter == '\"')
+        if (letter == '\"' && str[i - 1] != '\\')
             isInString = !isInString;
 
         if (IS_WHITE_SPACE(letter) && (isInString == false))
@@ -68,23 +68,66 @@ arraylist/*const char[]*/* splitWhiteSpaces(const char *str)
     return tokens;
 }
 
-char** split_string(char* str, const char delim)
-{
-    int token_count = 0;
-    char* token = strtok(str, &delim);
-    char** tokens = malloc(sizeof(char*));
 
-    while (token != NULL)
+
+const char** split_string(const char* str, const char *delim)
+{
+    StringStream *stream = StringStream_new();
+    arraylist *tokens = arraylist_create();
+
+    uint32_t i = -1;
+    while(str[++i] != '\0')
     {
-        tokens[token_count] = malloc(strlen(token) + 1);
-        strcpy(tokens[token_count], token);
-        token_count++;
-        tokens = realloc(tokens, (token_count + 1) * sizeof(char*));
-        token = strtok(NULL, &delim);
+        const char letter = str[i];
+
+        if (strchr(delim, letter) != NULL)
+        {
+            if(stream->size > 0)
+                arraylist_add(tokens, (void*)StringStream_toCharPtr(stream));
+            continue;
+        }
+
+        StringStream_append(stream, letter);
     }
 
-    tokens[token_count] = NULL;
-    return tokens;
+    if(stream->size > 0)
+        arraylist_add(tokens, (void*)StringStream_toCharPtr(stream));
+
+    StringStream_free(stream);
+    const char** result = (const char**)tokens->body;
+    free(tokens);
+    return result;
+}
+
+const char* getInternalString(const char* str)
+{
+    StringStream *stream = StringStream_new();
+    arraylist *tokens = arraylist_create();
+
+    uint32_t i = -1;
+    while(str[++i] != '\0')
+    {
+        const char letter = str[i];
+        const char prevLetter = (i == 0) ? '\0' : str[i - 1];
+
+        if (letter == '\"' && prevLetter != '\\')
+        {
+            if(stream->size > 0)
+                arraylist_add(tokens, (void*)StringStream_toCharPtr(stream));
+            continue;
+        }
+
+        StringStream_append(stream, letter);
+    }
+
+    if(stream->size > 0)
+        arraylist_add(tokens, (void*)StringStream_toCharPtr(stream));
+
+    const char** result = (const char**)tokens->body;
+    const char* resultString = (const char*)result[0];
+    StringStream_free(stream);
+    arraylist_destroy(tokens);
+    return resultString;
 }
 
 const char* uint32_toString(const uint32_t value)
@@ -95,3 +138,38 @@ const char* uint32_toString(const uint32_t value)
     snprintf(str, lenght + 1, "%d", value);
     return str;
 }
+
+const char* parse_backslash(const char* string)
+{
+    StringStream *stream = StringStream_new();
+    uint32_t i = -1;
+    while(string[++i] != '\0')
+    {
+        if(string[i] != '\\')
+        {
+            StringStream_append(stream, string[i]);
+            continue;
+        }
+
+        if(string[i+1] == '\0')
+            break;
+
+        const char backLetter = string[i+1];
+
+        if(backLetter == 'n')
+            StringStream_append(stream, '\n');
+        else if(backLetter == 't')
+            StringStream_append(stream, '\t');
+        else if(backLetter == '"')
+            StringStream_append(stream, '\"');
+        else
+            StringStream_append(stream, "\\");
+
+        i++;
+    }
+
+    const char* returnString = StringStream_toCharPtr(stream);
+    StringStream_free(stream);
+    return returnString;
+}
+

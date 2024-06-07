@@ -91,11 +91,11 @@ build CMakeFiles/TK_lanuague_One.dir/lib/HashMap/map.c.obj: C_COMPILER__TK_lanua
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\HashMap
 
-build CMakeFiles/TK_lanuague_One.dir/lib/Stack/Stack.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/Stack/Stack.c || cmake_object_order_depends_target_TK_lanuague_One
-  DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\Stack\Stack.c.obj.d
+build CMakeFiles/TK_lanuague_One.dir/lib/Stream/Stream.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/Stream/Stream.c || cmake_object_order_depends_target_TK_lanuague_One
+  DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\Stream\Stream.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
-  OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\Stack
+  OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\Stream
 
 build CMakeFiles/TK_lanuague_One.dir/lib/stringTools/stringTools.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/stringTools/stringTools.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\stringTools\stringTools.c.obj.d
@@ -127,6 +127,30 @@ build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/console/console.c.obj:
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\generalType\console
 
+build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/operators/operators.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/metaData/generalType/operators/operators.c || cmake_object_order_depends_target_TK_lanuague_One
+  DEP_FILE = CMakeFiles\TK_lanuague_One.dir\metaData\generalType\operators\operators.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
+  OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\generalType\operators
+
+build CMakeFiles/TK_lanuague_One.dir/metaData/memory/stack/stackMemory.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/metaData/memory/stack/stackMemory.c || cmake_object_order_depends_target_TK_lanuague_One
+  DEP_FILE = CMakeFiles\TK_lanuague_One.dir\metaData\memory\stack\stackMemory.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
+  OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\memory\stack
+
+build CMakeFiles/TK_lanuague_One.dir/lib/Stack/Stack.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/Stack/Stack.c || cmake_object_order_depends_target_TK_lanuague_One
+  DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\Stack\Stack.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
+  OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\Stack
+
+build CMakeFiles/TK_lanuague_One.dir/Interpreter/Interpreter.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/Interpreter/Interpreter.c || cmake_object_order_depends_target_TK_lanuague_One
+  DEP_FILE = CMakeFiles\TK_lanuague_One.dir\Interpreter\Interpreter.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
+  OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\Interpreter
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target TK_lanuague_One
@@ -135,7 +159,7 @@ build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/console/console.c.obj:
 #############################################
 # Link the executable TK_lanuague_One.exe
 
-build TK_lanuague_One.exe: C_EXECUTABLE_LINKER__TK_lanuague_One_Debug CMakeFiles/TK_lanuague_One.dir/main.c.obj CMakeFiles/TK_lanuague_One.dir/lib/ArrayList/ArrayList.c.obj CMakeFiles/TK_lanuague_One.dir/lib/StringStream/StringStream.c.obj CMakeFiles/TK_lanuague_One.dir/lib/fileReader/fileReader.c.obj CMakeFiles/TK_lanuague_One.dir/tokenizer/mainTokenizer.c.obj CMakeFiles/TK_lanuague_One.dir/lib/string/String.c.obj CMakeFiles/TK_lanuague_One.dir/lib/HashMap/map.c.obj CMakeFiles/TK_lanuague_One.dir/lib/Stack/Stack.c.obj CMakeFiles/TK_lanuague_One.dir/lib/stringTools/stringTools.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/generalType/generalType.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/Commands/commands.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/debug/debug.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/generalType/console/console.c.obj
+build TK_lanuague_One.exe: C_EXECUTABLE_LINKER__TK_lanuague_One_Debug CMakeFiles/TK_lanuague_One.dir/main.c.obj CMakeFiles/TK_lanuague_One.dir/lib/ArrayList/ArrayList.c.obj CMakeFiles/TK_lanuague_One.dir/lib/StringStream/StringStream.c.obj CMakeFiles/TK_lanuague_One.dir/lib/fileReader/fileReader.c.obj CMakeFiles/TK_lanuague_One.dir/tokenizer/mainTokenizer.c.obj CMakeFiles/TK_lanuague_One.dir/lib/string/String.c.obj CMakeFiles/TK_lanuague_One.dir/lib/HashMap/map.c.obj CMakeFiles/TK_lanuague_One.dir/lib/Stream/Stream.c.obj CMakeFiles/TK_lanuague_One.dir/lib/stringTools/stringTools.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/generalType/generalType.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/Commands/commands.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/debug/debug.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/generalType/console/console.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/generalType/operators/operators.c.obj CMakeFiles/TK_lanuague_One.dir/metaData/memory/stack/stackMemory.c.obj CMakeFiles/TK_lanuague_One.dir/lib/Stack/Stack.c.obj CMakeFiles/TK_lanuague_One.dir/Interpreter/Interpreter.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
