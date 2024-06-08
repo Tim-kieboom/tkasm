@@ -91,6 +91,11 @@ TKasmCommand getCommand(const char* command)
 	{
 		return tkasm_printPop;
 	}
+	else if (STR_EQUALS(command, "print.peek"))
+	{
+		return tkasm_printPeek;
+	}
+
 
 	else if (STR_EQUALS(command, "read"))
 	{
@@ -282,6 +287,22 @@ void tk_printPop(/*out*/Stack* stack, const char* rawType, const DebugData* data
 	free(segments);
 }
 
+void tk_printPeek(const Stack* stack, const char* rawType, const DebugData* data)
+{
+	const TkasmType type = getType(rawType);
+
+	uint8_t* segments = peekType(&type, stack);
+
+	bool isSuccess;
+	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
+	if (!isSuccess)
+		exit_TypeIsNotValid(rawType, data);
+
+	printTypeToConsole(&type, value);
+
+	free(segments);
+}
+
 void tk_read(/*out*/Stack* stack, const char* rawType, const DebugData* data)
 {
 	const TkasmType type = getType(rawType);
@@ -302,12 +323,11 @@ void tk_jump(/*out*/uint32_t *index, map_int_t *labelTracker, const char* label)
 	*index = *JUMP_TO_LABEL(labelTracker, label);
 }
 
-bool tk_isEquals0(/*out*/Stack* stack, const char* rawType, const DebugData* data)
+bool tk_isEquals0(const Stack* stack, const char* rawType, const DebugData* data)
 {
 	const TkasmType type = getType(rawType);
 
-	uint8_t* segments = popType(&type, /*out*/stack);
-	pushType(&type, segments, /*out*/stack);
+	uint8_t* segments = peekType(&type, stack);
 
 	bool isSuccess;
 	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
@@ -318,12 +338,11 @@ bool tk_isEquals0(/*out*/Stack* stack, const char* rawType, const DebugData* dat
 	return isTypeEqual0(&type, value);
 }
 
-bool tk_isGreater0(/*out*/Stack* stack, const char* rawType, const DebugData* data)
+bool tk_isGreater0(const Stack* stack, const char* rawType, const DebugData* data)
 {
 	const TkasmType type = getType(rawType);
 
-	uint8_t* segments = popType(&type, /*out*/stack);
-	pushType(&type, segments, /*out*/stack);
+	uint8_t* segments = peekType(&type, stack);
 
 	bool isSuccess;
 	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
@@ -334,12 +353,11 @@ bool tk_isGreater0(/*out*/Stack* stack, const char* rawType, const DebugData* da
 	return isTypeGreater0(&type, value);
 }
 
-bool tk_isSmaller0(/*out*/Stack* stack, const char* rawType, const DebugData* data)
+bool tk_isSmaller0(const Stack* stack, const char* rawType, const DebugData* data)
 {
 	const TkasmType type = getType(rawType);
 
-	uint8_t* segments = popType(&type, /*out*/stack);
-	pushType(&type, segments, /*out*/stack);
+	uint8_t* segments = peekType(&type, stack);;
 
 	bool isSuccess;
 	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);

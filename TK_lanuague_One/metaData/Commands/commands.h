@@ -29,10 +29,10 @@ enum TKasmCommand
     tkasm_shiftLeft,
     tkasm_shiftRight,
 
-    tkasm_printPush,
     tkasm_print,
-
     tkasm_printPop,
+    tkasm_printPeek,
+
     tkasm_read,
 
     tkasm_jump,
@@ -63,13 +63,14 @@ void tk_shiftRight(/*out*/Stack* stack, const char* rawType, const char* rawValu
 
 void tk_print(const char* rawValue, DebugData* data);
 void tk_printPop(/*out*/Stack* stack, const char* rawType, const DebugData* data);
+void tk_printPeek(const Stack* stack, const char* rawType, const DebugData* data);
 
 void tk_read(/*out*/Stack* stack, const char* rawType, const DebugData* data);
 
 void tk_jump(/*out*/uint32_t *index, map_int_t *labelTracker, const char* label);
 
-bool tk_isEquals0(/*out*/Stack* stack, const char* rawType, const DebugData* data);
-bool tk_isGreater0(/*out*/Stack* stack, const char* rawType, const DebugData* data);
-bool tk_isSmaller0(/*out*/Stack* stack, const char* rawType, const DebugData* data);
+bool tk_isEquals0(const Stack* stack, const char* rawType, const DebugData* data);
+bool tk_isGreater0(const Stack* stack, const char* rawType, const DebugData* data);
+bool tk_isSmaller0(const Stack* stack, const char* rawType, const DebugData* data);
 
 #endif //COMMANDS_H

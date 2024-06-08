@@ -53,6 +53,20 @@ uint8_t* popType(const TkasmType *type, /*out*/Stack* stack)
 	return segments;
 }
 
+uint8_t* peekType(const TkasmType *type, const Stack* stack)
+{
+	if (stack->top == -1)
+		return nullptr;
+
+	const uint32_t size = abs(getTypeSize(type)) / 8;
+	uint8_t* segments = malloc(size * sizeof(uint8_t));
+
+	for (uint8_t i = 0; i < size; i++)
+		segments[i] = Stack_at(stack, i);
+
+	return segments;
+}
+
 uint8_t* segmentType(const TkasmType *type, void* value)
 {
 	switch (*type)
@@ -105,48 +119,37 @@ uint8_t* segmentType(const TkasmType *type, void* value)
 
 void* unsegmentType(const TkasmType *type, const uint8_t* segments, /*out*/bool *isSuccess)
 {
+	*isSuccess = true;
 	switch (*type)
 	{
 	case tkasm_char:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(char, segments);
 
 	case tkasm_uint64:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(uint64_t, segments);
 
 	case tkasm_int64:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(int64_t, segments);
 
 
-
 	case tkasm_uint32:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(uint32_t, segments);
 
 	case tkasm_int32:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(int32_t, segments);
 
 
-
 	case tkasm_uint16:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(uint16_t, segments);
 
 	case tkasm_int16:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(int16_t, segments);
 
 
-
 	case tkasm_uint8:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(uint8_t, segments);
 
 	case tkasm_int8:
-		*isSuccess = true;
 		return (void*)UNSEGMENT_VALUE(int8_t, segments);
 
 

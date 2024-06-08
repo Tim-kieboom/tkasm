@@ -25,6 +25,23 @@ enum TkasmType
     tkasm_float,
     tkasm_double,
 
+    tkasm_arrayChar,
+
+    tkasm_arrayUint64,
+    tkasm_arrayInt64,
+
+    tkasm_arrayUint32,
+    tkasm_arrayInt32,
+
+    tkasm_arrayUint16,
+    tkasm_arrayInt16,
+
+    tkasm_arrayUint8,
+    tkasm_arrayInt8,
+
+    tkasm_arrayFloat,
+    tkasm_arrayDouble,
+
     tkasm_unknown,
 };
 

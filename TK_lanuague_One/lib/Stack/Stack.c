@@ -20,16 +20,20 @@ void Stack_push(Stack* st, const uint8_t value)
     st->data[++st->top] = value;
 }
 
-uint8_t Stack_peek(const Stack* st)
-{
-    return st->data[st->top];
-}
-
 uint8_t Stack_pop(Stack* st)
 {
     return st->data[st->top--];
 }
 
+uint8_t Stack_peek(const Stack* st)
+{
+    return st->data[st->top];
+}
+
+uint8_t Stack_at(const Stack* st, const uint32_t amountUnderTop)
+{
+    return st->data[st->top-amountUnderTop];
+}
 
 uint64_t Stack_size(const Stack* st)
 {

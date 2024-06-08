@@ -1,4 +1,5 @@
-push %uint32 2
-shift.left 1
-print.pop
+print "\" stress test\" \"\" my {whitespace parser}\"\" \n"
+push %int8 1
+//push %array.int8 {1, 2, 3, 4, 5}
+print.peek
 halt

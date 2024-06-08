@@ -63,6 +63,12 @@ switch(type)                                        \
     return NULL;                                    \
 })
 
+TkasmTypeClass getTypeClass_FromStr(const char *rawType)
+{
+    const TkasmType type = getType(rawType);
+    return getTypeClass(&type);
+}
+
 TkasmTypeClass getTypeClass(const TkasmType *type)
 {
     switch (*type)
@@ -83,6 +89,19 @@ TkasmTypeClass getTypeClass(const TkasmType *type)
         case tkasm_float:
         case tkasm_double:
             return tkasmClass_float;
+
+        case tkasm_arrayChar:
+        case tkasm_arrayUint64:
+        case tkasm_arrayInt64:
+        case tkasm_arrayUint32:
+        case tkasm_arrayInt32:
+        case tkasm_arrayUint16:
+        case tkasm_arrayInt16:
+        case tkasm_arrayUint8:
+        case tkasm_arrayInt8:
+        case tkasm_arrayFloat:
+        case tkasm_arrayDouble:
+            return tkasmClass_array;
 
         case tkasm_unknown:
             default:
@@ -136,6 +155,15 @@ TkasmType typeClass_toType(const TkasmTypeClass class, int32_t size)
 
 TkasmType getBiggerType(const TkasmType type1, const TkasmType type2)
 {
+    if (type1 == tkasm_unknown || type2 == tkasm_unknown)
+        return tkasm_unknown;
+
+    if(type1 == tkasm_double || type2 == tkasm_double)
+        return tkasm_double;
+
+    if(type1 == tkasm_float || type2 == tkasm_float)
+        return tkasm_float;
+
     const TkasmTypeClass typeClass1 = getTypeClass(&type1);
     const TkasmTypeClass typeClass2 = getTypeClass(&type2);
 
@@ -201,6 +229,56 @@ TkasmType getType(const char *type)
     {
         return tkasm_double;
     }
+
+    if (STR_EQUALS(type, "%array.char"))
+    {
+        return tkasm_arrayChar;
+    }
+
+    else if (STR_EQUALS(type, "%array.uint64"))
+    {
+        return tkasm_arrayUint64;
+    }
+    else if (STR_EQUALS(type, "%array.int64"))
+    {
+        return tkasm_arrayInt64;
+    }
+
+    else if (STR_EQUALS(type, "%array.uint32"))
+    {
+        return tkasm_arrayUint32;
+    }
+    else if (STR_EQUALS(type, "%array.int32"))
+    {
+
+        return tkasm_arrayInt32;
+    }
+    else if (STR_EQUALS(type, "%array.uint16"))
+    {
+        return tkasm_arrayUint16;
+    }
+    else if (STR_EQUALS(type, "%array.int16"))
+    {
+        return tkasm_arrayInt16;
+    }
+
+    else if (STR_EQUALS(type, "%array.uint8"))
+    {
+        return tkasm_arrayUint8;
+    }
+    else if (STR_EQUALS(type, "%array.int8"))
+    {
+        return tkasm_arrayInt8;
+    }
+
+    else if (STR_EQUALS(type, "%array.float"))
+    {
+        return tkasm_arrayFloat;
+    }
+    else if (STR_EQUALS(type, "%array.double"))
+    {
+        return tkasm_arrayDouble;
+    }
     return tkasm_unknown;
 }
 
@@ -239,11 +317,51 @@ const char* getTypeString(const TkasmType *type)
         case tkasm_int8:
             return "%int8";
 
+
         case tkasm_float:
             return "%float";
 
         case tkasm_double:
             return "%double";
+
+
+        case tkasm_arrayChar:
+            return "%array.char";
+
+
+        case tkasm_arrayUint64:
+            return "%array.uint64";
+
+        case tkasm_arrayInt64:
+            return "%array.int64";
+
+
+        case tkasm_arrayUint32:
+            return "%array.uint32";
+
+        case tkasm_arrayInt32:
+            return "%array.int32";
+
+
+        case tkasm_arrayUint16:
+            return "%array.uint16";
+
+        case tkasm_arrayInt16:
+            return "%array.int16";
+
+
+        case tkasm_arrayUint8:
+            return "%array.uint8";
+
+        case tkasm_arrayInt8:
+            return "%array.int8";
+
+
+        case tkasm_arrayFloat:
+            return "%array.float";
+
+        case tkasm_arrayDouble:
+            return "%array.double";
 
         case tkasm_unknown:
             return "unknown";
@@ -257,6 +375,10 @@ const char* getTypeString(const TkasmType *type)
 
 int16_t getTypeSize(const TkasmType *type)
 {
+    const TkasmTypeClass class = getTypeClass(type);
+    if(class == tkasmClass_array)
+        return -1;
+
     switch (*type)
     {
         case tkasm_char:

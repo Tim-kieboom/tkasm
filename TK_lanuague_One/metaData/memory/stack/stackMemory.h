@@ -13,6 +13,8 @@
 void pushType(const TkasmType *type, const uint8_t* segments, /*out*/Stack* stack);
 uint8_t* popType(const TkasmType *type, /*out*/Stack* stack);
 
+uint8_t* peekType(const TkasmType *type, const Stack* stack);
+
 uint8_t* segmentType(const TkasmType *type, void* value);
 void* unsegmentType(const TkasmType *type, const uint8_t* segments, /*out*/bool *isSuccess);
 

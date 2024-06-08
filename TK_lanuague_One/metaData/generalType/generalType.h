@@ -13,6 +13,7 @@
 #define FLOAT_TO_VOIDP(value) ((void*)*(int32_t*)value)
 #define DOUBLE_TO_VOIDP(value) ((void*)*(size_t*)value)
 
+TkasmTypeClass getTypeClass_FromStr(const char *rawType);
 TkasmTypeClass getTypeClass(const TkasmType *type);
 TkasmType getBiggerType(const TkasmType type1, const TkasmType type2);
 TkasmType getType(const char *type);

@@ -45,6 +45,19 @@ const char *BiggerStringType(const char *type1, const char *type2)
 	return getTypeString(&biggerType);
 }
 
+void* popOrGetType(arraylist/*const char[]*/ *parts, Stream* typeStack, const char *command, const uint32_t i, const uint32_t offsetTypePosition = 0)
+{
+	const char* potentialType = arraylist_get(parts, 1+offsetTypePosition);
+	if(getType(potentialType) != tkasm_unknown)
+		return (void*)potentialType;
+
+	const char *type = Stream_pop(typeStack);
+	if(getType(type) == tkasm_unknown)
+		exit_TypeIsNotValid(type, DebugData_new(command, i));
+
+	return (void*)type;
+}
+
 arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/map_int_t *labelTracker, /*out*/map_int_t *lineNumberTracker)
 {
 
@@ -107,14 +120,12 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 
 		case tkasm_pop:
 		case tkasm_printPop:
+		case tkasm_printPeek:
 		{
 			if (Stream_size(typeStack) == 0)
 				exit_stackIsEmpty(DebugData_new("pop", i + 1));
 
-			const char *type = Stream_pop(typeStack);
-			if(getType(type) == tkasm_unknown)
-				exit_TypeIsNotValid(type, DebugData_new(command, i));
-
+			const char *type = popOrGetType(parts, typeStack, command, i);
 			arraylist_add(tokenLines, (void*)type);
 
 			SET_LINETRACKER(lineNumberTracker, tokenLines, i + 1);
@@ -140,9 +151,7 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 		case tkasm_shiftLeft:
 		case tkasm_shiftRight:
 		{
-			const char *type = Stream_pop(typeStack);
-			if(getType(type) == tkasm_unknown)
-				exit_TypeIsNotValid(type, DebugData_new(command, i));
+			const char *type = popOrGetType(parts, typeStack, command, i);
 
 			const char *value = arraylist_get(parts, 1);
 
@@ -181,13 +190,8 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 			if (Stream_size(typeStack) < 2)
 				exit_stackIsEmpty(DebugData_new("pop..", i + 1));
 
-			const char *type1 = Stream_pop(typeStack);
-			if(getType(type1) == tkasm_unknown)
-				exit_TypeIsNotValid(type1, DebugData_new(command, i));
-
-			const char *type2 = Stream_pop(typeStack);
-			if(getType(type2) == tkasm_unknown)
-				exit_TypeIsNotValid(type2, DebugData_new(command, i));
+			const char *type1 = popOrGetType(parts, typeStack, command, i);
+			const char *type2 = popOrGetType(parts, typeStack, command, i, 1);
 
 			arraylist_add(tokenLines, (void*)type1);
 			arraylist_add(tokenLines, (void*)type2);
@@ -211,9 +215,7 @@ arraylist/*const char[]*/ *tokenizer(arraylist/*const char[]*/* lines, /*out*/ma
 			if (Stream_size(typeStack) < 1)
 				exit_stackIsEmpty(DebugData_new("jump..", i + 1));
 
-			const char *type = Stream_pop(typeStack);
-			if(getType(type) == tkasm_unknown)
-				exit_TypeIsNotValid(type, DebugData_new(command, i));
+			const char *type = popOrGetType(parts, typeStack, command, i);
 
 			Stream_push(typeStack, (void*)type);
 

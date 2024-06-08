@@ -36,6 +36,7 @@ arraylist/*const char[]*/* splitWhiteSpaces(const char *str)
     arraylist/*const char[]*/ *tokens = arraylist_create();
 
     bool isInString = false;
+    bool isInArray = false;
 
     size_t i = -1;
     while (str[++i] != '\0')
@@ -45,7 +46,13 @@ arraylist/*const char[]*/* splitWhiteSpaces(const char *str)
         if (letter == '\"' && str[i - 1] != '\\')
             isInString = !isInString;
 
-        if (IS_WHITE_SPACE(letter) && (isInString == false))
+        if(letter == '{')
+            isInArray = true;
+
+        if(letter == '}')
+            isInArray = false;
+
+        if (IS_WHITE_SPACE(letter) && !isInString && !isInArray)
         {
             if (token->size == 0)
                 continue;
@@ -54,9 +61,10 @@ arraylist/*const char[]*/* splitWhiteSpaces(const char *str)
 
             arraylist_add(tokens, (void*)strToken);
         }
-
-        if (!IS_WHITE_SPACE(letter) || (isInString == true))
+        else
+        {
             StringStream_append(token, letter);
+        }
     }
 
     if (token->size != 0)
@@ -68,8 +76,6 @@ arraylist/*const char[]*/* splitWhiteSpaces(const char *str)
     StringStream_free(token);
     return tokens;
 }
-
-
 
 const char** split_string(const char* str, const char *delim)
 {
@@ -125,7 +131,7 @@ const char* getInternalString(const char* str)
         arraylist_add(tokens, (void*)StringStream_toCharPtr(stream));
 
     const char** result = (const char**)tokens->body;
-    const char* resultString = (const char*)result[0];
+    const char* resultString = result[0];
     StringStream_free(stream);
     arraylist_destroy(tokens);
     return resultString;
@@ -157,14 +163,23 @@ const char* parse_backslash(const char* string)
 
         const char backLetter = string[i+1];
 
-        if(backLetter == 'n')
-            StringStream_append(stream, '\n');
-        else if(backLetter == 't')
-            StringStream_append(stream, '\t');
-        else if(backLetter == '"')
-            StringStream_append(stream, '\"');
-        else
-            StringStream_append(stream, "\\");
+        switch (backLetter)
+        {
+            case 'r':
+                StringStream_append(stream, '\r');
+                break;
+            case 'n':
+                StringStream_append(stream, '\n');
+                break;
+            case 't':
+                StringStream_append(stream, '\t');
+                break;
+            case '"':
+                StringStream_append(stream, '\"');
+                break;
+            default:
+                StringStream_append(stream, '\\');
+        }
 
         i++;
     }

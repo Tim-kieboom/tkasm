@@ -195,6 +195,11 @@ void interpretCode(arraylist/*const char[]*/* lines)
 			i++;
 			break;
 
+		case tkasm_printPeek:
+			tk_printPeek(stack, arraylist_get(program, i), debugData);
+			i++;
+			break;
+
 		case tkasm_read:
 			tk_read(/*out*/stack, arraylist_get(program, i), debugData);
 			i++;

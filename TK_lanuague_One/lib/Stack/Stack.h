@@ -18,8 +18,10 @@ typedef struct stack Stack;
 Stack* Stack_new(uint64_t size);
 
 void Stack_push(Stack* st, const uint8_t value);
-uint8_t Stack_peek(const Stack* st);
 uint8_t Stack_pop(Stack* st);
+
+uint8_t Stack_peek(const Stack* st);
+uint8_t Stack_at(const Stack* st, uint32_t amountUnderTop);
 
 uint64_t Stack_size(const Stack* st);
 

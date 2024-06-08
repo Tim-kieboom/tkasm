@@ -29,67 +29,52 @@
 
 void* stringToType(const TkasmType *type, const char* rawValue, /*out*/bool *isSuccess)
 {
+	*isSuccess = true;
+
 	switch (*type)
 	{
 	case tkasm_char:
-		*isSuccess = true;
 		return (void*)rawValue[0];
 
 
-
 	case tkasm_uint64:
-		*isSuccess = true;
 		return (void*)(uint64_t)atol(rawValue);
 
 
 	case tkasm_int64:
-		*isSuccess = true;
 		return (void*)atol(rawValue);
 
 
-
 	case tkasm_uint32:
-		*isSuccess = true;
 		return (void*)(uint64_t)atol(rawValue);
 
 
 	case tkasm_int32:
-		*isSuccess = true;
 		return (void*)atol(rawValue);
-
 
 
 	case tkasm_uint16:
-		*isSuccess = true;
 		return (void*)(uint64_t)atol(rawValue);
 
-
 	case tkasm_int16:
-		*isSuccess = true;
 		return (void*)atol(rawValue);
 
 
-
 	case tkasm_uint8:
-		*isSuccess = true;
 		return (void*)(uint64_t)atol(rawValue);
 
-
 	case tkasm_int8:
-		*isSuccess = true;
 		return (void*)atol(rawValue);
 
 
 	case tkasm_float:
 	{
-		*isSuccess = true;
 		float value = atof(rawValue);
 		return FLOAT_TO_VOIDP(&value);
 	}
 
 	case tkasm_double:
 	{
-		*isSuccess = true;
 		double value = atof(rawValue);
 		return DOUBLE_TO_VOIDP(&value);
 	}
@@ -106,33 +91,29 @@ void* stringToType(const TkasmType *type, const char* rawValue, /*out*/bool *isS
 
 void* readTypeFromConsole(const TkasmType *type, /*out*/bool *isSuccess)
 {
+	*isSuccess = true;
+
 	switch (*type)
 	{
 	case tkasm_char:
-		*isSuccess = true;
 		return (void*)GET_INPUT(char);
 
 
 	case tkasm_uint64:
-		*isSuccess = true;
 		return (void*)GET_INPUT(uint64_t);
 
 	case tkasm_int64:
-		*isSuccess = true;
 		return (void*)GET_INPUT(int64_t);
 
 
 	case tkasm_uint32:
-		*isSuccess = true;
 		return (void*)GET_INPUT(uint32_t);
 
 	case tkasm_int32:
-		*isSuccess = true;
 		return (void*)GET_INPUT(int32_t);
 
 
 	case tkasm_uint16:
-		*isSuccess = true;
 		return (void*)GET_INPUT(uint16_t);
 
 	case tkasm_int16:
@@ -141,23 +122,19 @@ void* readTypeFromConsole(const TkasmType *type, /*out*/bool *isSuccess)
 
 
 	case tkasm_uint8:
-		*isSuccess = true;
 		return (void*)GET_INPUT(uint8_t);
 
 	case tkasm_int8:
-		*isSuccess = true;
 		return (void*)GET_INPUT(int8_t);
 
 	case tkasm_float:
 	{
-		*isSuccess = true;
 		float value = GET_INPUT_FLOAT(float);
 		return FLOAT_TO_VOIDP(&value);
 	}
 
 	case tkasm_double:
 	{
-		*isSuccess = true;
 		double value = GET_INPUT_FLOAT(double);
 		return DOUBLE_TO_VOIDP(&value);
 	}
