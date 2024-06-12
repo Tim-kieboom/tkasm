@@ -1,0 +1,26 @@
+# ninja log v6
+20	268	7395745179071803	CMakeFiles/TK_lanuague_One.dir/main.c.obj	ab05cafe8a24964f
+238	353	7396365688340820	TK_lanuague_One.exe	c08dce26255f2cb6
+25	115	7392285381832394	CMakeFiles/TK_lanuague_One.dir/LinkedList/LinkedList.c.obj	ab4073f428d29e9d
+39	158	7396338747915473	CMakeFiles/TK_lanuague_One.dir/metaData/debug/debug.c.obj	c6f807f2a9daeb40
+4	79	7392302475798701	CMakeFiles/TK_lanuague_One.dir/StringStream/StringStream.c.obj	27a73d861b88b0d9
+25	261	7395745179124253	CMakeFiles/TK_lanuague_One.dir/lib/ArrayList/ArrayList.c.obj	68ae938e25254845
+31	477	7394044192368869	build.ninja	3edabd3f718db873
+5	96	7392301245286900	CMakeFiles/TK_lanuague_One.dir/ArrayList/ArrayList.c.obj	3331b9d1864e2df2
+17	171	7395813982802766	CMakeFiles/TK_lanuague_One.dir/lib/StringStream/StringStream.c.obj	e2954e2dd64c4ec9
+2	16	7392322065074911	clean	567f01a6bad3308b
+22	143	7395813982861284	CMakeFiles/TK_lanuague_One.dir/lib/fileReader/fileReader.c.obj	4d7bea66b945fece
+27	204	7396365686233838	CMakeFiles/TK_lanuague_One.dir/lib/HashMap/map.c.obj	566c98ffeb268de1
+48	234	7396365686443859	CMakeFiles/TK_lanuague_One.dir/metaData/generalType/operators/operators.c.obj	419d45bc1236b291
+255	379	7395745181423552	CMakeFiles/TK_lanuague_One.dir/lib/Stack/Stack.c.obj	f27b5b8f07eb5610
+41	250	7395813983044937	CMakeFiles/TK_lanuague_One.dir/lib/stringTools/stringTools.c.obj	b8c1e05d89406e7
+29	249	7395813982931113	CMakeFiles/TK_lanuague_One.dir/lib/string/String.c.obj	5b0bf752b08ad129
+42	229	7396365686384123	CMakeFiles/TK_lanuague_One.dir/metaData/generalType/console/console.c.obj	141eec474f823baa
+45	293	7395813983095904	CMakeFiles/TK_lanuague_One.dir/metaData/generalType/generalType.c.obj	13918fca14d22f1
+36	234	7396365686329394	CMakeFiles/TK_lanuague_One.dir/metaData/Commands/commands.c.obj	3e0ed4be878fff94
+20	206	7396365686164066	CMakeFiles/TK_lanuague_One.dir/tokenizer/mainTokenizer.c.obj	f5f4ccf58c0dc85a
+31	207	7396365686275971	CMakeFiles/TK_lanuague_One.dir/lib/Stream/Stream.c.obj	2c66c6cb21bab169
+53	231	7396365686499936	CMakeFiles/TK_lanuague_One.dir/metaData/memory/stack/stackMemory.c.obj	13aefa46608b81f9
+59	233	7396365686554538	CMakeFiles/TK_lanuague_One.dir/Interpreter/Interpreter.c.obj	dd71c11780d0eb83
+26	140	7396366975046402	CMakeFiles/TK_lanuague_One.dir/metaData/Commands/commands.c.obj	3e0ed4be878fff94
+141	254	7396366976192681	TK_lanuague_One.exe	c08dce26255f2cb6
