@@ -8,7 +8,23 @@
 
 #include "../lib/ArrayList/ArrayList.h"
 #include "../lib/HashMap/map.h"
+#include "../lib/Stream/Stream.h"
 
-arraylist/*strings*/ *tokenizer(arraylist/*strings*/* lines, /*out*/map_int_t *labelTracker, /*out*/map_int_t *lineNumberTracker);
+typedef struct tokenizeData
+{
+    Stream/*const char[]*/ *typeStack;
+    Stream/*size_t*/ *arraySizeStack;
+    map_int_t *labelTracker;
+    map_int_t *lineNumberTracker;
+
+} TokenizeData;
+
+TokenizeData *TokenizeData_new();
+void TokenizeData_free(TokenizeData *data);
+
+arraylist/*strings*/ *tokenizeFile(arraylist/*strings*/* lines, /*out*/
+                                   const TokenizeData *tokenizeData);
+arraylist/*const char[]*/ *tokenizeLine(const char* line, /*out*/uint32_t *i, /*out*/arraylist *tokenizeHistory, /*out*/const TokenizeData *data);
+
 
 #endif //MAINTOKENIZER_H

@@ -6,7 +6,7 @@
 # It is included in the main 'build.ninja'.
 
 # =============================================================================
-# Project: TK_lanuague_One
+# Project: tkin
 # Configurations: Debug
 # =============================================================================
 # =============================================================================
@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Program Files\JetBrains\CLion 2024.1.2\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\TK_lanuague_One -BC:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\TK_lanuague_One\cmake-build-debug
+  command = "C:\Program Files\JetBrains\CLion 2024.1.2\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\tkin -BC:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\tkin\cmake-build-debug
   description = Re-running CMake...
   generator = 1
 

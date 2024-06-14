@@ -1,34 +1,14 @@
-    global _main
-    extern  _GetStdHandle@4
-    extern  _WriteFile@20
-    extern  _ExitProcess@4
+extern _printf
+extern _exit
 
-    section .text
-_main:
-    ; DWORD  bytes;    
-    mov     ebp, esp
-    sub     esp, 4
+section .data
+    msg db 'Hello, World!', 0x0a, 0x00  ; String to print, with newline
 
-    ; hStdOut = GetstdHandle( STD_OUTPUT_HANDLE)
-    push    -11
-    call    _GetStdHandle@4
-    mov     ebx, eax    
+section .text
+    global _start
 
-    ; WriteFile( hstdOut, message, length(message), &bytes, 0);
-    push    0
-    lea     eax, [ebp-4]
-    push    eax
-    push    (message_end - message)
-    push    message
-    push    ebx
-    call    _WriteFile@20
-
-    ; ExitProcess(0)
-    push    0
-    call    _ExitProcess@4
-
-    ; never here
-    hlt
-message:
-    db      'Hello, World', 10
-message_end:
+_start:
+    push msg
+    call _printf
+    push 0
+    call _exit

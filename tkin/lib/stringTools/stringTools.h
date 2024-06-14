@@ -21,4 +21,6 @@ const char* uint32_toString(uint32_t value);
 const char* parse_backslash(const char* string);
 const char* getInternalString(const char* str);
 
+bool isInternalString(const char* value);
+
 #endif //STRINGTOOLS_H

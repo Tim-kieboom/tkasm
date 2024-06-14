@@ -7,19 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../metaData/debug/debug.h"
-#include "../lib/HashMap/map.h"
-#include "../lib/Stack/Stack.h"
-#include "../tokenizer/mainTokenizer.h"
 #include "../metaData/Types.h"
 #include "../metaData/Commands/commands.h"
 
-#define NEW_MAP(map_t)							\
-({												\
-	map_t *map = malloc(sizeof(map_t));			\
-	map_init(map);								\
-	map;										\
-})
 /*
 instructions needed (/../ means done in tokenizer):
 	push %type (value):                 push stack
@@ -56,7 +46,7 @@ instructions needed (/../ means done in tokenizer):
 
 void printTokenized(const arraylist *lines, const arraylist *program, map_int_t *labelTracker)
 {
-	printf("file: %d lines\n", lines->size);
+	printf("file: %d lines\n", (int)lines->size);
 	printf("\n============================== FILE ==============================\n\n");
 	char* token;
 	int it;
@@ -74,6 +64,8 @@ void printTokenized(const arraylist *lines, const arraylist *program, map_int_t 
 	}
 	printf("\n");
 
+	if(program->size == 0)
+		return;
 
 	printf("\n============================== TOKENIZER ==============================\n\n");
 	arraylist_iterate(program, it, token)
@@ -83,188 +75,223 @@ void printTokenized(const arraylist *lines, const arraylist *program, map_int_t 
 	printf("\n============================================================\n\n");
 
 }
-void interpretCode(arraylist/*const char[]*/* lines)
+
+void interpretLine(arraylist* program, /*out*/uint32_t *i, /*out*/Stack* stack, map_int_t *labelTracker, map_int_t *lineNumberTracker, DebugData *debugData);
+
+arraylist* interpretFile(uint32_t *i, arraylist/*const char[]*/* lines, /*out*/Stack* stack, TokenizeData *tokenizeData, DebugData *debugData)
 {
-	map_int_t *labelTracker = NEW_MAP(map_int_t);
-	map_int_t *lineNumberTracker = NEW_MAP(map_int_t);
+	arraylist* program = tokenizeFile(lines, tokenizeData);
+	printTokenized(lines, program, tokenizeData->labelTracker);
 
-	arraylist* program = tokenizer(lines, labelTracker, lineNumberTracker);
+	*i = 0;
+	while (strcmp(arraylist_get(program, *i), "halt") != 0)
+	{
+		interpretLine(program, i, stack, tokenizeData->labelTracker, tokenizeData->lineNumberTracker, debugData);
 
-	Stack *stack = Stack_new(10000000);
+		if (program->size-1 < *i)
+		{
+			printf("!!<warning> program ended \'halt\' never reached!!\n");
+			exit(0);
+		}
+	}
+
+	return program;
+}
+
+
+void interpretFile_andExit(arraylist/*const char[]*/* lines)
+{
+	TokenizeData *tokenizeData = TokenizeData_new();
+
+	arraylist* program = tokenizeFile(lines, tokenizeData);
+
+	Stack *stack = Stack_new(1000000000);
 	DebugData *debugData = DebugData_new("null", -1);
 
-	printTokenized(lines, program, labelTracker);
+	printTokenized(lines, program, tokenizeData->labelTracker);
 
 	uint32_t i = 0;
 	while (strcmp(arraylist_get(program, i), "halt") != 0)
 	{
-		const char* command = arraylist_get(program, i);
-		debugData->commandName = command;
-		i++;
+		interpretLine(program, &i, stack, tokenizeData->labelTracker, tokenizeData->lineNumberTracker, debugData);
 
-		const int* value = map_get(lineNumberTracker, uint32_toString(i));
-		if(value != NULL)
-			debugData->currentLine = *value;
-
-		const TKasmCommand TkCommand = getCommand(command);
-
-		switch (TkCommand)
+		if (program->size-1 < i)
 		{
-		case tkasm_push:
-		{
-			const char* rawType  = arraylist_get(program, i);
-
-			if(getTypeClass_FromStr(rawType) == tkasmClass_array)
-				tk_pushArray(/*out*/stack, rawType, arraylist_get(program, i+1), debugData);
-			else
-				tk_push(/*out*/stack, rawType, arraylist_get(program, i+1), debugData);
-
-			i += 2;
-		}
-		break;
-
-		case tkasm_pop:
-			checkIfStackIsEmpty(stack, debugData);
-			tk_pop(/*out*/stack, arraylist_get(program, i), debugData);
-			i++;
-			break;
-
-		case tkasm_movPush:
-			exit_NotImplemented(command, debugData);
-
-			i++;
-			break;
-
-		case tkasm_movPop:
-			exit_NotImplemented(command, debugData);
-
-			i += 2;
-			break;
-
-		case tkasm_mov:
-			exit_NotImplemented(command, debugData);
-
-			i += 3;
-			break;
-
-		case tkasm_free:
-			exit_NotImplemented(command, debugData);
-
-			i++;
-			break;
-
-		case tkasm_add:
-			checkIfStackIsEmpty(stack, debugData);
-			tk_add(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
-			i += 2;
-			break;
-
-		case tkasm_sub:
-			checkIfStackIsEmpty(stack, debugData);
-			tk_sub(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
-			i += 2;
-			break;
-
-		case tkasm_mull:
-			checkIfStackIsEmpty(stack, debugData);
-			tk_mull(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
-			i += 2;
-			break;
-
-		case tkasm_div:
-			checkIfStackIsEmpty(stack, debugData);
-			tk_div(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
-			i += 2;
-			break;
-
-		case tkasm_shiftLeft:
-			checkIfStackIsEmpty(stack, debugData);
-			tk_shiftLeft(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
-			i+=2;
-			break;
-
-		case tkasm_shiftRight:
-			checkIfStackIsEmpty(stack, debugData);
-			tk_shiftRight(/*out*/stack, arraylist_get(program, i), arraylist_get(program, i+1), debugData);
-			i+=2;
-			break;
-
-		case tkasm_print:
-			tk_print(arraylist_get(program, i), debugData);
-			i++;
-			break;
-
-		case tkasm_printPop:
-		{
-			const char* rawType  = arraylist_get(program, i);
-
-			if(getTypeClass_FromStr(rawType) == tkasmClass_array)
-				tk_printPopArray(/*out*/stack, rawType, arraylist_get(program, ++i), debugData);
-			else
-				tk_printPop(/*out*/stack, rawType, debugData);
-
-			i++;
-		}
-		break;
-
-		case tkasm_printPeek:
-		{
-			const char* rawType  = arraylist_get(program, i);
-
-			if(getTypeClass_FromStr(rawType) == tkasmClass_array)
-				tk_printPeekArray(/*out*/stack, rawType, arraylist_get(program, ++i), debugData);
-			else
-				tk_printPeek(/*out*/stack, rawType, debugData);
-
-			i++;
-		}
-		break;
-
-		case tkasm_read:
-			tk_read(/*out*/stack, arraylist_get(program, i), debugData);
-			i++;
-			break;
-
-		case tkasm_jump:
-			tk_jump(/*out*/&i, labelTracker, arraylist_get(program, i));
-			break;
-
-		case tkasm_jumpEquals0:
-			if (tk_isEquals0(stack, arraylist_get(program, i), debugData))
-			{
-				tk_jump(/*out*/&i, labelTracker, arraylist_get(program, i+1));
-				continue;
-			}
-			i += 2;
-			break;
-
-		case tkasm_jumpGreater0:
-			if (tk_isGreater0(/*out*/stack, arraylist_get(program, i), debugData))
-			{
-				tk_jump(/*out*/&i, labelTracker, arraylist_get(program, i+1));
-				continue;
-			}
-
-			i += 2;
-			break;
-
-		case tkasm_jumpSmaller0:
-			if (tk_isSmaller0(/*out*/stack, arraylist_get(program, i), debugData))
-			{
-				tk_jump(/*out*/&i, labelTracker, arraylist_get(program, i+1));
-				continue;
-			}
-
-			i += 2;
-			break;
-
-		default:
-			break;
+			printf("!!<warning> program ended \'halt\' never reached!!\n");
+			exit(0);
 		}
 	}
 
-	map_deinit(labelTracker);
-	map_deinit(lineNumberTracker);
-	free(labelTracker);
-	free(lineNumberTracker);
+	TokenizeData_free(tokenizeData);
+
+	free(debugData);
+	Stack_free(stack);
+	arraylist_destroy(program);
+}
+
+void interpretLine(arraylist* program, /*out*/uint32_t *i, /*out*/Stack* stack, map_int_t *labelTracker, map_int_t *lineNumberTracker, DebugData *debugData)
+{
+	const char* command = arraylist_get(program, *i);
+	debugData->commandName = command;
+	(*i)++;
+
+	const int* value = map_get(lineNumberTracker, uint32_toString(*i));
+	if(value != NULL)
+		debugData->currentLine = *value;
+
+	const TKasmCommand TkCommand = getCommand(command);
+
+	switch (TkCommand)
+	{
+	case tkasm_push:
+	{
+		const char* rawType  = arraylist_get(program, *i);
+
+		if(getTypeClass_FromStr(rawType) == tkasmClass_array)
+			tk_pushArray(/*out*/stack, rawType, arraylist_get(program, *i+1), debugData);
+		else
+			tk_push(/*out*/stack, rawType, arraylist_get(program, *i+1), debugData);
+
+		*i += 2;
+	}
+	break;
+
+	case tkasm_pop:
+		checkIfStackIsEmpty(stack, debugData);
+		tk_pop(/*out*/stack, arraylist_get(program, *i), debugData);
+		(*i)++;
+		break;
+
+	case tkasm_movPush:
+		exit_NotImplemented(command, debugData);
+
+		(*i)++;
+		break;
+
+	case tkasm_movPop:
+		exit_NotImplemented(command, debugData);
+
+		*i += 2;
+		break;
+
+	case tkasm_mov:
+		exit_NotImplemented(command, debugData);
+
+		*i += 3;
+		break;
+
+	case tkasm_free:
+		exit_NotImplemented(command, debugData);
+
+		(*i)++;
+		break;
+
+	case tkasm_add:
+		checkIfStackIsEmpty(stack, debugData);
+		tk_add(/*out*/stack, arraylist_get(program, *i), arraylist_get(program, *i+1), debugData);
+		*i += 2;
+		break;
+
+	case tkasm_sub:
+		checkIfStackIsEmpty(stack, debugData);
+		tk_sub(/*out*/stack, arraylist_get(program, *i), arraylist_get(program, *i+1), debugData);
+		*i += 2;
+		break;
+
+	case tkasm_mull:
+		checkIfStackIsEmpty(stack, debugData);
+		tk_mull(/*out*/stack, arraylist_get(program, *i), arraylist_get(program, *i+1), debugData);
+		*i += 2;
+		break;
+
+	case tkasm_div:
+		checkIfStackIsEmpty(stack, debugData);
+		tk_div(/*out*/stack, arraylist_get(program, *i), arraylist_get(program, *i+1), debugData);
+		*i += 2;
+		break;
+
+	case tkasm_shiftLeft:
+		checkIfStackIsEmpty(stack, debugData);
+		tk_shiftLeft(/*out*/stack, arraylist_get(program, *i), arraylist_get(program, *i+1), debugData);
+		*i += 2;
+		break;
+
+	case tkasm_shiftRight:
+		checkIfStackIsEmpty(stack, debugData);
+		tk_shiftRight(/*out*/stack, arraylist_get(program, *i), arraylist_get(program, *i+1), debugData);
+		*i += 2;
+		break;
+
+	case tkasm_print:
+		tk_print(arraylist_get(program, *i), debugData);
+		(*i)++;
+		break;
+
+	case tkasm_printPop:
+	{
+		const char* rawType  = arraylist_get(program, *i);
+
+		if(getTypeClass_FromStr(rawType) == tkasmClass_array)
+			tk_printPopArray(/*out*/stack, rawType, arraylist_get(program, ++(*i)), debugData);
+		else
+			tk_printPop(/*out*/stack, rawType, debugData);
+
+		(*i)++;
+	}
+	break;
+
+	case tkasm_printPeek:
+	{
+		const char* rawType  = arraylist_get(program, *i);
+
+		if(getTypeClass_FromStr(rawType) == tkasmClass_array)
+			tk_printPeekArray(/*out*/stack, rawType, arraylist_get(program, ++(*i)), debugData);
+		else
+			tk_printPeek(/*out*/stack, rawType, debugData);
+
+		(*i)++;
+	}
+	break;
+
+	case tkasm_read:
+		tk_read(/*out*/stack, arraylist_get(program, *i), debugData);
+		(*i)++;
+		break;
+
+	case tkasm_jump:
+		tk_jump(/*out*/i, labelTracker, arraylist_get(program, *i));
+		break;
+
+	case tkasm_jumpEquals0:
+		if (tk_isEquals0(stack, arraylist_get(program, *i), debugData))
+		{
+			tk_jump(/*out*/i, labelTracker, arraylist_get(program, *i+1));
+			return;
+		}
+		*i += 2;
+		break;
+
+	case tkasm_jumpGreater0:
+		if (tk_isGreater0(/*out*/stack, arraylist_get(program, *i), debugData))
+		{
+			tk_jump(/*out*/i, labelTracker, arraylist_get(program, *i+1));
+			return;
+		}
+
+		*i += 2;
+		break;
+
+	case tkasm_jumpSmaller0:
+		if (tk_isSmaller0(/*out*/stack, arraylist_get(program, *i), debugData))
+		{
+			tk_jump(/*out*/i, labelTracker, arraylist_get(program, *i+1));
+			return;
+		}
+
+		*i += 2;
+		break;
+
+	default:
+		break;
+	}
 }

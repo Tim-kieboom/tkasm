@@ -51,6 +51,12 @@ map_iter_()
 #define map_next(m, iter)\
 map_next_(&(m)->base, iter)
 
+#define NEW_MAP(map_t)							\
+({												\
+    map_t *map = malloc(sizeof(map_t));			\
+    map_init(map);								\
+    map;										\
+})
 
 void map_deinit_(map_base_t *m);
 void *map_get_(map_base_t *m, const char *key);

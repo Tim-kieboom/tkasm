@@ -80,6 +80,15 @@ void arraylist_add(arraylist* l, void* item)
 	l->body[l->size++] = item;
 }
 
+void arraylist_addArray(arraylist* l, void** array, const size_t sizeArray)
+{
+	if(sizeArray == 0)
+		return;
+
+	for(size_t i = 0; i < sizeArray; i++)
+		arraylist_add(l, array[i]);
+}
+
 /**
  * Pop (remove and return) an item off the end of the list.
  */

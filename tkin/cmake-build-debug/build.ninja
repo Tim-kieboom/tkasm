@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: TK_lanuague_One
+# Project: tkin
 # Configurations: Debug
 # =============================================================================
 
@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/cmake-build-debug/
+cmake_ninja_workdir = C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/cmake-build-debug/
 # =============================================================================
 # Object build statements for EXECUTABLE target TK_lanuague_One
 
@@ -49,103 +49,103 @@ cmake_ninja_workdir = C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_
 
 build cmake_object_order_depends_target_TK_lanuague_One: phony || CMakeFiles/TK_lanuague_One.dir
 
-build CMakeFiles/TK_lanuague_One.dir/main.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/main.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/main.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/main.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\main.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir
 
-build CMakeFiles/TK_lanuague_One.dir/lib/ArrayList/ArrayList.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/ArrayList/ArrayList.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/lib/ArrayList/ArrayList.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/lib/ArrayList/ArrayList.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\ArrayList\ArrayList.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\ArrayList
 
-build CMakeFiles/TK_lanuague_One.dir/lib/StringStream/StringStream.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/StringStream/StringStream.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/lib/StringStream/StringStream.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/lib/StringStream/StringStream.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\StringStream\StringStream.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\StringStream
 
-build CMakeFiles/TK_lanuague_One.dir/lib/fileReader/fileReader.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/fileReader/fileReader.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/lib/fileReader/fileReader.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/lib/fileReader/fileReader.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\fileReader\fileReader.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\fileReader
 
-build CMakeFiles/TK_lanuague_One.dir/tokenizer/mainTokenizer.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/tokenizer/mainTokenizer.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/tokenizer/mainTokenizer.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/tokenizer/mainTokenizer.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\tokenizer\mainTokenizer.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\tokenizer
 
-build CMakeFiles/TK_lanuague_One.dir/lib/string/String.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/string/String.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/lib/string/String.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/lib/string/String.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\string\String.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\string
 
-build CMakeFiles/TK_lanuague_One.dir/lib/HashMap/map.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/HashMap/map.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/lib/HashMap/map.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/lib/HashMap/map.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\HashMap\map.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\HashMap
 
-build CMakeFiles/TK_lanuague_One.dir/lib/Stream/Stream.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/Stream/Stream.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/lib/Stream/Stream.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/lib/Stream/Stream.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\Stream\Stream.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\Stream
 
-build CMakeFiles/TK_lanuague_One.dir/lib/stringTools/stringTools.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/stringTools/stringTools.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/lib/stringTools/stringTools.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/lib/stringTools/stringTools.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\stringTools\stringTools.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\stringTools
 
-build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/generalType.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/metaData/generalType/generalType.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/generalType.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/metaData/generalType/generalType.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\metaData\generalType\generalType.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\generalType
 
-build CMakeFiles/TK_lanuague_One.dir/metaData/Commands/commands.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/metaData/Commands/commands.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/metaData/Commands/commands.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/metaData/Commands/commands.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\metaData\Commands\commands.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\Commands
 
-build CMakeFiles/TK_lanuague_One.dir/metaData/debug/debug.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/metaData/debug/debug.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/metaData/debug/debug.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/metaData/debug/debug.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\metaData\debug\debug.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\debug
 
-build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/console/console.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/metaData/generalType/console/console.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/console/console.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/metaData/generalType/console/console.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\metaData\generalType\console\console.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\generalType\console
 
-build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/operators/operators.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/metaData/generalType/operators/operators.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/metaData/generalType/operators/operators.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/metaData/generalType/operators/operators.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\metaData\generalType\operators\operators.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\generalType\operators
 
-build CMakeFiles/TK_lanuague_One.dir/metaData/memory/stack/stackMemory.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/metaData/memory/stack/stackMemory.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/metaData/memory/stack/stackMemory.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/metaData/memory/stack/stackMemory.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\metaData\memory\stack\stackMemory.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\metaData\memory\stack
 
-build CMakeFiles/TK_lanuague_One.dir/lib/Stack/Stack.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/lib/Stack/Stack.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/lib/Stack/Stack.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/lib/Stack/Stack.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\lib\Stack\Stack.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
   OBJECT_FILE_DIR = CMakeFiles\TK_lanuague_One.dir\lib\Stack
 
-build CMakeFiles/TK_lanuague_One.dir/Interpreter/Interpreter.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/Interpreter/Interpreter.c || cmake_object_order_depends_target_TK_lanuague_One
+build CMakeFiles/TK_lanuague_One.dir/Interpreter/Interpreter.c.obj: C_COMPILER__TK_lanuague_One_unscanned_Debug C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/Interpreter/Interpreter.c || cmake_object_order_depends_target_TK_lanuague_One
   DEP_FILE = CMakeFiles\TK_lanuague_One.dir\Interpreter\Interpreter.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\TK_lanuague_One.dir
@@ -174,7 +174,7 @@ build TK_lanuague_One.exe: C_EXECUTABLE_LINKER__TK_lanuague_One_Debug CMakeFiles
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\TK_lanuague_One\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2024.1.2\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\tkin\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2024.1.2\bin\cmake\win\x64\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -185,7 +185,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\TK_lanuague_One\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2024.1.2\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\TK_lanuague_One -BC:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\TK_lanuague_One\cmake-build-debug"
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\tkin\cmake-build-debug && "C:\Program Files\JetBrains\CLion 2024.1.2\bin\cmake\win\x64\bin\cmake.exe" --regenerate-during-build -SC:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\tkin -BC:\Users\tim_k\OneDrive\Documenten\GitHub\hobby\tkasm\tkin\cmake-build-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -203,7 +203,7 @@ build TK_lanuague_One: phony TK_lanuague_One.exe
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/cmake-build-debug
+# Folder: C:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/cmake-build-debug
 
 build all: phony TK_lanuague_One.exe
 
@@ -214,14 +214,14 @@ build all: phony TK_lanuague_One.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/WindowsPaths.cmake C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/CMakeLists.txt CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeRCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/WindowsPaths.cmake C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/CMakeLists.txt CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeRCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/WindowsPaths.cmake C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/TK_lanuague_One/CMakeLists.txt CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeRCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake: phony
+build C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeCommonLanguageInclude.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeGenericSystem.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeInitializeConfigs.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeLanguageInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeRCInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInformation.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/CMakeSystemSpecificInitialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Compiler/GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU-C.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-GNU.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-Initialize.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows-windres.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/Windows.cmake C$:/Program$ Files/JetBrains/CLion$ 2024.1.2/bin/cmake/win/x64/share/cmake-3.28/Modules/Platform/WindowsPaths.cmake C$:/Users/tim_k/OneDrive/Documenten/GitHub/hobby/tkasm/tkin/CMakeLists.txt CMakeCache.txt CMakeFiles/3.28.1/CMakeCCompiler.cmake CMakeFiles/3.28.1/CMakeRCCompiler.cmake CMakeFiles/3.28.1/CMakeSystem.cmake: phony
 
 
 #############################################

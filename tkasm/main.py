@@ -4,11 +4,12 @@ import os
 
 def execute(dir_path):
     
-    print("[CMD] Assembling ...")
-    os.system(f"nasm -f win32 \"{dir_path}\\main.asm\" -o \"{dir_path}\\main.o\"")
+    print(f"[CMD] Assembling ... (\"{dir_path}\\printHelloWorld.asm\" -> \"{dir_path}\\main.o\")")
+    os.system(f"nasm -f win32 \"{dir_path}\\printHelloWorld.asm\" -o \"{dir_path}\\main.o\"")
     
-    print("[CMD] Linking ...")
-    os.system(f"gcc \"{dir_path}\\main.o\" -o main.exe")
+    print(f"[CMD] Linking ... (\"{dir_path}\\main.o\" -> main.exe)")
+    os.system(f"gcc -o main.exe \"{dir_path}\\main.o\" -mingw32")
+    
         
     print("[CMD] Running ...")
     os.system(f"main.exe")

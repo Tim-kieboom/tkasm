@@ -47,7 +47,7 @@ uint64_t Stack_size(const Stack* st)
 }
 
 
-void MemStack_free(Stack* st)
+void Stack_free(Stack* st)
 {
     if(st->data != NULL)
         free(st->data);

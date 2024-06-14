@@ -292,9 +292,15 @@ void tk_shiftRight(/*out*/Stack* stack, const char* rawType, const char* rawValu
 
 void tk_print(const char* rawValue, DebugData* data)
 {
+	if(!isInternalString(rawValue))
+	{
+		printf("!!<error> %s is not a string\n", rawValue);
+		exit(1);
+	}
+
 	const char* message = getInternalString((char*)rawValue);
 	message = parse_backslash(message);
-	printf(message);
+	printf("%s\n", message);
 }
 
 void tk_printPop(/*out*/Stack* stack, const char* rawType, const DebugData* data)
@@ -310,6 +316,7 @@ void tk_printPop(/*out*/Stack* stack, const char* rawType, const DebugData* data
 
 	printTypeToConsole(&type, value);
 
+	printf("\n");
 	free(segments);
 }
 
@@ -336,6 +343,7 @@ void tk_printPopArray(/*out*/Stack* stack, const char* rawType, const char* arra
 			printf(", ");
 	}
 	printf("}");
+	printf("\n");
 
 }
 

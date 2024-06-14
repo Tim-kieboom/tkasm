@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #define IS_WHITE_SPACE(ch) ((ch == ' ') || (ch == '\t') || (ch == '\n'))
+#define IS_IN_QUOTES(str, begin, end) (str[begin] == '\"' && str[end] == '\"')
 
 const char* trimWhiteSpaces(const char* str)
 {
@@ -188,5 +189,16 @@ const char* parse_backslash(const char* string)
     const char* returnString = StringStream_toCharPtr(stream);
     StringStream_free(stream);
     return returnString;
+}
+
+bool isInternalString(const char* value)
+{
+    const char* trimmedValue = trimWhiteSpaces(value);
+    const size_t size = strlen(trimmedValue);
+
+    if(size < 2)
+        return false;
+
+    return IS_IN_QUOTES(trimmedValue, 0, size - 1);
 }
 
