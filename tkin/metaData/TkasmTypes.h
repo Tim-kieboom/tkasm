@@ -42,6 +42,8 @@ enum TkasmType
     tkasm_arrayFloat,
     tkasm_arrayDouble,
 
+    tkasm_returnPointer,
+
     tkasm_unknown,
 };
 
@@ -52,7 +54,8 @@ enum TkasmTypeClass
     tkasmClass_int = 2,
     tkasmClass_float = 3,
     tkasmClass_array = 4,
-    tkasmClass_unknown = 5
+    tkasmClass_pointer = 5,
+    tkasmClass_unknown = 6
 };
 
 typedef enum TkasmType TkasmType;

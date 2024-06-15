@@ -1,5 +1,13 @@
 print " \" stress test\" \"\" my {whitespace parser}\"\" \n "
 push %int8 1
-//push %array.int8 {1, 2, 3, 4, 5}
-//print.peek
+push %array.int8 {1, 2, 3, 4, 5}
+print.peek
+jump LABEL
 halt
+
+LABEL:
+    print "jumped to LABEL"
+    push %int8 5
+    push %int8 5
+    push %int8 5
+    return %int8

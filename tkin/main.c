@@ -83,30 +83,30 @@ void debugFunc()
     interpredFileMode("main.tkasm");
 }
 
-int main(int argc, char const *argv[])
+int main(const int argc, char const *argv[])
 {
-    /*debugFunc();*/
+    debugFunc();
 
-    printf("argc: %d\n", argc);
-    switch (argc)
+    /*switch (argc-1)
     {
-        case 1:
+        case 0:
             cmdInterpretedMode(NULL, NULL);
             break;
-        case 2:
+        case 1:
             cmdInterpredFileMode(argv[1]);
             break;
-        case 3:
+        case 2:
             if(STR_EQUALS(argv[2], "-b"))
                 interpredFileMode(argv[1]);
+                break;
             else
                 printf("!!<error> %s unknown argument!!", argv[2]);
-            break;
+                exit(1);
 
         default:
             printf("!!<error> %d to many arguments!!", argc);
             exit(1);
-    }
+    }*/
 
     return 0;
 }

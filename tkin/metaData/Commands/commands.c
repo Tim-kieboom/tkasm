@@ -13,8 +13,6 @@
 #include "../debug/debug.h"
 #include "../Types.h"
 
-#define JUMP_TO_LABEL(hashMap, strLabel) map_get(hashMap, strLabel)
-
 void exit_type1and2NotValid(const char* type1, const char* type2 , const DebugData *data)
 {
 	StringStream *stream = StringStream_new();
@@ -106,6 +104,7 @@ TKasmCommand getCommand(const char* command)
 	{
 		return tkasm_jump;
 	}
+
 	else if (STR_EQUALS(command, "jump.equals.0"))
 	{
 		return tkasm_jumpEquals0;
@@ -117,6 +116,15 @@ TKasmCommand getCommand(const char* command)
 	else if (STR_EQUALS(command, "jump.smaller.0"))
 	{
 		return tkasm_jumpSmaller0;
+	}
+
+	else if (STR_EQUALS(command, "call"))
+	{
+		return tkasm_call;
+	}
+	else if (STR_EQUALS(command, "return"))
+	{
+		return tkasm_return;
 	}
 
 	else if (STR_EQUALS(command, "halt"))
@@ -425,7 +433,7 @@ void tk_read(/*out*/Stack* stack, const char* rawType, const DebugData* data)
 
 void tk_jump(/*out*/uint32_t *index, map_int_t *labelTracker, const char* label)
 {
-	*index = *JUMP_TO_LABEL(labelTracker, label);
+	*index = (uint32_t)*map_get(labelTracker, label);
 }
 
 bool tk_isEquals0(const Stack* stack, const char* rawType, const DebugData* data)

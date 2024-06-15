@@ -59,8 +59,10 @@ void printTokenized(const arraylist *lines, const arraylist *program, map_int_t 
 			continue;
 		}
 
-		token[0] = ' ';
-		printf("%d.\t%s\n", it+1, token);
+		if(token != NULL)
+			token[0] = ' ';
+
+		printf("%d.\t%s\n", it+1, (token == NULL) ? "null" : token);
 	}
 	printf("\n");
 
@@ -78,7 +80,7 @@ void printTokenized(const arraylist *lines, const arraylist *program, map_int_t 
 
 void interpretLine(arraylist* program, /*out*/uint32_t *i, /*out*/Stack* stack, map_int_t *labelTracker, map_int_t *lineNumberTracker, DebugData *debugData);
 
-arraylist* interpretFile(uint32_t *i, arraylist/*const char[]*/* lines, /*out*/Stack* stack, TokenizeData *tokenizeData, DebugData *debugData)
+arraylist* interpretFile(uint32_t *i, arraylist/*const char[]*/* lines, /*out*/Stack* stack, const TokenizeData *tokenizeData, DebugData *debugData)
 {
 	arraylist* program = tokenizeFile(lines, tokenizeData);
 	printTokenized(lines, program, tokenizeData->labelTracker);

@@ -41,6 +41,9 @@ enum TKasmCommand
     tkasm_jumpGreater0,
     tkasm_jumpSmaller0,
 
+    tkasm_call,
+    tkasm_return,
+
     tkasm_halt,
 };
 

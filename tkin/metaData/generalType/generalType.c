@@ -45,19 +45,19 @@ switch(type)                                        \
 
 #define RECAST_VALUE(class, type, value)            \
 ({                                                  \
-    switch (class)                                  \
-    {                                               \
-    case tkasmClass_int:                            \
-        RECAST_INT(type, value);                    \
+     switch (class)                                 \
+     {                                              \
+        case tkasmClass_int:                        \
+            RECAST_INT(type, value);                \
                                                     \
-    case tkasmClass_uint:                           \
-        return (void*)((uint64_t)value);            \
+        case tkasmClass_uint:                       \
+            return (void*)((uint64_t)value);        \
                                                     \
-    case tkasmClass_float:                          \
-        TO_TYPECLASS_FLOAT(type, value);            \
+        case tkasmClass_float:                      \
+            TO_TYPECLASS_FLOAT(type, value);        \
                                                     \
-    default:                                        \
-        break;                                      \
+        default:                                    \
+            break;                                  \
     }                                               \
     *isSuccess = false;                             \
     return NULL;                                    \
@@ -103,6 +103,9 @@ TkasmTypeClass getTypeClass(const TkasmType *type)
         case tkasm_arrayDouble:
             return tkasmClass_array;
 
+        case tkasm_returnPointer:
+                    return tkasmClass_pointer;
+
         case tkasm_unknown:
             default:
                 return tkasmClass_unknown;
@@ -144,8 +147,7 @@ TkasmType typeClass_toType(const TkasmTypeClass class, int32_t size)
             break;
 
         case tkasmClass_array:
-            break;
-
+        case tkasmClass_pointer:
         case tkasmClass_unknown:
             break;
     }
@@ -333,6 +335,11 @@ TkasmType getType(const char *type)
     {
         return tkasm_arrayDouble;
     }
+
+    else if (STR_EQUALS(type, "%returnPointer"))
+    {
+        return tkasm_returnPointer;
+    }
     return tkasm_unknown;
 }
 
@@ -416,6 +423,9 @@ const char* getTypeString(const TkasmType *type)
 
         case tkasm_arrayDouble:
             return "%array.double";
+
+        case tkasm_returnPointer:
+            return "%returnPointer";
 
         case tkasm_unknown:
             return "unknown";
@@ -548,7 +558,7 @@ void* convertToTypeClass(const TkasmType oldType, const TkasmType newType, void*
     }
 
     *isSuccess = false;
-    printf("!!<warning> convertToTypeClass did nothing!!");
+    printf("!!<warning> convertToTypeClass did nothing oldType: %s to type: %s!!", getTypeString(&oldType), getTypeString(&newType));
     return value;
 }
 

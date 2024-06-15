@@ -19,6 +19,16 @@
 	const char* key = uint32_toString((int)tokenLines->size - 1);		\
 	map_set(lineNumberTracker, key, i+1);
 
+#define IS_COMMAND_STOP_OR_JUMP(lastCommand)\
+(											\
+	STR_EQUALS(lastCommand, "halt")   ||	\
+	STR_EQUALS(lastCommand, "return") ||	\
+	STR_EQUALS(lastCommand, "call")   ||	\
+	STR_EQUALS(lastCommand, "jump")			\
+)
+
+#define IS_VALID_LINE(line) !(STR_EQUALS(line, "\n") || isLineCommand(line))
+
 TokenizeData *TokenizeData_new()
 {
 	TokenizeData *data = malloc(sizeof(TokenizeData));
@@ -131,6 +141,27 @@ const char* getParsedArray(const char* rawArray)
 	return result;
 }
 
+void checkIfFileEndOnJumpOrStop(arraylist *lines)
+{
+	const char* line = "";
+	uint32_t index = lines->size -1;
+	while(index-- != 0)
+	{
+		line = arraylist_get(lines, index);
+		if(IS_VALID_LINE(line))
+			break;
+	}
+
+	arraylist *parts = splitWhiteSpaces(line);
+	const char* lastcommand = arraylist_get(parts, 0);
+	if(!IS_COMMAND_STOP_OR_JUMP(lastcommand))
+	{
+		printf("!!<error> tkasm file has to end on a halt!!");
+		exit(1);
+	}
+	arraylist_destroy(parts);
+}
+
 arraylist/*const char[]*/ *tokenizeLine(const char* line, /*out*/uint32_t *i, /*out*/arraylist *tokenizeHistory, /*out*/const TokenizeData *data);
 
 arraylist/*const char[]*/ *tokenizeFile(arraylist/*const char[]*/ *lines, /*out*/const TokenizeData *tokenizeData)
@@ -153,13 +184,7 @@ arraylist/*const char[]*/ *tokenizeFile(arraylist/*const char[]*/ *lines, /*out*
 		tokenizeLine(line, /*out*/&i, /*out*/tokenizeHistory, /*out*/tokenizeData);
 	}
 
-    const char *lastCommand = arraylist_get(tokenizeHistory, tokenizeHistory->size - 1);
-	if (strcmp(lastCommand, "halt") != 0)
-	{
-		printf("!!<error> tkasm code does not end with halt!!");
-		exit(1);
-	}
-
+	checkIfFileEndOnJumpOrStop(lines);
 	return tokenizeHistory;
 }
 
@@ -188,14 +213,15 @@ arraylist/*const char[]*/ *tokenizeLine(const char* line, /*out*/uint32_t *i, /*
 		const char **split = split_string((char*)line, ":", &size);
 
 		map_int_t *labelTracker = data->labelTracker;
-		map_set(labelTracker, split[0], tokenizeHistory);
+		printf("\nmapset labeltracker: %s, %s\n", split[0], uint32_toString(tokenizeHistory->size));
+		map_set(labelTracker, split[0], tokenizeHistory->size);
 		free(split);
 		return NULL;
 	}
 
 	arraylist_add(tokenizeHistory, (void*)command);
 	arraylist_add(tokenizedLine, (void*)command);
-	map_set(data->lineNumberTracker, uint32_toString(tokenizeHistory->size - 1) , *i+1); //!!
+	map_set(data->lineNumberTracker, uint32_toString(tokenizeHistory->size) , *i+1); //!!
 
 	const TKasmCommand TkCommand = getCommand(command);
 
@@ -206,6 +232,43 @@ arraylist/*const char[]*/ *tokenizeLine(const char* line, /*out*/uint32_t *i, /*
 		const char *label = arraylist_get(parts, 1);
 		arraylist_add(tokenizeHistory, (void*)label);
 		arraylist_add(tokenizedLine, (void*)label);
+	}
+	break;
+
+
+	case tkasm_call:
+	{
+		const char *label = arraylist_get(parts, 1);
+		arraylist_add(tokenizeHistory, (void*)label);
+		arraylist_add(tokenizedLine, (void*)label);
+
+		const TkasmType returnAdress = tkasm_returnPointer;
+		const char* type = getTypeString(&returnAdress);
+		Stream_push(data->typeStack, (void*)type);
+	}
+	break;
+
+	case tkasm_return:
+	{
+		size_t popCounter = 0;
+		while(true)
+		{
+			if(Stream_isEmpty(data->typeStack))
+				break;
+
+			const char* rawType = Stream_pop(data->typeStack);
+			popCounter++;
+			if(getType(rawType) == tkasm_returnPointer)
+				break;
+		}
+
+		const char* labelStackSize = uint32_toString(popCounter);
+		const char* returnType = arraylist_get(parts, 1);
+
+		arraylist_add(tokenizeHistory, (void*)labelStackSize);
+		arraylist_add(tokenizedLine, (void*)labelStackSize);
+		arraylist_add(tokenizeHistory, (void*)returnType);
+		arraylist_add(tokenizedLine, (void*)returnType);
 	}
 	break;
 
