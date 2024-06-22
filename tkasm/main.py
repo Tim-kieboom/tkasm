@@ -1,19 +1,10 @@
 from assets.tkasmTokenizer import tokenize
 from assets.tkasmCompiler import compile
-import os
+from assets.metaData import isCommand
+from assets.Types import *
 
-def execute(dir_path):
-    
-    print(f"[CMD] Assembling ... (\"{dir_path}\\printHelloWorld.asm\" -> \"{dir_path}\\main.o\")")
-    os.system(f"nasm -f win32 \"{dir_path}\\printHelloWorld.asm\" -o \"{dir_path}\\main.o\"")
-    
-    print(f"[CMD] Linking ... (\"{dir_path}\\main.o\" -> main.exe)")
-    os.system(f"gcc -o main.exe \"{dir_path}\\main.o\" -mingw32")
-    
-        
-    print("[CMD] Running ...")
-    os.system(f"main.exe")
-        
+# nasm -f elf64 main.asm -o main.o && ld main.o -o main && ./main
+
         
 FILE_PATH: str = "main.tkasm"
 
@@ -24,13 +15,31 @@ for line in lines:
     print(line, end="")
 print()
     
-program: list[str] = tokenize(lines)
+(program, functions) = tokenize(lines)
+string_map = compile(program, functions, "compiled")
 
 print("\n================= TOKENIZED =================\n")
-for line in program:
-    print(line)
+inFunc = False
+i = 0
+while i < len(program):
+    line = program[i]
+    type = getType(line)
+    i += 1
     
-compile(program, "compiled")
-execute("compiled")
+    if line == r"%end_func":
+        inFunc = False
+    
+    enter = "\n" if (type != UNKNOWN and type != VOID) or isCommand(line) else ""
+    space: str = "\t" if inFunc else ""      
+    print(enter + space + str(line))
+    
+    if line == r"%func":
+        print(program[i])
+        i+=1
+        inFunc = True
+    
 
-    
+print("\n================= STRING_MAP =================\n")
+for key in string_map.keys():
+    print(key, string_map[key])
+

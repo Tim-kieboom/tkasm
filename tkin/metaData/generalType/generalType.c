@@ -157,6 +157,9 @@ TkasmType typeClass_toType(const TkasmTypeClass class, int32_t size)
 
 TkasmType getBiggerType(const TkasmType type1, const TkasmType type2)
 {
+    if (type1 == tkasm_void || type2 == tkasm_void)
+        return tkasm_void;
+
     if (type1 == tkasm_unknown || type2 == tkasm_unknown)
         return tkasm_unknown;
 
@@ -340,6 +343,11 @@ TkasmType getType(const char *type)
     {
         return tkasm_returnPointer;
     }
+
+    else if(STR_EQUALS(type, "%void"))
+    {
+        return tkasm_void;
+    }
     return tkasm_unknown;
 }
 
@@ -427,6 +435,9 @@ const char* getTypeString(const TkasmType *type)
         case tkasm_returnPointer:
             return "%returnPointer";
 
+        case tkasm_void:
+            return "%void";
+
         case tkasm_unknown:
             return "unknown";
 
@@ -481,6 +492,12 @@ int16_t getTypeSize(const TkasmType *type)
 
         case tkasm_double:
             return -64;
+
+        case tkasm_returnPointer:
+            return -64;
+
+        case tkasm_void:
+            return 0;
 
         default:
             return 0;

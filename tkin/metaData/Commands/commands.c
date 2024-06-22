@@ -132,9 +132,7 @@ TKasmCommand getCommand(const char* command)
 		return tkasm_halt;
 	}
 
-	printf("!!<error> type not recognized command: ");
-	printf(command);
-	printf("!!");
+	printf("!!<error> tkasm_command not recognized command: \'%s\'!!", command);
 
 	exit(1);
 }
@@ -470,7 +468,7 @@ bool tk_isSmaller0(const Stack* stack, const char* rawType, const DebugData* dat
 {
 	const TkasmType type = getType(rawType);
 
-	uint8_t* segments = peekType(&type, stack);;
+	uint8_t* segments = peekType(&type, stack);
 
 	bool isSuccess;
 	void* value = unsegmentType(&type, segments, /*out*/&isSuccess);
@@ -479,4 +477,45 @@ bool tk_isSmaller0(const Stack* stack, const char* rawType, const DebugData* dat
 
 	free(segments);
 	return isTypeSmaller0(&type, value);
+}
+
+void tk_call(/*out*/uint32_t *index, /*out*/Stack *stack, map_int_t *labelTracker, const char* label)
+{
+	const TkasmType returnType = tkasm_returnPointer;
+	printf("\nindex: %d\n", (int64_t)*index);
+	uint8_t* segments = segmentType(&returnType, (void*)(int64_t)*index);
+	pushType(&returnType, segments, stack);
+
+	*index = (uint32_t)*map_get(labelTracker, label);
+	free(segments);
+}
+
+void tk_return(/*out*/uint32_t *index, Stack* stack, const char* amountOfBytesToPop, const char* rawType, const DebugData* data)
+{
+	bool isSuccess;
+	size_t amountBytes = _atoi64(amountOfBytesToPop) -1;
+	TkasmType returnType = tkasm_unknown;
+	uint8_t* returnValue = NULL;
+	if(rawType != NULL)
+	{
+		returnType = getType(rawType);
+		returnValue = popType(&returnType, stack);
+
+		amountBytes -= abs(getTypeSize(&returnType))/8;
+	}
+
+	removeAmountStack(amountBytes, stack);
+
+	const TkasmType returnPtr = tkasm_returnPointer;
+	const uint8_t* segments = popType(&returnPtr, stack);
+	const int64_t callAdress = (int64_t)unsegmentType(&returnPtr, segments, &isSuccess);
+
+	printf("return jump from %d to %d", *index, (int)(callAdress + 2));
+	*index = callAdress+2;
+
+	if(returnType != tkasm_unknown)
+		pushType(&returnType, returnValue, stack);
+
+	if(returnValue != NULL)
+		free(returnValue);
 }

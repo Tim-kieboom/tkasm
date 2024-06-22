@@ -2,12 +2,12 @@ print " \" stress test\" \"\" my {whitespace parser}\"\" \n "
 push %int8 1
 push %array.int8 {1, 2, 3, 4, 5}
 print.peek
-jump LABEL
+call LABEL
+print.pop
 halt
 
-LABEL:
-    print "jumped to LABEL"
+&int8 LABEL:
+    print "\njumped to LABEL\n"
+    push %int16 5
     push %int8 5
-    push %int8 5
-    push %int8 5
-    return %int8
+    return

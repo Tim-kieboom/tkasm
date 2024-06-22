@@ -88,4 +88,7 @@ bool tk_isEquals0(const Stack* stack, const char* rawType, const DebugData* data
 bool tk_isGreater0(const Stack* stack, const char* rawType, const DebugData* data);
 bool tk_isSmaller0(const Stack* stack, const char* rawType, const DebugData* data);
 
+void tk_call(/*out*/uint32_t *index, /*out*/Stack *stack, map_int_t *labelTracker, const char* label);
+void tk_return(/*out*/uint32_t *index, Stack* stack, const char* amountOfBytesToPop, const char* rawType, const DebugData* data);
+
 #endif //COMMANDS_H

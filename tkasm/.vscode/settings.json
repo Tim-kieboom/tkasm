@@ -3,6 +3,7 @@
         "fwin",
         "nasm",
         "qword",
-        "scanf"
+        "scanf",
+        "uinteger"
     ]
 }

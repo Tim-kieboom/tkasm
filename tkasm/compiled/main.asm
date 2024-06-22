@@ -1,35 +1,32 @@
-; -- header --
-bits 64
-default rel
+%include "lib.asm"
 
-; -- variables --
+section .data
+	newLine db 10, 0
+	string_0 db "hello world", 0
+	string_1 db "foo", 0
+	string_2 db "test", 0
+
 section .bss
 
-; -- constants --
-section .data
-
-; -- Entry Point --
 section .text
-global main
-extern ExitProcess
-extern printf
-extern scanf
+    global _start
+    
+_start:
+    setup_StackFrame
+	sub rsp, 6
 
-main:
-	; -- setup shadow-space --
-	PUSH rbp      ; push base pointer to stack
-	MOV  rbp, rsp ; set base pointer to stack pointer moving it to the last pointer of the asm stack
-	SUB  rsp, 32  ; alloc shadow-space of 32 bytes
-	; ----
+	;----- print -----
+	print string_2, 5
+	;-----
 
-	; -- PUSH %int8 --
-	PUSH 5
-	; ----
+	;----- print -----
+	print newLine, 2
+	;-----
 
-	; -- HALT --
-	JMP EXIT_PROGRAM
-	; ----
+	;----- printLine -----
+	print string_0, 12
+	print newLine, 1
+	;-----
 
-EXIT_PROGRAM:
-	XOR rax, rax
-	CALL ExitProcess
+
+	exit 0

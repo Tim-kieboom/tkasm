@@ -39,6 +39,15 @@ void pushType(const TkasmType *type, const uint8_t* segments, /*out*/Stack* stac
 	}
 }
 
+void removeAmountStack(const size_t amount, /*out*/Stack* stack)
+{
+	if (stack->top == -1)
+		return;
+
+	for (uint8_t i = 0; i < amount; i++)
+		Stack_pop(stack);
+}
+
 uint8_t* popType(const TkasmType *type, /*out*/Stack* stack)
 {
 	if (stack->top == -1)
@@ -93,6 +102,7 @@ uint8_t* segmentType(const TkasmType *type, void* value)
 	case tkasm_uint64:
 		return (uint8_t*)SEGMENT_VALUE(uint64_t, (uint64_t)value);
 
+	case tkasm_returnPointer:
 	case tkasm_int64:
 		return (uint8_t*)SEGMENT_VALUE(int64_t, (int64_t)value);
 
@@ -123,7 +133,6 @@ uint8_t* segmentType(const TkasmType *type, void* value)
 	case tkasm_double:
 		return (uint8_t*)SEGMENT_VALUE(double, *(double*)&value);
 
-
 	case tkasm_unknown:
 	default:
 		break;
@@ -143,6 +152,7 @@ void* unsegmentType(const TkasmType *type, const uint8_t* segments, /*out*/bool 
 	case tkasm_uint64:
 		return (void*)UNSEGMENT_VALUE(uint64_t, segments);
 
+	case tkasm_returnPointer:
 	case tkasm_int64:
 		return (void*)UNSEGMENT_VALUE(int64_t, segments);
 

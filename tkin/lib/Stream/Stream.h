@@ -22,6 +22,7 @@ void Stream_free(Stream *list);
 
 void Stream_push(Stream *list, void *data);
 
+void* Stream_peek(Stream *list);
 void *Stream_pop(Stream *list);
 
 //only works if value is <= 64bits

@@ -44,6 +44,8 @@ enum TkasmType
 
     tkasm_returnPointer,
 
+    tkasm_void,
+
     tkasm_unknown,
 };
 

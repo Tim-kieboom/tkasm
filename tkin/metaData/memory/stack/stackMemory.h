@@ -10,6 +10,8 @@
 #include "../../Types.h"
 #include "../../../lib/Stack/Stack.h"
 
+void removeAmountStack(const size_t amount, /*out*/Stack* stack);
+
 void pushType(const TkasmType *type, const uint8_t* segments, /*out*/Stack* stack);
 uint8_t* popType(const TkasmType *type, /*out*/Stack* stack);
 

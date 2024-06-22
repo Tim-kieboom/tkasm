@@ -103,7 +103,7 @@ void* arraylist_pop(arraylist* l)
  */
 void* arraylist_get(arraylist* l, unsigned int index)
 {
-	assert(index < l->size);
+	//assert(index < l->size);
 	return l->body[index];
 }
 

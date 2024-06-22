@@ -29,4 +29,6 @@ instructions needed (/../ means done in tokenizer):
 
 	halt                               	stop program
 
-	LABEL:					set beginning of label
+	LABEL:					set beginning of label(has to use "jump" or "halt" at the end)
+	&type LABEL:				set beggining of funtion(has to use "return" at the end)
+	return /amountOfBytesToPop/ /%type/	returns to returnPointer adress

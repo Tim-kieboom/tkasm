@@ -1,4 +1,9 @@
-push %int8 5
-//print "printTester"
-//print.pop
-halt
+int main(int argc, string[] args)
+{
+    string msg = "hello world";
+    string test = "foo";
+    print("test");
+    print("\n");
+    println(msg);
+    return 0;
+}

@@ -98,6 +98,18 @@ uint32_t Stream_size(const Stream *list)
     return index;
 
 }
+void *Stream_peek(Stream *list)
+{
+    if(list == NULL)
+        return NULL;
+
+    struct node *head = *list;
+
+    if (*list == NULL || head->data == NULL)
+        return NULL;
+
+    return head->data;
+}
 
 void *Stream_pop(Stream *list)
 {

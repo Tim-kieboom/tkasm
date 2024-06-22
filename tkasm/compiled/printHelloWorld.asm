@@ -1,14 +1,14 @@
-extern _printf
-extern _exit
-
 section .data
-    msg db 'Hello, World!', 0x0a, 0x00  ; String to print, with newline
+    msg db 'Hello, World!', 10, 0  ; String to print, with newline
 
 section .text
     global _start
 
+%macro exit 1
+    mov rax, 60
+    mov rdi, %1
+    syscall
+%endmacro 
+
 _start:
-    push msg
-    call _printf
-    push 0
-    call _exit
+    exit

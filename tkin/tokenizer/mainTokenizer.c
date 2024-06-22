@@ -17,7 +17,7 @@
 
 #define SET_LINETRACKER(hashmap, tokenLines, index)						\
 	const char* key = uint32_toString((int)tokenLines->size - 1);		\
-	map_set(lineNumberTracker, key, i+1);
+	map_set(lineNumberTracker, key, (int)(i+1));
 
 #define IS_COMMAND_STOP_OR_JUMP(lastCommand)\
 (											\
@@ -29,10 +29,44 @@
 
 #define IS_VALID_LINE(line) !(STR_EQUALS(line, "\n") || isLineCommand(line))
 
+void getLabelStackSize(TokenizeData *data, uint32_t *popCounter)
+{
+	if(Stream_isEmpty(data->typeStack))
+		return;
+
+	const char* rawType = Stream_peek(data->typeStack);
+	const TkasmType type = getType(rawType);
+	const uint16_t amountBytes = abs(getTypeSize(&type)) / 8;
+
+	if(type == tkasm_returnPointer)
+		return;
+
+	Stream_pop(data->typeStack);
+	*popCounter += amountBytes;
+}
+
+void getLabelReturnType(arraylist *tokenizeHistory, const char* rawReturnType)
+{
+
+}
+
+const char* addLabelTypeWithLineNumber(const char* type, const uint32_t lineNumber)
+{
+	StringStream *stream = StringStream_new();
+	StringStream_appendCharPtr(stream, type);
+	StringStream_append(stream, ' ');
+	StringStream_appendCharPtr(stream, uint32_toString(lineNumber));
+
+	const char *value = StringStream_toCharPtr(stream);
+	StringStream_free(stream);
+
+	return value;
+}
+
 TokenizeData *TokenizeData_new()
 {
 	TokenizeData *data = malloc(sizeof(TokenizeData));
-	data->labelTracker = NEW_MAP(map_int_t);
+	data->labelTracker = NEW_MAP(map_str_t);
 	data->lineNumberTracker = NEW_MAP(map_int_t);
 	data->typeStack = Stream_create(NULL);
 	data->arraySizeStack = Stream_create(NULL);
@@ -205,17 +239,26 @@ arraylist/*const char[]*/ *tokenizeLine(const char* line, /*out*/uint32_t *i, /*
 	const char* command = arraylist_get(parts, 0);
 
 	//check if line is label
-	const char lastChar = command[String_size(command)-1];
+	const char lastChar = line[String_size(line)-1];
 	if (lastChar == ':')
 	{
-		line = trimWhiteSpaces(line);
 		size_t size;
+		map_str_t *labelTracker = data->labelTracker;
+
 		const char **split = split_string((char*)line, ":", &size);
 
-		map_int_t *labelTracker = data->labelTracker;
-		printf("\nmapset labeltracker: %s, %s\n", split[0], uint32_toString(tokenizeHistory->size));
-		map_set(labelTracker, split[0], tokenizeHistory->size);
+        arraylist *labelParts = splitWhiteSpaces(split[0]);
+
+		const char* labelType = (labelParts->size < 2) ? "%void" : trimWhiteSpaces(arraylist_get(labelParts, 0));
+		const char *mapValue = addLabelTypeWithLineNumber(labelType, tokenizeHistory->size);
+
+		const char *label = (labelParts->size < 2) ? trimWhiteSpaces(arraylist_get(labelParts, 0)) : arraylist_get(labelParts, 1);
+
+		printf("\nmapset labeltracker: %s, %s\n", label, mapValue);
+
+		map_set(labelTracker, label, mapValue);
 		free(split);
+
 		return NULL;
 	}
 
@@ -257,18 +300,24 @@ arraylist/*const char[]*/ *tokenizeLine(const char* line, /*out*/uint32_t *i, /*
 				break;
 
 			const char* rawType = Stream_pop(data->typeStack);
-			popCounter++;
-			if(getType(rawType) == tkasm_returnPointer)
+			TkasmType type = getType(rawType);
+			const uint16_t amountBytes = abs(getTypeSize(&type)) / 8;
+
+			if(type == tkasm_returnPointer)
 				break;
+
+			popCounter += amountBytes;
 		}
 
 		const char* labelStackSize = uint32_toString(popCounter);
-		const char* returnType = arraylist_get(parts, 1);
-
 		arraylist_add(tokenizeHistory, (void*)labelStackSize);
 		arraylist_add(tokenizedLine, (void*)labelStackSize);
+
+		const char* returnType = (parts->size < 2) ? "%void" : arraylist_get(parts, 1);
 		arraylist_add(tokenizeHistory, (void*)returnType);
 		arraylist_add(tokenizedLine, (void*)returnType);
+
+		Stream_push(data->typeStack, (void*)returnType);
 	}
 	break;
 

@@ -44,7 +44,7 @@ instructions needed (/../ means done in tokenizer):
 
 */
 
-void printTokenized(const arraylist *lines, const arraylist *program, map_int_t *labelTracker)
+void printTokenized(const arraylist *lines, const arraylist *program, map_str_t *labelTracker)
 {
 	printf("file: %d lines\n", (int)lines->size);
 	printf("\n============================== FILE ==============================\n\n");
@@ -72,13 +72,13 @@ void printTokenized(const arraylist *lines, const arraylist *program, map_int_t 
 	printf("\n============================== TOKENIZER ==============================\n\n");
 	arraylist_iterate(program, it, token)
 	{
-		printf("%d.\t%s\n", it+1, token);
+		printf("%d.\t%s\n", it+1, (STR_EQUALS(token, "")) ? " " : token);
 	}
 	printf("\n============================================================\n\n");
 
 }
 
-void interpretLine(arraylist* program, /*out*/uint32_t *i, /*out*/Stack* stack, map_int_t *labelTracker, map_int_t *lineNumberTracker, DebugData *debugData);
+void interpretLine(arraylist* program, /*out*/uint32_t *i, /*out*/Stack* stack, map_str_t *labelTracker, map_int_t *lineNumberTracker, DebugData *debugData);
 
 arraylist* interpretFile(uint32_t *i, arraylist/*const char[]*/* lines, /*out*/Stack* stack, const TokenizeData *tokenizeData, DebugData *debugData)
 {
@@ -131,7 +131,7 @@ void interpretFile_andExit(arraylist/*const char[]*/* lines)
 	arraylist_destroy(program);
 }
 
-void interpretLine(arraylist* program, /*out*/uint32_t *i, /*out*/Stack* stack, map_int_t *labelTracker, map_int_t *lineNumberTracker, DebugData *debugData)
+void interpretLine(arraylist* program, /*out*/uint32_t *i, /*out*/Stack* stack, map_str_t *labelTracker, map_int_t *lineNumberTracker, DebugData *debugData)
 {
 	const char* command = arraylist_get(program, *i);
 	debugData->commandName = command;
@@ -292,6 +292,26 @@ void interpretLine(arraylist* program, /*out*/uint32_t *i, /*out*/Stack* stack, 
 
 		*i += 2;
 		break;
+
+	case tkasm_call:
+		tk_call(/*out*/i, stack, labelTracker, arraylist_get(program, *i));
+		break;
+
+	case tkasm_return:
+	{
+		const char* rawType = arraylist_get(program, *i+1);
+		if(getType(rawType) != tkasm_unknown)
+		{
+			tk_return(i, stack, arraylist_get(program, *i), arraylist_get(program, *i+1), debugData);
+			*i += 2;
+		}
+		else
+		{
+			tk_return(i, stack, arraylist_get(program, *i), NULL, debugData);
+			(*i)++;
+		}
+	}
+	break;
 
 	default:
 		break;

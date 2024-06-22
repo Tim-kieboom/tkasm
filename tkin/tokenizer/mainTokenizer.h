@@ -14,7 +14,7 @@ typedef struct tokenizeData
 {
     Stream/*const char[]*/ *typeStack;
     Stream/*size_t*/ *arraySizeStack;
-    map_int_t *labelTracker;
+    map_str_t *labelTracker;
     map_int_t *lineNumberTracker;
 
 } TokenizeData;
@@ -22,8 +22,8 @@ typedef struct tokenizeData
 TokenizeData *TokenizeData_new();
 void TokenizeData_free(TokenizeData *data);
 
-arraylist/*strings*/ *tokenizeFile(arraylist/*strings*/* lines, /*out*/
-                                   const TokenizeData *tokenizeData);
+arraylist/*strings*/ *tokenizeFile(arraylist/*strings*/* lines, /*out*/const TokenizeData *tokenizeData);
+
 arraylist/*const char[]*/ *tokenizeLine(const char* line, /*out*/uint32_t *i, /*out*/arraylist *tokenizeHistory, /*out*/const TokenizeData *data);
 
 
