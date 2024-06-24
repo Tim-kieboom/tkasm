@@ -1,9 +1,22 @@
+int add(int a, int b)
+{
+    int ab = a+b;
+    return ab;
+}
+
 int main(int argc, string[] args)
 {
-    string msg = "hello world";
-    string test = "foo";
-    print("test");
-    print("\n");
-    println(msg);
-    return 0;
+    string foo = "hello world";
+
+    int bar = 1;
+    int call = add(1,2);
+    println(bar);
+
+    // string input = input(10);
+    // println("other stuff");
+    // print(foo);
+    // print("\n");
+    // println(input);
+
+    return 0
 }

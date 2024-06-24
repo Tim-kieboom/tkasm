@@ -129,6 +129,9 @@ def getType(rawType: str) -> Type:
         
     return UNKNOWN
   
+def isType(rawType: str) -> bool:
+    return getType(rawType) != UNKNOWN and getType(rawType) != VOID
+  
 def type_to_asmType(type: Type) -> str:
     size: int = type.size * 8
     

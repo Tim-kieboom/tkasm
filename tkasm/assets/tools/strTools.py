@@ -49,4 +49,3 @@ def filter_out_comments(parts: list[str]) -> list[str]:
             return parts[:i-1]
         
     return parts
-   

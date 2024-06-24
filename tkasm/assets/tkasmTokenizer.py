@@ -37,6 +37,12 @@ def tokenize(file: list[str]):
 
          
     return program, functions
+    
+def getStrInBrackets(line: str) -> str:
+    return line.split("(")[1].split(")")[0]
+ 
+def isCall(parts: list[str]) -> bool:
+    return parts[-1].__contains__("(") or parts[-2].__contains__("(")
             
 def tokenizeLine(line: str, lineNumber: int, program: list[str], functions: dict[FunctionData], inFunc: list[bool], file: list[str]):
     line = line.replace(";", " ")
@@ -46,7 +52,9 @@ def tokenizeLine(line: str, lineNumber: int, program: list[str], functions: dict
     if(parts.__len__() == 0):
         return
         
-            
+    if line.__contains__("input"):
+        foo = 0
+             
     type: Type = getType(parts[0])
     if type != UNKNOWN:
         
@@ -54,15 +62,28 @@ def tokenizeLine(line: str, lineNumber: int, program: list[str], functions: dict
             print(f"!!<error> line: {lineNumber+1} only has a type!!")
             exit(1)
         
-        if is_variable(parts):
+        callName: str = parts[-1].split("=")[-1].split("(")[0]
+        
+        if is_variable(parts) and not isCall(parts):
             parts.pop(2)
             program.extend(parts)
         
-        if containsBrackets(parts[1]):
+        elif containsBrackets(parts[1]):
             begin_func(program, parts, functions)
             check_If_Func_Has_Body(parts, file, lineNumber)
             inFunc[0] = True
             return
+        
+        elif callName == "input":
+            program.append(parts[0])
+            program.append(parts[1])
+            program.append(INPUT)
+            
+            if getStrInBrackets(parts[-1]) == "":
+                print("!!<error> line: "+str(lineNumber+1)+" input has no value!!")
+                exit(1)
+                
+            program.append(getStrInBrackets(parts[-1])) 
     
     elif parts[0][:5] == "print":
         
@@ -75,10 +96,15 @@ def tokenizeLine(line: str, lineNumber: int, program: list[str], functions: dict
                            .replace(";", "") \
                            .split("(")[1]
         program.append(variable)
+        
     
     elif parts[0] == "return":
         program.append(RETURN)
-        program.append(parts[1])
+        
+        if parts.__len__() > 1:
+            program.append(parts[1].replace(";", ""))
+        else: 
+            program.append("")
         
     elif parts.__contains__("}"):
         if not inFunc:

@@ -7,9 +7,22 @@ section .bss
     mov rbp, rsp 
 %endmacro
 
+%macro cleanup_StackFrame 0
+    mov rsp, rbp
+    pop rbp
+%endmacro
+
 %macro exit 1
     mov rax, 60
     mov rdi, %1
+    syscall
+%endmacro 
+
+%macro input 2
+    mov rax, SYS_READ
+    mov rdi, STDIN
+    mov rsi, %1   
+    mov rdx, %2
     syscall
 %endmacro 
 
@@ -21,7 +34,8 @@ section .bss
     syscall
 %endmacro 
 
-%macro printVal 0
+%macro printVal 1
+    mov rax, %1
     mov rcx, printVal_digitSpace
     mov [printVal_digitSpacePos], rcx
 
