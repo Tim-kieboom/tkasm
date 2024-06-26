@@ -1,6 +1,6 @@
 int add(int a, int b)
 {
-    int ab = a+b;
+    int ab = a*b;
     return ab;
 }
 
@@ -8,8 +8,11 @@ int main(int argc, string[] args)
 {
     string foo = "hello world";
 
+    string input = input(20);
+
     int bar = 1;
     int call = add(1,2);
+    println(call);
     println(bar);
 
     // string input = input(10);

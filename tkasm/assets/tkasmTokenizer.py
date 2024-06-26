@@ -23,7 +23,9 @@ def begin_func(program: list[str], parts: list[str], functions: dict[FunctionDat
     
    
 def is_variable(parts: list[str]) -> bool:
-    return parts[-2].__contains__("=") 
+    for part in parts:
+        if part.__contains__("="):
+            return True
         
 
 def tokenize(file: list[str]):
@@ -43,8 +45,24 @@ def getStrInBrackets(line: str) -> str:
  
 def isCall(parts: list[str]) -> bool:
     return parts[-1].__contains__("(") or parts[-2].__contains__("(")
+
+def getOperator(parts: list[str]) -> str:
+    operator = NO_OPERATION
+    
+    for part in parts:
+        if get_operator(part) != NO_OPERATION:
+            operator = get_operator(part)
+            break
+    return operator
+
+def string_after_equals(parts: list[str]) -> str:
+    for index, part in enumerate(parts):
+        if part.__contains__("="):
+            return ''.join(parts[index:]).replace("=", "").replace(" ", "")
             
-def tokenizeLine(line: str, lineNumber: int, program: list[str], functions: dict[FunctionData], inFunc: list[bool], file: list[str]):
+    return ""
+        
+def tokenizeLine(line: str, lineNumber: int, program: list[str], functions: dict[FunctionData], inFunc: list[bool], file: list[str]) -> None:
     line = line.replace(";", " ")
     parts = split_without_brackets(line)
     parts = filter_out_comments(parts)
@@ -64,26 +82,32 @@ def tokenizeLine(line: str, lineNumber: int, program: list[str], functions: dict
         
         callName: str = parts[-1].split("=")[-1].split("(")[0]
         
-        if is_variable(parts) and not isCall(parts):
-            parts.pop(2)
-            program.extend(parts)
+        if is_variable(parts):
+            if isCall(parts):
+                parts.pop(2)
+                program.extend(parts)
+
+            else:
+                operator = getOperator(parts)
+                            
+                if operator != NO_OPERATION:
+                    operation = string_after_equals(parts)
+                    values = operation.split(operator)
+                    program.append(operator)
+                    program.append(parts[0])
+                    program.append(values[0])
+                    program.append(values[1])
+                    parts[-1] = OPERATION_VALUE
+                    
+                parts.pop(2)
+                program.extend(parts)
+
         
         elif containsBrackets(parts[1]):
             begin_func(program, parts, functions)
             check_If_Func_Has_Body(parts, file, lineNumber)
             inFunc[0] = True
-            return
-        
-        elif callName == "input":
-            program.append(parts[0])
-            program.append(parts[1])
-            program.append(INPUT)
-            
-            if getStrInBrackets(parts[-1]) == "":
-                print("!!<error> line: "+str(lineNumber+1)+" input has no value!!")
-                exit(1)
-                
-            program.append(getStrInBrackets(parts[-1])) 
+            return 
     
     elif parts[0][:5] == "print":
         

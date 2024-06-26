@@ -29,7 +29,7 @@ while i < len(program):
     if line == END_FUNC:
         inFunc = False
     
-    enter = "\n" if (type != UNKNOWN and type != VOID) or (isCommand(line) and not line == INPUT) else ""
+    enter = "\n" if isType(line) or (isCommand(line) and not line == INPUT) else ""
         
     space: str = "\t" if inFunc else ""
     print(enter + space + str(line))
